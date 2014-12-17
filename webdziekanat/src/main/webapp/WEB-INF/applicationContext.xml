@@ -6,54 +6,35 @@
                     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                     http://www.springframework.org/schema/context
                     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-<!-- 
-    Beans Declaration
-    <bean id="User" class="com.otv.model.User" />
 
-    User Service Declaration
-    <bean id="UserService" class="com.otv.user.service.UserService">
-        <property name="userDAO" ref="UserDAO" />
-    </bean>
-
-    User DAO Declaration
-    <bean id="UserDAO" class="com.otv.user.dao.UserDAO">
-        <property name="sessionFactory" ref="SessionFactory" />
-    </bean>
-
-    Data Source Declaration
-    <bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+   <context:component-scan base-package="webdziekanat" />
+   <context:annotation-config />
+   <tx:annotation-driven/>
+   
+   <bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Test" />
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/webdziekanat" /> 
         <property name="user" value="root" />
         <property name="password" value="root" />
         <property name="maxPoolSize" value="10" />
         <property name="maxStatements" value="0" />
         <property name="minPoolSize" value="5" />
     </bean>
-
-    Session Factory Declaration
-    <bean id="SessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+   
+   <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="DataSource" />
-        <property name="annotatedClasses">
-            <list>
-                <value>com.otv.model.User</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-            </props>
+        <property name="persistenceUnitName" value="webdziekanat" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true" />
+                <property name="generateDdl" value="true" />
+            </bean>
         </property>
     </bean>
- -->
- <!-- 
-    Enable the configuration of transactional behavior based on annotations
-    <tx:annotation-driven transaction-manager="txManager" />
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
 
-    Transaction Manager is defined
-    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="SessionFactory" />
-    </bean>
- -->
 </beans>
