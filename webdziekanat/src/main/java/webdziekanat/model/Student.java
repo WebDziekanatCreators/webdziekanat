@@ -1,10 +1,12 @@
 package webdziekanat.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +20,25 @@ public class Student {
     
     @Column(name="last_name")
     private String lastName;
+    
+    @Column(name="student_number")
+    private String studentNumber;
+
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    private Address studentAddress;
+    
+    public Student() {
+    }
+    
+    public Student(Student student) {
+        
+        this.name = student.getName();
+        this.lastName = student.getLastName();
+        this.studentNumber = student.getStudentNumber();
+        this.studentAddress = student.getStudentAddress();
+        
+    }
+    
 
     public int getId() {
         return id;
@@ -42,5 +63,22 @@ public class Student {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
+    public Address getStudentAddress() {
+        return studentAddress;
+    }
+
+    public void setStudentAddress(Address studentAddress) {
+        this.studentAddress = studentAddress;
+    }
+    
     
 }
