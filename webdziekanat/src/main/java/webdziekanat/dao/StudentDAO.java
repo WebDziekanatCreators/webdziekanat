@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import webdziakanat.interfaces.IStudentDAO;
+import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Student;
 
 @Component

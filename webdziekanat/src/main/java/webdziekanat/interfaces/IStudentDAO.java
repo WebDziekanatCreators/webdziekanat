@@ -1,4 +1,4 @@
-package webdziakanat.interfaces;
+package webdziekanat.interfaces;
 
 import java.util.List;
 
