@@ -26,8 +26,8 @@ public class StudentManagedBean implements Serializable{
     private static final long serialVersionUID = -4400141672079406344L;
     private static final Logger logger = LogManager.getLogger(StudentManagedBean.class);
     
-    @Autowired
-    @ManagedProperty(value="#{StudentDAO}")
+    
+    @ManagedProperty(value="#{studentDAO}")
     IStudentDAO studentDAO;
     
     Student student = new Student();
@@ -38,21 +38,13 @@ public class StudentManagedBean implements Serializable{
         
         try {
             Student studentNew = new Student(student);
-            getStudentDAO().addStudent(studentNew);
+            studentDAO.addStudent(studentNew);
             return "/success.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Student: " + e.getMessage());
             e.printStackTrace();
             return "/error.xhtml";
         }
-    }
-
-    public IStudentDAO getStudentDAO() {
-        return studentDAO;
-    }
-
-    public void setStudentDAO(IStudentDAO studentDAO) {
-        this.studentDAO = studentDAO;
     }
 
     public Student getStudent() {
@@ -70,5 +62,14 @@ public class StudentManagedBean implements Serializable{
     public void setList(List<Student> list) {
         this.list = list;
     }
+
+    public IStudentDAO getStudentDAO() {
+        return studentDAO;
+    }
+
+    public void setStudentDAO(IStudentDAO studentDAO) {
+        this.studentDAO = studentDAO;
+    }
+    
     
 }

@@ -22,6 +22,10 @@ public class StudentDAO implements IStudentDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
+    
+    public StudentDAO() {
+        
+    }
 
     public void addStudent(Student student) {
         try {
