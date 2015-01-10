@@ -30,6 +30,20 @@ public class Address {
     @Column(name = "apartment_number")
     private int apartmentNumber;
 
+    public Address(Address address) {
+        this.apartmentNumber = address.getApartmentNumber();
+        this.city = address.getCity();
+        this.country = address.getCountry();
+        this.county = address.getCounty();
+        this.street = address.getStreet();
+        this.streetNumber = address.getStreetNumber();
+        this.zipCode = address.getZipCode();
+    }
+    
+    public Address(){
+        
+    }
+
     public int getId() {
         return id;
     }
