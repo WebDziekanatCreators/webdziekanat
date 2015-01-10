@@ -30,7 +30,7 @@ public class StudentManagedBean implements Serializable{
     @ManagedProperty(value="#{StudentDAO}")
     IStudentDAO studentDAO;
     
-    Student student;
+    Student student = new Student();
     
     List<Student> list;
     
