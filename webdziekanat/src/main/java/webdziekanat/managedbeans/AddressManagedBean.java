@@ -1,7 +1,9 @@
 package webdziekanat.managedbeans;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -12,9 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 
 import webdziekanat.interfaces.IAddressDAO;
-import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Address;
-import webdziekanat.model.Student;
 
 @ManagedBean(name="addressMB")
 @RequestScoped
@@ -22,6 +22,7 @@ public class AddressManagedBean implements Serializable{
 
     private static final long serialVersionUID = 2880746693462123546L;
     private static final Logger logger = LogManager.getLogger(AddressManagedBean.class);
+    private Map<String,String> counties;
     
     @ManagedProperty(value="#{addressDAO}")
     IAddressDAO addressDAO;
@@ -29,6 +30,7 @@ public class AddressManagedBean implements Serializable{
     Address address = new Address();
     
     List<Address> addresses;
+    
     public String addAddress(){
         
         try {
@@ -64,6 +66,32 @@ public class AddressManagedBean implements Serializable{
 
     public void setAddressDAO(IAddressDAO addressDAO) {
         this.addressDAO = addressDAO;
+    }
+
+    public Map<String,String> getCounties() {
+        counties = new HashMap<String, String>();
+        counties.put("dolnoœl¹skie", "dolnoœl¹skie");
+        counties.put("kujawsko-pomorskie", "kujawsko-pomorskie");
+        counties.put("lubelskie", "lubelskie");
+        counties.put("lubuskie", "lubuskie");
+        counties.put("³ódzkie", "³ódzkie");
+        counties.put("ma³opolskie", "ma³opolskie");
+        counties.put("mazowieckie", "mazowieckie");
+        counties.put("opolskie", "opolskie");
+        counties.put("podkarpackie", "podkarpackie");
+        counties.put("podlaskie", "podlaskie");
+        counties.put("pomorskie", "pomorskie");
+        counties.put("œl¹skie", "œl¹skie");
+        counties.put("œwiêtokrzyskie", "œwiêtokrzyskie");
+        counties.put("warmiñsko-mazurskie", "warmiñsko-mazurskie");
+        counties.put("wielkopolskie", "wielkopolskie");
+        counties.put("zachodniopomorskie", "zachodniopomorskie");
+        
+        return counties;
+    }
+
+    public void setCounties(Map<String,String> counties) {
+        this.counties = counties;
     }
     
     

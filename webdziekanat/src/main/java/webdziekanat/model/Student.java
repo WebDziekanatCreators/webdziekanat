@@ -28,6 +28,7 @@ public class Student {
     private Address studentAddress;
     
     public Student() {
+        this.studentAddress = new Address();
     }
     
     public Student(Student student) {
