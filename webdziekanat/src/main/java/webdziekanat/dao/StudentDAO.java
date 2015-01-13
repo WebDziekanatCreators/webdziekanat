@@ -48,11 +48,13 @@ public class StudentDAO implements IStudentDAO {
         }
     }
 
-    public void deleteStudent(int id) {
+    public boolean deleteStudent(int id) {
         try {
             entityManager.remove(getStudentById(id));
+            return true;
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
+            return false;
         }
 
     }
@@ -70,10 +72,8 @@ public class StudentDAO implements IStudentDAO {
     public Student getStudentById(int id) {
 
         Student result = new Student();
-
-        String hql = "Select user from User webdziekanat where user.id = :number";
-
-        result = (Student) entityManager.createQuery(hql).setParameter("number", id).getSingleResult();
+        
+        result = entityManager.find(Student.class, id);
 
         logger.info("Found [" + result.toString() + "]" + "with name: " + result.getName() + "and id: "
                 + result.getId());

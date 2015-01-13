@@ -8,7 +8,7 @@ public interface IStudentDAO {
     
     public void addStudent(Student student);
     
-    public void deleteStudent(int id);
+    public boolean deleteStudent(int id);
     
     public void updateStudent(Student student);
     

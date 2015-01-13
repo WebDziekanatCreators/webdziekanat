@@ -31,7 +31,7 @@ public class Student {
     private Address studentAddress;
     
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="students")
-    private Set<Subjets> subjects;
+    private Set<Subjects> subjects;
     
     public Student() {
         this.studentAddress = new Address();
@@ -87,11 +87,11 @@ public class Student {
         this.studentAddress = studentAddress;
     }
 
-    public Set<Subjets> getSubjects() {
+    public Set<Subjects> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(Set<Subjets> subjects) {
+    public void setSubjects(Set<Subjects> subjects) {
         this.subjects = subjects;
     }
     

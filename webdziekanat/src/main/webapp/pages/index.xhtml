@@ -3,10 +3,10 @@
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Welcome</title>
-    <link href="./css/bootstrap.css" rel="stylesheet" />
-    <link href="./css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./css/logo-nav.css" rel="stylesheet" />
-    <link href="./css/one-page-wonder.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/logo-nav.css" rel="stylesheet" />
+    <link href="css/one-page-wonder.css" rel="stylesheet" />
 
     <script type="text/javascript">
                     function toggle(id) {
@@ -90,7 +90,16 @@
                             </f:facet>
                             <h:outputText value="#{student.studentNumber}" />
                         </p:column>
+                        <p:column>
+                            <h:commandButton value="Delete" action="#{studentMB.deleteStudent(student)}"></h:commandButton>
+                        </p:column>
+                        <p:column>
+                            <h:commandButton value="Edit" action="#{studentMB.startEdit(student)}"></h:commandButton>
+                        </p:column>
                     </p:dataTable>
+                </h:form>
+                <h:form>
+                    <h:commandButton value="Add New Student" action="#{studentMB.startAdd()}"></h:commandButton>
                 </h:form>
             </div>
         </div>

@@ -3,10 +3,10 @@
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Welcome</title>
-    <link href="./css/bootstrap.css" rel="stylesheet" />
-    <link href="./css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./css/logo-nav.css" rel="stylesheet" />
-    <link href="./css/one-page-wonder.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/logo-nav.css" rel="stylesheet" />
+    <link href="css/one-page-wonder.css" rel="stylesheet" />
 
     <script type="text/javascript">
                     function toggle(id) {
@@ -142,14 +142,16 @@
                                 </p:inputText> <p:message id="countryMsg" for="country" display="icon" /></td>
                         </tr>
                         <tr>
-                            <td><p:commandButton id="addUser" value="Add" action="#{studentMB.addStudent()}"
-                                    ajax="false" /></td>
+                            <td>
+                                <p:commandButton id="editUser" value="Edit" action="#{studentMB.editStudent()}"
+                                    ajax="false" rendered="#{studentMB.edit}"/>
+                                <p:commandButton id="addUser" value="Add" action="#{studentMB.addStudent()}"
+                                    ajax="false" rendered="#{studentMB.add}"/>
+                            </td>
 
                         </tr>
                     </table>
                 </h:form>
-
-                <h:outputLabel value="test" />
             </div>
         </div>
     </div>
