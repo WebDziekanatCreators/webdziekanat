@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="addresses")
 public class Address {
 
     @Id
@@ -18,17 +20,17 @@ public class Address {
     private String city;
 
     private String county;
-    
+
     private String country;
 
     @Column(name = "zip_code")
     private String zipCode;
 
     @Column(name = "street_number")
-    private int streetNumber;
+    private String streetNumber;
 
     @Column(name = "apartment_number")
-    private int apartmentNumber;
+    private String apartmentNumber;
 
     public Address(Address address) {
         this.apartmentNumber = address.getApartmentNumber();
@@ -39,9 +41,9 @@ public class Address {
         this.streetNumber = address.getStreetNumber();
         this.zipCode = address.getZipCode();
     }
-    
-    public Address(){
-        
+
+    public Address() {
+
     }
 
     public int getId() {
@@ -92,20 +94,20 @@ public class Address {
         this.zipCode = zipCode;
     }
 
-    public int getStreetNumber() {
+    public String getStreetNumber() {
         return streetNumber;
     }
 
-    public void setStreetNumber(int streetNumber) {
+    public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
 
-    public int getApartmentNumber() {
+    public String getApartmentNumber() {
         return apartmentNumber;
     }
 
-    public void setApartmentNumber(int apartmentNumber) {
+    public void setApartmentNumber(String apartmentNumber) {
         this.apartmentNumber = apartmentNumber;
     }
-    
+
 }

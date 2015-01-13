@@ -1,6 +1,7 @@
 package webdziekanat.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -46,21 +47,23 @@ public class StudentManagedBean implements Serializable{
             return "/error.xhtml";
         }
     }
+    
+    public List<Student> getList(){
+        list = new ArrayList<Student>();
+        list.addAll(studentDAO.getAll());
+        return list;
+    }
 
+    public void setList(List<Student> list) {
+        this.list = list;
+    }
+    
     public Student getStudent() {
         return student;
     }
 
     public void setStudent(Student student) {
         this.student = student;
-    }
-
-    public List<Student> getList() {
-        return list;
-    }
-
-    public void setList(List<Student> list) {
-        this.list = list;
     }
 
     public IStudentDAO getStudentDAO() {

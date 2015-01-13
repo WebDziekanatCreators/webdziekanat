@@ -5,13 +5,17 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.IStudentDAO;
+import webdziekanat.model.Address;
 import webdziekanat.model.Student;
 
 @Component
@@ -22,12 +26,21 @@ public class StudentDAO implements IStudentDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
-    
+
+    @Autowired
+    private DatabaseFinder finder;
+
     public StudentDAO() {
-        
+
     }
 
     public void addStudent(Student student) {
+        Address existingAddress = finder.findAddress(student.getStudentAddress());
+
+        if (existingAddress != null) {
+            student.setStudentAddress(existingAddress);
+        }
+
         try {
             entityManager.persist(student);
         } catch (Exception e) {
@@ -68,20 +81,10 @@ public class StudentDAO implements IStudentDAO {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public List<Student> getAll() {
         List<Student> result = new ArrayList<Student>();
-
-        try {
-
-            String hqlString = "Select student from Student webdziekanat";
-            
-            result = (List<Student>) entityManager.createQuery(hqlString).getResultList();
-
-        } catch (Exception e) {
-            logger.error("Rollback" + e.getMessage());
-        }
-
+        String hqlString = "Select student from Student student";
+        result = (List<Student>) entityManager.createQuery(hqlString).getResultList();
         return result;
     }
 

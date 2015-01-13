@@ -70,20 +70,20 @@ public class AddressManagedBean implements Serializable{
 
     public Map<String,String> getCounties() {
         counties = new HashMap<String, String>();
-        counties.put("dolnoœl¹skie", "dolnoœl¹skie");
+        counties.put("dolnoÅ›lÄ…skie", "dolnoÅ›lÄ…skie");
         counties.put("kujawsko-pomorskie", "kujawsko-pomorskie");
         counties.put("lubelskie", "lubelskie");
         counties.put("lubuskie", "lubuskie");
-        counties.put("³ódzkie", "³ódzkie");
-        counties.put("ma³opolskie", "ma³opolskie");
+        counties.put("Å‚Ã³dzkie", "Å‚Ã³dzkie");
+        counties.put("maÅ‚opolskie", "maÅ‚opolskie");
         counties.put("mazowieckie", "mazowieckie");
         counties.put("opolskie", "opolskie");
         counties.put("podkarpackie", "podkarpackie");
         counties.put("podlaskie", "podlaskie");
         counties.put("pomorskie", "pomorskie");
-        counties.put("œl¹skie", "œl¹skie");
-        counties.put("œwiêtokrzyskie", "œwiêtokrzyskie");
-        counties.put("warmiñsko-mazurskie", "warmiñsko-mazurskie");
+        counties.put("Å›lÄ…skie", "Å›lÄ…skie");
+        counties.put("Å›wiÄ™tokrzyskie", "Å›wiÄ™tokrzyskie");
+        counties.put("warmiÅ„sko-mazurskie", "warmiÅ„sko-mazurskie");
         counties.put("wielkopolskie", "wielkopolskie");
         counties.put("zachodniopomorskie", "zachodniopomorskie");
         
