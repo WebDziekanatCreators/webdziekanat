@@ -1,0 +1,157 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Welcome</title>
+    <link href="./css/bootstrap.css" rel="stylesheet" />
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/logo-nav.css" rel="stylesheet" />
+    <link href="./css/one-page-wonder.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+                    function toggle(id) {
+                        var e = document.getElementById(id);
+                        if (e.style.display == 'block')
+                            e.style.display = 'none';
+                        else
+                            e.style.display = 'block';
+                    }
+                </script>
+</h:head>
+<h:body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li>
+
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-default navbar-btn" onclick="toggle('loginForm');">Login</button>
+
+                            <div id="loginForm" class="dropdown-menu" style="padding: 10px; background: #ddd">
+                                <form action="" role="form">
+                                    <div class="form-group">
+                                        <label for="user">User</label> <input type="text" class="form-control" id="user"
+                                            placeholder="User" /> <label for="password">Password</label> <input
+                                            type="password" class="form-control" id="password" placeholder="Password" />
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Sign in</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p:outputLabel value="Personal data" />
+                <h:form>
+                    <table>
+                        <tr>
+                            <td><h:outputLabel for="name" value="Name : " /></td>
+                            <td><p:inputText id="name" value="#{studentMB.student.name}">
+                                    <f:validateLength minimum="5" />
+                                    <p:ajax event="blur" update="nameMsg" />
+                                </p:inputText> <p:message id="nameMsg" for="name" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="lastName" value="Last name : " /></td>
+                            <td><p:inputText id="lastName" value="#{studentMB.student.lastName}">
+                                    <f:validateLength minimum="5" />
+                                    <p:ajax event="blur" update="lastNameMsg" />
+                                </p:inputText> <p:message id="lastNameMsg" for="lastName" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="studentNumber" value="Student number : " /></td>
+                            <td><p:inputText id="studentNumber" value="#{studentMB.student.studentNumber}">
+                                    <f:validateLength minimum="5" />
+                                    <p:ajax event="blur" update="studentNumberMsg" />
+                                </p:inputText> <p:message id="studentNumberMsg" for="studentNumber" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Address" style="padding-top:10px;" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="street" value="Street: " /></td>
+                            <td><p:inputText id="street" value="#{studentMB.student.studentAddress.street}">
+                                    <f:validateLength minimum="3" />
+                                    <p:ajax event="blur" update="streetMsg" />
+                                </p:inputText> <p:message id="streetMsg" for="street" display="icon" /></td>
+                            <td><h:outputLabel for="streetNumber" value="Number: " /></td>
+                            <td><p:inputText id="streetNumber"
+                                    value="#{studentMB.student.studentAddress.streetNumber}">
+                                    <f:validateLength minimum="1" />
+                                    <p:ajax event="blur" update="streetNumberMsg" />
+                                </p:inputText> <p:message id="streetNumberMsg" for="streetNumber" display="icon" /></td>
+                            <td><h:outputLabel for="apartmentNumber" value="Apartment number: " /></td>
+                            <td><p:inputText id="apartmentNumber"
+                                    value="#{studentMB.student.studentAddress.apartmentNumber}">
+                                    <f:validateLength minimum="1" />
+                                    <p:ajax event="blur" update="apartmentNumberMsg" />
+                                </p:inputText> <p:message id="apartmentNumberMsg" for="apartmentNumber" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="city" value="City: " /></td>
+                            <td><p:inputText id="city" value="#{studentMB.student.studentAddress.city}">
+                                    <f:validateLength minimum="1" />
+                                    <p:ajax event="blur" update="cityMsg" />
+                                </p:inputText> <p:message id="cityMsg" for="city" display="icon" /></td>
+                            <td><h:outputLabel for="zipCode" value="Zip code: " /></td>
+                            <td><p:inputText id="zipCode" value="#{studentMB.student.studentAddress.zipCode}">
+                                    <f:validateLength minimum="6" />
+                                    <p:ajax event="blur" update="zipCodeMsg" />
+                                </p:inputText> <p:message id="zipCodeMsg" for="zipCode" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="county" value="County: " /></td>
+                            <td><p:selectOneMenu id="county" value="#{studentMB.student.studentAddress.county}"
+                                    style="width:150px">
+                                    <f:selectItem itemLabel="Select County" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{addressMB.counties}" />
+                                </p:selectOneMenu></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="country" value="Country: " /></td>
+                            <td><p:inputText id="country" value="#{studentMB.student.studentAddress.country}">
+                                    <f:validateLength minimum="3" />
+                                    <p:ajax event="blur" update="countryMsg" />
+                                </p:inputText> <p:message id="countryMsg" for="country" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><p:commandButton id="addUser" value="Add" action="#{studentMB.addStudent()}"
+                                    ajax="false" /></td>
+
+                        </tr>
+                    </table>
+                </h:form>
+
+                <h:outputLabel value="test" />
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>
