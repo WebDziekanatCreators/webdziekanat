@@ -143,7 +143,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <p:commandButton id="editUser" value="Edit" action="#{studentMB.editStudent()}"
+                                <p:commandButton id="editUser" value="Edit" action="#{studentMB.editStudent(student)}"
                                     ajax="false" rendered="#{studentMB.edit}"/>
                                 <p:commandButton id="addUser" value="Add" action="#{studentMB.addStudent()}"
                                     ajax="false" rendered="#{studentMB.add}"/>

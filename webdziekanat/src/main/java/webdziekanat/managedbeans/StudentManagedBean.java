@@ -75,7 +75,7 @@ public class StudentManagedBean implements Serializable {
     public String editStudent(Student src){
         studentDAO.updateStudent(src);
         isEdit = false;
-        return "/pages.success.xhtml";
+        return "/pages/success.xhtml";
     }
     
     public List<Student> getList() {
