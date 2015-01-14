@@ -16,7 +16,7 @@
                         else
                             e.style.display = 'block';
                     }
-                </script>
+    </script>
 </h:head>
 <h:body>
     <!-- Navigation -->
@@ -33,9 +33,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index.xhtml">Home</a></li>
+                    <li><a href="students.xhtml">Students</a></li>
+                    <li><a href="subjects.xhtml">Subjects</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
@@ -68,40 +68,89 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p:outputLabel value="Personal data" />
-                <h:form>
-                    <h:outputText value="USERS : "></h:outputText>
-                    <p:dataTable id="students" var="student" value="#{studentMB.list}">
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Name" />
-                            </f:facet>
-                            <h:outputText value="#{student.name}" />
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Surname" />
-                            </f:facet>
-                            <h:outputText value="#{student.lastName}" />
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Index" />
-                            </f:facet>
-                            <h:outputText value="#{student.studentNumber}" />
-                        </p:column>
-                        <p:column>
-                            <h:commandButton value="Delete" action="#{studentMB.deleteStudent(student)}"></h:commandButton>
-                        </p:column>
-                        <p:column>
-                            <h:commandButton value="Edit" action="#{studentMB.startEdit(student)}"></h:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-                <h:form>
-                    <h:commandButton value="Add New Student" action="#{studentMB.startAdd()}"></h:commandButton>
-                </h:form>
+                <div class="modal-body">
+                    <div class="well">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+                            <li><a href="#create" data-toggle="tab">Create Account</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="login">
+                                <form class="form-horizontal" action='' method="POST">
+                                    <fieldset>
+                                        <div id="legend">
+                                            <legend class="">Login</legend>
+                                        </div>    
+                                        <div class="control-group">
+                                            <!-- Username -->
+                                            <label class="control-label"  for="username">Username</label>
+                                            <div class="controls">
+                                                <input type="text" id="username" name="username" placeholder="" class="input-xlarge" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="control-group">
+                                            <!-- Password-->
+                                            <label class="control-label" for="password">Password</label>
+                                            <div class="controls">
+                                                <input type="password" id="password" name="password" placeholder="" class="input-xlarge" />
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="control-group">
+                                            <!-- Button -->
+                                            <div class="controls">
+                                                <button class="btn btn-success">Login</button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>                
+                            </div>
+                            <div class="tab-pane fade" id="create">
+                                <form class="form-horizontal" action='' id="tab" method="POST">
+                                    <fieldset>
+                                        <div id="legend">
+                                            <legend class="">Register</legend>
+                                        </div>    
+                                        <div class="control-group">
+                                            <!-- Username -->
+                                            <label class="control-label"  for="username">Username</label>
+                                            <div class="controls">
+                                                <input type="text" id="username" name="username" placeholder="" class="input-xlarge" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="control-group">
+                                            <!-- Password-->
+                                            <label class="control-label" for="password">Password</label>
+                                            <div class="controls">
+                                                <input type="password" id="password" name="password" placeholder="" class="input-xlarge" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="control-group">
+                                            <label class="control-label" for="password">Email</label>
+                                            <div class="controls">
+                                                <input type="text" id="email" name="email" placeholder="" class="input-xlarge" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="control-group">
+                                            <!-- Button -->
+                                            <div class="controls">
+                                                <button class="btn btn-success">Register</button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+                <script class="cssdeck" src="js/jquery-2.1.3.min.js"></script>
+                <script class="cssdeck" src="js/bootstrap.min.js"></script>
         </div>
     </div>
 </h:body>

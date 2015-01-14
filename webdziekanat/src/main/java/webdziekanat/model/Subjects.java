@@ -1,5 +1,6 @@
 package webdziekanat.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,12 +23,25 @@ public class Subjects {
 
     private String name;
 
-    private int etcs;
+    private int ects;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "subjects_students", joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private Set<Student> students;
+
+    
+    
+    public Subjects() {
+        this.students = new HashSet<Student>();
+    }
+    
+    public Subjects(Subjects subject){
+        this.id = subject.id;
+        this.ects = subject.ects;
+        this.name = subject.name;
+        this.students = subject.students;
+    }
 
     public int getId() {
         return id;
@@ -45,12 +59,12 @@ public class Subjects {
         this.name = name;
     }
 
-    public int getEtcs() {
-        return etcs;
+    public int getEcts() {
+        return ects;
     }
 
-    public void setEtcs(int etcs) {
-        this.etcs = etcs;
+    public void setEcts(int ects) {
+        this.ects = ects;
     }
 
     public Set<Student> getStudents() {
