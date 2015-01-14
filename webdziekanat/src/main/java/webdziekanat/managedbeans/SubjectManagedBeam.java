@@ -4,21 +4,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
+import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ISubjectDAO;
 import webdziekanat.model.Subjects;
 
 @ManagedBean(name = "subjectMB")
-@SessionScoped
+@ApplicationScoped
 public class SubjectManagedBeam implements Serializable {
 
     /**
@@ -29,6 +29,9 @@ public class SubjectManagedBeam implements Serializable {
 
     @ManagedProperty(value = "#{subjectDAO}")
     ISubjectDAO subjectDAO;
+    
+    @Autowired
+    private DatabaseFinder finder;
 
     Subjects subject = new Subjects();
 

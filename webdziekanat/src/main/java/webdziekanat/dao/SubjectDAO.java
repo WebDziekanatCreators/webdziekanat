@@ -79,5 +79,5 @@ public class SubjectDAO implements ISubjectDAO {
         result = (List<Subjects>) entityManager.createQuery(hqlString).getResultList();
         return result;
     }
-
+    
 }
