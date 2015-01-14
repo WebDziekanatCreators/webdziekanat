@@ -1,6 +1,7 @@
 package webdziekanat.dao;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,12 +10,15 @@ import javax.persistence.PersistenceContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ISubjectDAO;
-import webdziekanat.model.Student;
 import webdziekanat.model.Subjects;
 
+@Component
+@Transactional
 public class SubjectDAO implements ISubjectDAO {
     
     private static final Logger logger = LogManager.getLogger(StudentDAO.class);
