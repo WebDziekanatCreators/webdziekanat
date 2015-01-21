@@ -20,6 +20,17 @@ public class Group {
     
     private String description;
 
+
+    public Group(Group group) {
+        this.id = group.id;
+        this.students = group.students;
+        this.description = group.description;
+    }
+    
+    public Group(){
+        
+    }
+
     public int getId() {
         return id;
     }

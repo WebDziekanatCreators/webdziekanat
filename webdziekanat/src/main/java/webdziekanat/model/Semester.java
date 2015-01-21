@@ -12,6 +12,17 @@ import javax.persistence.OneToMany;
 @Entity
 public class Semester {
 
+    public Semester(Semester semester) {
+        this.id = semester.id;
+        this.marks = semester.marks;
+        this.number = semester.number;
+        this.description = semester.description;
+    }
+
+    public Semester(){
+        
+    }
+    
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;

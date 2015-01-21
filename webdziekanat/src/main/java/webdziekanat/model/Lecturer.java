@@ -12,6 +12,18 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Lecturer {
 
+    public Lecturer(Lecturer lecturer) {
+        this.id = lecturer.id;
+        this.name = lecturer.name;
+        this.lastName = lecturer.lastName;
+        this.mail = lecturer.mail;
+        this.subjects = lecturer.subjects;
+    }
+    
+    public Lecturer(){
+        
+    }
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;

@@ -19,7 +19,7 @@ import webdziekanat.model.Subjects;
 
 @ManagedBean(name = "subjectMB")
 @ApplicationScoped
-public class SubjectManagedBeam implements Serializable {
+public class SubjectManagedBean implements Serializable {
 
     /**
      * 

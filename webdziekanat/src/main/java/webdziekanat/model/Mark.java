@@ -10,6 +10,17 @@ import javax.persistence.OneToOne;
 @Entity
 public class Mark {
 
+    public Mark(Mark mark) {
+        this.id = mark.id;
+        this.subject = mark.subject;
+        this.mark = mark.mark;
+        this.isActive = mark.isActive;
+    }
+    
+    public Mark(){
+        
+    }
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
