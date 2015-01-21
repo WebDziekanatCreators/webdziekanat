@@ -142,13 +142,10 @@
                                 </p:inputText> <p:message id="countryMsg" for="country" display="icon" /></td>
                         </tr>
                         <tr>
-                            <td>
-                                <p:commandButton id="editUser" value="Edit" action="#{studentMB.editStudent(student)}"
-                                    ajax="false" rendered="#{studentMB.edit}"/>
+                            <td><p:commandButton id="editUser" value="Edit"
+                                    action="#{studentMB.editStudent(student)}" ajax="false" rendered="#{studentMB.edit}" />
                                 <p:commandButton id="addUser" value="Add" action="#{studentMB.addStudent()}"
-                                    ajax="false" rendered="#{studentMB.add}"/>
-                            </td>
-
+                                    ajax="false" rendered="#{studentMB.add}" /></td>
                         </tr>
                     </table>
                 </h:form>

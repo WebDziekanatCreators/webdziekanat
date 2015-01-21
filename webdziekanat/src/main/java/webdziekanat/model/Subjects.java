@@ -26,22 +26,20 @@ public class Subjects {
 
     private int ects;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinTable(name = "subjects_students", joinColumns = @JoinColumn(name = "student_id"),
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "subjects_lecturers", joinColumns = @JoinColumn(name = "lecturer_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private Set<Student> students;
+    private Set<Lecturer> lecturers;
 
-    
-    
     public Subjects() {
-        this.students = new HashSet<Student>();
+        this.lecturers = new HashSet<Lecturer>();
     }
-    
-    public Subjects(Subjects subject){
+
+    public Subjects(Subjects subject) {
         this.id = subject.id;
         this.ects = subject.ects;
         this.name = subject.name;
-        this.students = subject.students;
+        this.lecturers = subject.lecturers;
     }
 
     public int getId() {
@@ -68,12 +66,12 @@ public class Subjects {
         this.ects = ects;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    public Set<Lecturer> getLecturers() {
+        return lecturers;
     }
 
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setLecturers(Set<Lecturer> lecturers) {
+        this.lecturers = lecturers;
     }
-    
+
 }
