@@ -3,10 +3,10 @@
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Welcome</title>
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/logo-nav.css" rel="stylesheet" />
-    <link href="css/one-page-wonder.css" rel="stylesheet" />
+    
+    <h:outputStylesheet library="css" name="bootstrap.min.css" />
+    <h:outputStylesheet library="css" name="logo-nav.css" />
+    <h:outputStylesheet library="css" name="one-page-wonder.css" />
 
     <script type="text/javascript">
                     function toggle(id) {
@@ -33,9 +33,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="index.xhtml">Home</a></li>
-                    <li><a href="students.xhtml">Students</a></li>
-                    <li><a href="subjects.xhtml">Subjects</a></li>
+                    <li><h:link value="Home" outcome="index.xhtml" /></li>
+                    <li><h:link value="Students" outcome="students.xhtml" /></li>
+                    <li><h:link value="Subjects" outcome="subjects.xhtml" /></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
