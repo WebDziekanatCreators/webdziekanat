@@ -46,4 +46,16 @@ public class DatabaseFinder {
 
         return foundAddress;
     }
+    
+    public Subjects findSubject(Subjects src) {
+        Session session = (Session) entityManager.getDelegate();
+
+        Example addressExample = Example.create(src);
+
+        Criteria criteria = session.createCriteria(Subjects.class).add(addressExample);
+
+        Subjects foundSubject = (Subjects) criteria.uniqueResult();
+
+        return foundSubject;
+    }
 }

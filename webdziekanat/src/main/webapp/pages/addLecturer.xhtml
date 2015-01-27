@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Welcome</title>
+    <h:outputStylesheet library="css" name="bootstrap.min.css" />
+    <h:outputStylesheet library="css" name="logo-nav.css" />
+    <h:outputStylesheet library="css" name="one-page-wonder.css" />
+
+    <script type="text/javascript">
+                    function toggle(id) {
+                        var e = document.getElementById(id);
+                        if (e.style.display == 'block')
+                            e.style.display = 'none';
+                        else
+                            e.style.display = 'block';
+                    }
+                </script>
+</h:head>
+<h:body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><h:link value="Home" outcome="index.xhtml" /></li>
+                    <li><h:link value="Students" outcome="students.xhtml" /></li>
+                    <li><h:link value="Subjects" outcome="subjects.xhtml" /></li>
+                    <li><h:link value="Lecturers" outcome="lecturers.xhtml" /></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li>
+
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-default navbar-btn" onclick="toggle('loginForm');">Login</button>
+
+                            <div id="loginForm" class="dropdown-menu" style="padding: 10px; background: #ddd">
+                                <form action="" role="form">
+                                    <div class="form-group">
+                                        <label for="user">User</label> <input type="text" class="form-control" id="user"
+                                            placeholder="User" /> <label for="password">Password</label> <input
+                                            type="password" class="form-control" id="password" placeholder="Password" />
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Sign in</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <h:form>
+                    <table>
+                        <tr>
+                            <td><h:outputLabel for="name" value="Name : " /></td>
+                            <td><p:inputText id="name" value="#{lecturerMB.lecturer.name}">
+                                    <f:validateLength minimum="5" />
+                                    <p:ajax event="blur" update="nameMsg" />
+                                </p:inputText> <p:message id="nameMsg" for="name" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="lastName" value="Last name : " /></td>
+                            <td><p:inputText id="lastName" value="#{lecturerMB.lecturer.lastName}">
+                                    <f:validateLength minimum="5" />
+                                    <p:ajax event="blur" update="lastNameMsg" />
+                                </p:inputText> <p:message id="lastNameMsg" for="lastName" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="email" value="Email : " /></td>
+                            <td><p:inputText id="email" value="#{lecturerMB.lecturer.mail}">
+                                    <p:ajax event="blur" update="lastNameMsg" />
+                                </p:inputText> <p:message id="emailMsg" for="email" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><p:commandButton id="editLecturer" value="Edit"
+                                    action="#{lecturerMB.editLecturer(lecturer)}" ajax="false"
+                                    rendered="#{lecturerMB.edit}" /> 
+                                    <p:commandButton id="addLecturer" value="Add"
+                                    action="#{lecturerMB.addLecturer()}" ajax="false" rendered="#{lecturerMB.add}" /></td>
+                        </tr>
+                    </table>
+
+                    <p:dataTable var="subject" value="#{lecturerMB.subjects}" widgetVar="subjectsTable"
+                        emptyMessage="No subjects found with given criteria"
+                        filteredValue="#{lecturerMB.filteredSubjects}">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('subjectsTable').filter()"
+                                    style="width:150px" placeholder="Enter keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column filterBy="#{subject.id}" headerText="Id" footerText="contains"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{subject.id}" />
+                        </p:column>
+
+                        <p:column filterBy="#{subject.name}" headerText="Name" footerText="contains"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{subject.name}" />
+                        </p:column>
+
+                        <p:column filterBy="#{subject.ects}" headerText="ECTS Points" footerText="exact"
+                            filterMatchMode="exact">
+                            <f:facet name="filter">
+                                <p:spinner onchange="PF('subjectsTable').filter()" styleClass="year-spinner">
+                                    <f:converter converterId="javax.faces.Integer" />
+                                </p:spinner>
+                            </f:facet>
+                            <h:outputText value="#{subject.ects}" />
+                        </p:column>
+                        <p:column headerText="Add?" footerText="marked">
+                            <h:selectBooleanCheckbox value="#{lecturerMB.checkMap[subject]}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton id="addSubjects" value="Add Selected" action="#{lecturerMB.processCheckbox()}"
+                        ajax="false" />
+
+                </h:form>
+
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

@@ -1,17 +1,26 @@
 package webdziekanat.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ILecturerDAO;
 import webdziekanat.model.Lecturer;
+import webdziekanat.model.Subjects;
 
+@Component
+@Transactional
 public class LecturerDAO implements ILecturerDAO{
     
     private static final Logger logger = LogManager.getLogger(LecturerDAO.class);
@@ -19,23 +28,37 @@ public class LecturerDAO implements ILecturerDAO{
     @PersistenceContext
     private EntityManager entityManager;
     
+    @Autowired
+    private DatabaseFinder finder;
+    
     public LecturerDAO() {
         
     }
 
     public void addLecturer(Lecturer lecturer) {
         try {
+            Set<Subjects> result = new HashSet<Subjects>();
+            for (Subjects subject : lecturer.getSubjects()) {
+                Subjects foundSubject = finder.findSubject(subject);
+                if(foundSubject != null){
+                    result.add(foundSubject);
+                }
+            }
+            lecturer.setSubjects(result);
             entityManager.persist(lecturer);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }
     }
 
-    public void deleteLecturer(int id) {
+    @Override
+    public boolean deleteLecturer(int id) {
         try {
             entityManager.remove(getLecturerById(id));
+            return true;
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
+            return false;
         }
 
     }
@@ -70,7 +93,7 @@ public class LecturerDAO implements ILecturerDAO{
 
         try {
 
-            String hqlString = "Select lecturer from Lecturer webdziekanat";
+            String hqlString = "Select lecturer from Lecturer lecturer";
             
             result = (List<Lecturer>) entityManager.createQuery(hqlString).getResultList();
 

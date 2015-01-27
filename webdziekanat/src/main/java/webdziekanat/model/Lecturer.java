@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +35,7 @@ public class Lecturer {
     
     private String mail;
     
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="lecturers")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="lecturers", fetch=FetchType.EAGER)
     private Set<Subjects> subjects;
 
     public int getId() {
