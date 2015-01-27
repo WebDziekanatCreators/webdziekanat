@@ -8,9 +8,9 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.finders.DatabaseFinder;
@@ -61,9 +61,8 @@ public class StudentDAO implements IStudentDAO {
 
     public void updateStudent(Student student) {
         try {
-            Student foundStudent = entityManager.find(Student.class, student.getId());
-            foundStudent = student;
-            entityManager.merge(foundStudent);
+            entityManager.merge(student);
+            
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

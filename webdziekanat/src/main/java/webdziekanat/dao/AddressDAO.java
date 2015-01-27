@@ -47,9 +47,7 @@ public class AddressDAO implements IAddressDAO {
 
     public void updateAddress(Address address) {
         try {
-            Address foundAddress = entityManager.find(Address.class, address.getId());
-            foundAddress = address;
-            entityManager.merge(foundAddress);
+            entityManager.merge(address);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

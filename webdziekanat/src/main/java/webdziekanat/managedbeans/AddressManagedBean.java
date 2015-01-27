@@ -5,27 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
 
 import webdziekanat.interfaces.IAddressDAO;
 import webdziekanat.model.Address;
-import webdziekanat.model.Address;
 
-@ManagedBean(name="addressMB")
-@RequestScoped
+@Component("addressMB")
+@Scope("session")
 public class AddressManagedBean implements Serializable{
 
     private static final long serialVersionUID = 2880746693462123546L;
     private static final Logger logger = LogManager.getLogger(AddressManagedBean.class);
     private Map<String,String> counties;
     
-    @ManagedProperty(value="#{addressDAO}")
+    @Autowired
     IAddressDAO addressDAO;
     
     Address address = new Address();
@@ -56,6 +54,18 @@ public class AddressManagedBean implements Serializable{
         }
     }
 
+    public String startEdit(Address src) {
+        address = src;
+        isEdit = true;
+        isAdd = false;
+        return "/pages/addAddress.xhtml";
+    }
+    
+    public String editAddress(){
+        addressDAO.updateAddress(address);
+        isEdit = false;
+        return "/pages/success.xhtml";
+    }
     public boolean isAdd() {
         return isAdd;
     }
@@ -72,18 +82,6 @@ public class AddressManagedBean implements Serializable{
         this.isEdit = isEdit;
     }
 
-    public String startEdit(Address src) {
-        address = src;
-        isEdit = true;
-        isAdd = false;
-        return "/pages/addAddress.xhtml";
-    }
-    
-    public String editAddress(Address src){
-        addressDAO.updateAddress(src);
-        isEdit = false;
-        return "/pages/success.xhtml";
-    }
     
     public Address getAddress() {
         return address;
