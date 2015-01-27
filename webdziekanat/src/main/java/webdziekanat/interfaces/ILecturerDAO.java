@@ -20,4 +20,6 @@ public interface ILecturerDAO {
 
     public void addLecturerToSubjects(Lecturer lecturer,Set<Subjects> subs);
 
+    public void deleteLecturerFormSubject(Lecturer lecturer,Set<Subjects> subs);
+
 }

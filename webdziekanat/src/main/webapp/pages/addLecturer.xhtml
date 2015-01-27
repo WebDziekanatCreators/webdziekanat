@@ -33,6 +33,28 @@
                                     <p:ajax event="blur" update="lastNameMsg" />
                                 </p:inputText> <p:message id="emailMsg" for="email" display="icon" /></td>
                         </tr>
+
+                        <tr>
+                            <p:dataTable id="subjects" var="subject" value="#{lecturerMB.lecturer.subjects}" rendered="#{lecturerMB.edit}">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Name" />
+                                    </f:facet>
+                                    <h:outputText value="#{subject.name}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Last name" />
+                                    </f:facet>
+                                    <h:outputText value="#{subject.ects}" />
+                                </p:column>
+                                <p:column headerText="Delete?">
+                                    <h:selectBooleanCheckbox value="#{lecturerMB.checkDeleteMap[subject]}" />
+                                </p:column>
+                            </p:dataTable>
+
+                        </tr>
+
                         <tr>
                             <td><p:commandButton id="editLecturer" value="Edit"
                                     action="#{lecturerMB.editLecturer()}" ajax="false"

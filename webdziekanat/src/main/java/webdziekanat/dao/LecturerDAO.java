@@ -55,10 +55,13 @@ public class LecturerDAO implements ILecturerDAO{
 
     public boolean deleteLecturer(int id) {
         try {
-            entityManager.remove(getLecturerById(id));
+            Lecturer lecturer = getLecturerById(id);
+            deleteLecturerFormSubject(lecturer,lecturer.getSubjects());
+            lecturer.setSubjects(null);
+            entityManager.remove(lecturer);
             return true;
         } catch (Exception e) {
-            logger.error("Rollback - " + e.getMessage());
+            logger.error("Rollback deleteLecturer() - " + e.getMessage());
             return false;
         }
     }
@@ -110,7 +113,20 @@ public class LecturerDAO implements ILecturerDAO{
                 subject.getLecturers().add(lect);
                 entityManager.merge(subject);
             } catch (Exception e){
-                logger.error("Rollback - " + e.getMessage());
+                logger.error("Rollback addLecturerToSubjects() - " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void deleteLecturerFormSubject(Lecturer lecturer, Set<Subjects> subs) {
+        //Lecturer lect = finder.findLecturer(lecturer);
+        for(Subjects subject : subs){
+            try{
+                subject.getLecturers().remove(lecturer);
+                entityManager.merge(subject);
+            } catch (Exception e){
+                logger.error("Rollback deleteLecturerToSubjects() - " + e.getMessage());
             }
         }
     }

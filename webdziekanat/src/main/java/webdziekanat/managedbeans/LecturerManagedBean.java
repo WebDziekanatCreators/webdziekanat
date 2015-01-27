@@ -51,6 +51,8 @@ public class LecturerManagedBean implements Serializable {
 
     private Map<Subjects, Boolean> checkMap = new HashMap<Subjects, Boolean>();
 
+    private Map<Subjects, Boolean> checkDeleteMap = new HashMap<Subjects, Boolean>();
+
     private boolean isAdd;
     private boolean isEdit;
 
@@ -59,6 +61,11 @@ public class LecturerManagedBean implements Serializable {
         subjects = subjectDAO.getAll();
         for (Subjects subject : subjects) {
             checkMap.put(subject, Boolean.FALSE);
+        }
+        if(isEdit){
+            for(Subjects subject : lecturer.getSubjects()){
+                checkDeleteMap.put(subject, Boolean.FALSE);
+            }
         }
     }
     
@@ -124,6 +131,25 @@ public class LecturerManagedBean implements Serializable {
     }
 
     public String editLecturer() {
+
+        Set<Subjects> deletedSet = new HashSet<Subjects>();
+        for (Entry<Subjects, Boolean> entry : checkDeleteMap.entrySet()) {
+            if(entry.getValue()){
+                deletedSet.add(entry.getKey());
+            }
+        }
+
+        lecturerDAO.deleteLecturerFormSubject(lecturer,deletedSet);
+
+        Set<Subjects> result = new HashSet<Subjects>();
+        for (Entry<Subjects, Boolean> entry : checkMap.entrySet()) {
+            if(entry.getValue()){
+                result.add(entry.getKey());
+            }
+        }
+        logger.info(result.size());
+        lecturerDAO.addLecturerToSubjects(lecturer,result);
+
         lecturerDAO.updateLecturer(lecturer);
         isEdit = false;
         return "/pages/success.xhtml";
@@ -207,7 +233,12 @@ public class LecturerManagedBean implements Serializable {
     public void setSubjects(List<Subjects> subjects) {
         this.subjects = subjects;
     }
-    
-    
 
+    public Map<Subjects, Boolean> getCheckDeleteMap() {
+        return checkDeleteMap;
+    }
+
+    public void setCheckDeleteMap(Map<Subjects, Boolean> checkDeleteMap) {
+        this.checkDeleteMap = checkDeleteMap;
+    }
 }
