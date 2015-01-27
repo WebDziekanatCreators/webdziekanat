@@ -4,20 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
 
 import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Student;
 
-@ManagedBean(name = "studentMB")
-@SessionScoped
+@Component("studentMB")
+@Scope("session")
 public class StudentManagedBean implements Serializable {
 
     /**
@@ -26,7 +24,7 @@ public class StudentManagedBean implements Serializable {
     private static final long serialVersionUID = -4400141672079406344L;
     private static final Logger logger = LogManager.getLogger(StudentManagedBean.class);
 
-    @ManagedProperty(value = "#{studentDAO}")
+    @Autowired
     IStudentDAO studentDAO;
 
     Student student = new Student();
@@ -72,8 +70,8 @@ public class StudentManagedBean implements Serializable {
         return "/pages/addStudent.xhtml";
     }
     
-    public String editStudent(Student src){
-        studentDAO.updateStudent(src);
+    public String editStudent(){
+        studentDAO.updateStudent(student);
         isEdit = false;
         return "/pages/success.xhtml";
     }

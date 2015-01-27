@@ -51,7 +51,6 @@ public class LecturerDAO implements ILecturerDAO{
         }
     }
 
-    @Override
     public boolean deleteLecturer(int id) {
         try {
             entityManager.remove(getLecturerById(id));
@@ -60,7 +59,6 @@ public class LecturerDAO implements ILecturerDAO{
             logger.error("Rollback - " + e.getMessage());
             return false;
         }
-
     }
 
     public void updateLecturer(Lecturer lecturer) {
