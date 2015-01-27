@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:body>
+<ui:composition template="commonLayout.xhtml">
+ 
+    <ui:define name="content">
+       <!-- Page Content -->
+        <div class="row">
+            <div class="col-lg-12">
+
+                <h:form>
+                    <table>
+                        <tr>
+                            <td><h:outputLabel for="name" value="Name : " /></td>
+                            <td><p:inputText id="name" value="#{courseMB.course.name}">
+                                    <f:validateLength minimum="5" />
+                                    <p:ajax event="blur" update="nameMsg" />
+                                </p:inputText> <p:message id="nameMsg" for="name" display="icon" /></td>
+                        </tr>
+                         <tr>
+                            <td><h:outputLabel for="startYear" value="Start year : " /></td>
+                            <td><p:inputText id="startYear" value="#{courseMB.startYear}">
+                                    <f:validateLongRange minimum="1999" maximum="2020" />
+                                    <p:ajax event="blur" update="startYearMsg" />
+                                </p:inputText> <p:message id="startYearMsg" for="startYear" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="term" value="Term : " /></td>
+                            <td><p:selectOneMenu id="term" value="#{courseMB.startTerm}"
+                                    style="width:150px">
+                                    <f:selectItem itemLabel="Select Term" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{courseMB.startTerms}" />
+                                </p:selectOneMenu></td>
+                        </tr>
+                        <tr>
+                            <td><p:commandButton id="editCourse" value="Edit"
+                                    action="#{courseMB.editCourse(course)}" ajax="false"
+                                    rendered="#{courseMB.edit}" /> 
+                                <p:commandButton id="addCourse" value="Add"
+                                    action="#{courseMB.addCourse()}" ajax="false" rendered="#{courseMB.add}" /></td>
+                        </tr>
+                    </table>
+
+                </h:form>
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</h:body>
+</html>

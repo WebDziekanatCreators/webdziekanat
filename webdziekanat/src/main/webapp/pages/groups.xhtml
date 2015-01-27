@@ -10,38 +10,32 @@
     <h:body>
  
         <ui:composition template="commonLayout.xhtml">
-            <f:event listener="#{courseMB.reload()}" type="preRenderView" />
+ 
             <ui:define name="content">
                 <div class="row">
                     <div class="col-lg-12">
-                        <p:outputLabel value="Courses" />
+                        <p:outputLabel value="Groups" />
                         <h:form>
-                            <p:dataTable id="courses" var="course" value="#{courseMB.list}">
+                            <p:dataTable id="groups" var="group" value="#{groupMB.groups}">
                                 <p:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Name" />
+                                        <h:outputText value="Group Number" />
                                     </f:facet>
-                                    <h:outputText value="#{course.name}" />
+                                    <h:outputText value="#{group.groupNumber}" />
+                                </p:column>        
+                                <p:column>
+                                    <h:commandButton value="Delete" action="#{groupMB.deleteGroup(group)}"></h:commandButton>
                                 </p:column>
                                 <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Groups number" />
-                                    </f:facet>
-                                    <h:outputText value="#{course.groups.size()}" />
-                                </p:column>          
-                                <p:column>
-                                    <h:commandButton value="Delete" action="#{courseMB.deleteCourse(course)}"></h:commandButton>
+                                    <h:commandButton value="Edit" action="#{groupMB.startEdit(group)}"></h:commandButton>
                                 </p:column>
                                 <p:column>
-                                    <h:commandButton value="Edit" action="#{courseMB.startEdit(course)}"></h:commandButton>
-                                </p:column>
-                                <p:column>
-                                    <h:commandButton value="Details" action="#{courseMB.showDetails(course)}"></h:commandButton>
+                                    <h:commandButton value="Details" action="#{groupMB.showDetails(group)}"></h:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </h:form>
                         <h:form>
-                            <h:commandButton value="Add New Course" action="#{courseMB.startAdd()}"></h:commandButton>
+                            <h:commandButton value="Add New Group" action="#{groupMB.startAdd()}"></h:commandButton>
                         </h:form>
                     </div>
                 </div>

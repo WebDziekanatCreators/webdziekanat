@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

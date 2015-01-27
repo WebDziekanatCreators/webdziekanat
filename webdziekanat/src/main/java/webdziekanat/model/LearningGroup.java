@@ -1,5 +1,6 @@
 package webdziekanat.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Group {
+public class LearningGroup {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -18,17 +19,16 @@ public class Group {
     @OneToMany
     private Set<Student> students;
     
-    private String description;
+    private int groupNumber;
 
+    public LearningGroup(){
+        students = new HashSet<Student>();
+    }
 
-    public Group(Group group) {
+    public LearningGroup(LearningGroup group) {
         this.id = group.id;
         this.students = group.students;
-        this.description = group.description;
-    }
-    
-    public Group(){
-        
+        this.groupNumber = group.groupNumber;
     }
 
     public int getId() {
@@ -47,11 +47,12 @@ public class Group {
         this.students = students;
     }
 
-    public String getDescription() {
-        return description;
+    public int getGroupNumber() {
+        return groupNumber;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setGroupNumber(int groupNumber) {
+        this.groupNumber = groupNumber;
     }
+
 }
