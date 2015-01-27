@@ -1,6 +1,7 @@
 package webdziekanat.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -9,14 +10,20 @@ import javax.faces.bean.RequestScoped;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
 
+import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.interfaces.IGroupDAO;
-import webdziekanat.model.Group;
+import webdziekanat.model.Course;
+import webdziekanat.model.LearningGroup;
 import webdziekanat.model.Mark;
+import webdziekanat.model.Subjects;
 
-@ManagedBean(name="groupMB")
-@RequestScoped
+@Component("groupMB")
+@Scope("application")
 public class GroupManagedBean implements Serializable {
 
     /**
@@ -25,18 +32,20 @@ public class GroupManagedBean implements Serializable {
     private static final long serialVersionUID = 1341528378914248228L;
     private static final Logger logger = LogManager.getLogger(GroupManagedBean.class);
     
-    @ManagedProperty(value="#{groupDAO}")
+    @Autowired
     IGroupDAO groupDAO;
+    @Autowired
+    ICourseDAO courseDAO;
     
-    Group group = new Group();
+    LearningGroup group = new LearningGroup();
     
-    List<Group> groups;
+    List<LearningGroup> groups;
     
     boolean isAdd;
     boolean isEdit;
     
     public String startAdd(){
-        group = new Group();
+        group = new LearningGroup();
         isAdd = true;
         isEdit = false;
         return "/pages/addGroup.xhtml";
@@ -45,7 +54,7 @@ public class GroupManagedBean implements Serializable {
     public String addGroup(){
         
         try {
-            Group groupNew = new Group(group);
+            LearningGroup groupNew = new LearningGroup(group);
             groupDAO.addGroup(groupNew);
             isAdd = false;
             return "/success.xhtml";
@@ -56,17 +65,45 @@ public class GroupManagedBean implements Serializable {
         }
     }
     
-    public String startEdit(Group src) {
+    public String addNewGroup(Course course){
+        try{
+            int maxIndex = 0;
+            groups = new ArrayList<LearningGroup>();
+            groups.addAll(course.getGroups());
+            for (LearningGroup group : groups) {
+                if(group.getGroupNumber() > maxIndex)
+                    maxIndex = group.getGroupNumber();
+            }
+            LearningGroup newGroup = new LearningGroup();
+            newGroup.setGroupNumber(maxIndex+1);
+            course.getGroups().add(newGroup);
+            groupDAO.addGroup(newGroup);
+            courseDAO.updateCourse(course);
+            return "success.xhtml";
+        }catch(DataAccessException e){
+            return "/error.xhtml";
+        }
+    }
+    
+    public String startEdit(LearningGroup src) {
         group = src;
         isEdit = true;
         isAdd = false;
         return "/pages/addGroup.xhtml";
     }
     
-    public String editGroup(Group src){
+    public String editGroup(LearningGroup src){
         groupDAO.updateGroup(src);
         isEdit = false;
         return "/pages/success.xhtml";
+    }
+    
+    public String deleteGroup(LearningGroup src) {
+        logger.info(src.toString());
+        if (groupDAO.deleteGroup(src.getId())) {
+            return "/pages/success.xhtml";
+        }
+        return "";
     }
 
     public boolean isAdd() {
@@ -85,20 +122,12 @@ public class GroupManagedBean implements Serializable {
         this.isEdit = isEdit;
     }
 
-    public Group getGroup() {
+    public LearningGroup getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(LearningGroup group) {
         this.group = group;
-    }
-
-    public List<Group> getList() {
-        return groups;
-    }
-
-    public void setList(List<Group> list) {
-        this.groups = list;
     }
 
     public IGroupDAO getGroupDAO() {
@@ -107,5 +136,15 @@ public class GroupManagedBean implements Serializable {
 
     public void setGroupDAO(IGroupDAO groupDAO) {
         this.groupDAO = groupDAO;
+    }
+
+    public List<LearningGroup> getGroups() {
+        groups = new ArrayList<LearningGroup>();
+        groups.addAll(groupDAO.getAll());
+        return groups;
+    }
+
+    public void setGroups(List<LearningGroup> groups) {
+        this.groups = groups;
     }
 }

@@ -2,16 +2,16 @@ package webdziekanat.interfaces;
 
 import java.util.List;
 
-import webdziekanat.model.Group;
+import webdziekanat.model.LearningGroup;
 
 public interface IGroupDAO {
-    public void addGroup(Group group);
+    public void addGroup(LearningGroup group);
     
-    public void deleteGroup(int id);
+    public boolean deleteGroup(int id);
     
-    public void updateGroup(Group group);
+    public void updateGroup(LearningGroup group);
     
-    public Group getGroupById(int id);
+    public LearningGroup getGroupById(int id);
     
-    public List<Group> getAll();
+    public List<LearningGroup> getAll();
 }

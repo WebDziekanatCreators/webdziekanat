@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.interfaces.IGroupDAO;
-import webdziekanat.model.Group;
-import webdziekanat.model.Student;
+import webdziekanat.model.LearningGroup;
 
 @Component
 @Transactional
@@ -28,7 +27,7 @@ public class GroupDAO implements IGroupDAO{
         
     }
 
-    public void addGroup(Group group) {
+    public void addGroup(LearningGroup group) {
         try {
             entityManager.persist(group);
         } catch (Exception e) {
@@ -36,18 +35,20 @@ public class GroupDAO implements IGroupDAO{
         }
     }
 
-    public void deleteGroup(int id) {
+    public boolean deleteGroup(int id) {
         try {
             entityManager.remove(getGroupById(id));
+            return true;
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
+            return false;
         }
 
     }
 
-    public void updateGroup(Group group) {
+    public void updateGroup(LearningGroup group) {
         try {
-            Group foundGroup = entityManager.find(Group.class, group.getId());
+            LearningGroup foundGroup = entityManager.find(LearningGroup.class, group.getId());
             foundGroup = group;
             entityManager.merge(foundGroup);
         } catch (Exception e) {
@@ -55,11 +56,11 @@ public class GroupDAO implements IGroupDAO{
         }
     }
 
-    public Group getGroupById(int id) {
+    public LearningGroup getGroupById(int id) {
 
-        Group result = new Group();
+        LearningGroup result = new LearningGroup();
 
-        result = entityManager.find(Group.class, id);
+        result = entityManager.find(LearningGroup.class, id);
 
         logger.info("Found [" + result.toString() + "]" + "with id: "
                 + result.getId());
@@ -68,14 +69,14 @@ public class GroupDAO implements IGroupDAO{
     }
 
     @SuppressWarnings("unchecked")
-    public List<Group> getAll() {
-        List<Group> result = new ArrayList<Group>();
+    public List<LearningGroup> getAll() {
+        List<LearningGroup> result = new ArrayList<LearningGroup>();
 
         try {
 
             String hqlString = "Select group from Group group";
             
-            result = (List<Group>) entityManager.createQuery(hqlString).getResultList();
+            result = (List<LearningGroup>) entityManager.createQuery(hqlString).getResultList();
 
         } catch (Exception e) {
             logger.error("Rollback" + e.getMessage());

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,21 +18,24 @@ public class Course {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
+    private String startSemester;
+    
+    private String name;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    private Set<LearningGroup> groups;
+
     public Course(){
-        this.groups = new HashSet<Group>();
+        this.groups = new HashSet<LearningGroup>();
     }
     
     public Course(Course course) {
         this.id = course.id;
         this.startSemester = course.startSemester;
+        this.name = course.name;
         this.groups = course.groups;
     }
     
-    private String startSemester;
-    
-    @OneToMany(cascade=CascadeType.PERSIST)
-    private Set<Group> groups;
-
     public int getId() {
         return id;
     }
@@ -47,12 +51,20 @@ public class Course {
     public void setStartSemester(String startSemester) {
         this.startSemester = startSemester;
     }
+    
+    public String getName() {
+        return name;
+    }
 
-    public Set<Group> getGroups() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<LearningGroup> getGroups() {
         return groups;
     }
 
-    public void setGroups(Set<Group> groups) {
+    public void setGroups(Set<LearningGroup> groups) {
         this.groups = groups;
     }
 

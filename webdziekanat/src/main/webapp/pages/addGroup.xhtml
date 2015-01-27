@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:body>
+<ui:composition template="commonLayout.xhtml">
+ 
+    <ui:define name="content">
+       <!-- Page Content -->
+        <div class="row">
+            <div class="col-lg-12">
+
+                <h:form>
+                    <table>
+                        <tr>
+                            <td><h:outputLabel for="groupNumber" value="Group Number : " /></td>
+                            <td><p:inputText id="groupNumber" value="#{groupMB.group.groupNumber}">
+                                    <f:validateLength minimum="1" />
+                                    <p:ajax event="blur" update="groupNumberMsg" />
+                                </p:inputText> <p:message id="groupNumberMsg" for="groupNumber" display="icon" /></td>
+                        </tr>
+                        <tr>
+                            <td><p:commandButton id="editGroup" value="Edit"
+                                    action="#{groupMB.editGroup(group)}" ajax="false"
+                                    rendered="#{groupMB.edit}" /> 
+                                <p:commandButton id="addGroup" value="Add"
+                                    action="#{groupMB.addGroup()}" ajax="false" rendered="#{groupMB.add}" /></td>
+                        </tr>
+                    </table>
+
+                </h:form>
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</h:body>
+</html>

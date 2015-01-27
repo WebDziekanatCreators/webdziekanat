@@ -1,5 +1,6 @@
 package webdziekanat.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,17 +32,22 @@ public class Student {
     @OneToMany(cascade=CascadeType.PERSIST)
     private Set<Semester> semesters;
     
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    private Course course;
+    
     public Student() {
         this.studentAddress = new Address();
+        this.semesters = new HashSet<Semester>();
+        this.course = new Course();
     }
     
     public Student(Student student) {
-        
         this.name = student.getName();
         this.lastName = student.getLastName();
         this.studentNumber = student.getStudentNumber();
         this.studentAddress = student.getStudentAddress();
-        
+        this.semesters = student.getSemesters();
+        this.course = student.getCourse();
     }
     
 
@@ -91,6 +97,14 @@ public class Student {
 
     public void setSemesters(Set<Semester> semesters) {
         this.semesters = semesters;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
     
 }

@@ -89,6 +89,39 @@
                                     ajax="false" rendered="#{studentMB.add}" /></td>
                         </tr>
                     </table>
+                    
+                    <p:dataTable var="course" value="#{courseMB.courses}" widgetVar="coursesTable"
+                        emptyMessage="No courses found with given criteria"
+                        filteredValue="#{studentMB.filteredCourses}">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()"
+                                    style="width:150px" placeholder="Enter keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column filterBy="#{course.id}" headerText="Id" footerText="contains"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{course.id}" />
+                        </p:column>
+
+                        <p:column filterBy="#{course.name}" headerText="Name" footerText="contains"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{course.name}" />
+                        </p:column>
+
+                        <p:column filterBy="#{course.startSemester}" headerText="Start semester" footerText="exact"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{course.startSemester}" />
+                        </p:column>
+                        <p:column headerText="Add" footerText="marked">
+                            <p:commandButton id="assignCourse" value="Assign to course" action="#{studentMB.assignToCourse(course)}" ajax="false" />
+                        </p:column>
+                    </p:dataTable>
+
+                    
                 </h:form>
             </div>
         </div>

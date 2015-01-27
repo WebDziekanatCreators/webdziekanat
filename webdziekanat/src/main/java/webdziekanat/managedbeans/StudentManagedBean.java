@@ -7,14 +7,15 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 
 import webdziekanat.interfaces.IStudentDAO;
+import webdziekanat.model.Course;
 import webdziekanat.model.Student;
+import webdziekanat.model.Subjects;
 
 @ManagedBean(name = "studentMB")
 @SessionScoped
@@ -30,6 +31,10 @@ public class StudentManagedBean implements Serializable {
     IStudentDAO studentDAO;
 
     Student student = new Student();
+    
+    private List<Course> courses;
+
+    private List<Course> filteredCourses;
 
     List<Student> list;
 
@@ -118,6 +123,22 @@ public class StudentManagedBean implements Serializable {
 
     public void setEdit(boolean isEdit) {
         this.isEdit = isEdit;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public List<Course> getFilteredCourses() {
+        return filteredCourses;
+    }
+
+    public void setFilteredCourses(List<Course> filteredCourses) {
+        this.filteredCourses = filteredCourses;
     }
 
 }

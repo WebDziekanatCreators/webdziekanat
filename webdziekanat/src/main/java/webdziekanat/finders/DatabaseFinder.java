@@ -1,5 +1,8 @@
 package webdziekanat.finders;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -10,6 +13,8 @@ import org.hibernate.criterion.Example;
 import org.springframework.stereotype.Component;
 
 import webdziekanat.model.Address;
+import webdziekanat.model.LearningGroup;
+import webdziekanat.model.Semester;
 import webdziekanat.model.Student;
 import webdziekanat.model.Subjects;
 
@@ -58,4 +63,12 @@ public class DatabaseFinder {
 
         return foundSubject;
     }
+    
+    
+  /*  public Set<Group> findGroupsForSemester(Semester src) {
+        return (Set<Group>) entityManager.createQuery(
+            "SELECT group FROM Group g WHERE g.id LIKE :custName")
+            .setParameter("custName", name)
+        }
+    */
 }
