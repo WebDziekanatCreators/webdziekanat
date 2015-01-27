@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -24,9 +27,15 @@ public class Course {
 
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<LearningGroup> groups;
+    
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Student> students;
 
     public Course(){
         this.groups = new HashSet<LearningGroup>();
+        this.students = new HashSet<Student>();
     }
     
     public Course(Course course) {
@@ -34,6 +43,7 @@ public class Course {
         this.startSemester = course.startSemester;
         this.name = course.name;
         this.groups = course.groups;
+        this.students = course.students;
     }
     
     public int getId() {
@@ -66,6 +76,14 @@ public class Course {
 
     public void setGroups(Set<LearningGroup> groups) {
         this.groups = groups;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
 }
