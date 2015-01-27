@@ -35,10 +35,10 @@
                             <h:outputText value="#{lecturer.subjects.size()}" />
                         </p:column>
                         <p:column>
-                            <h:commandButton value="Delete" action="#{subjectMB.deleteSubject(lecturer)}"></h:commandButton>
+                            <h:commandButton value="Delete" action="#{lecturerMB.deleteLecturer(lecturer)}"></h:commandButton>
                         </p:column>
                         <p:column>
-                            <h:commandButton value="Edit" action="#{subjectMB.startEdit(lecturer)}"></h:commandButton>
+                            <h:commandButton value="Edit" action="#{lecturerMB.startEdit(lecturer)}"></h:commandButton>
                         </p:column>
                     </p:dataTable>
                 </h:form>

@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,15 +38,16 @@ public class LecturerDAO implements ILecturerDAO{
 
     public void addLecturer(Lecturer lecturer) {
         try {
-            Set<Subjects> result = new HashSet<Subjects>();
-            for (Subjects subject : lecturer.getSubjects()) {
-                Subjects foundSubject = finder.findSubject(subject);
-                if(foundSubject != null){
-                    result.add(foundSubject);
-                }
+            if(lecturer.getSubjects().isEmpty()){
+                entityManager.persist(lecturer);
             }
-            lecturer.setSubjects(result);
-            entityManager.persist(lecturer);
+            else{
+
+                Set<Subjects> temp = lecturer.getSubjects();
+                lecturer.setSubjects(new HashSet<Subjects>());
+                entityManager.persist(lecturer);
+                addLecturerToSubjects(lecturer,temp);
+            }
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }
@@ -73,7 +75,7 @@ public class LecturerDAO implements ILecturerDAO{
 
         Lecturer result = new Lecturer();
 
-        String hql = "Select lecturer from Lecturer webdziekanat where lecturer.id = :number";
+        String hql = "Select lecturer from Lecturer lecturer where lecturer.id = :number";
 
         result = (Lecturer) entityManager.createQuery(hql).setParameter("number", id).getSingleResult();
 
@@ -98,6 +100,19 @@ public class LecturerDAO implements ILecturerDAO{
         }
 
         return result;
+    }
+
+    @Override
+    public void addLecturerToSubjects(Lecturer lecturer, Set<Subjects> subs) {
+        Lecturer lect = finder.findLecturer(lecturer);
+        for(Subjects subject : subs){
+            try{
+                subject.getLecturers().add(lect);
+                entityManager.merge(subject);
+            } catch (Exception e){
+                logger.error("Rollback - " + e.getMessage());
+            }
+        }
     }
 
 

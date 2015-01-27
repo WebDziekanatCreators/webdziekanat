@@ -53,9 +53,7 @@ public class SubjectDAO implements ISubjectDAO {
 
     public void updateSubject(Subjects subject) {
         try {
-            Subjects foundSubject = entityManager.find(Subjects.class, subject.getId());
-            foundSubject = subject;
-            entityManager.merge(foundSubject);
+            entityManager.merge(subject);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

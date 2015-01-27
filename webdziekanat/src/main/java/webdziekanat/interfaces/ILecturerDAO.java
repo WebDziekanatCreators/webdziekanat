@@ -1,8 +1,11 @@
 package webdziekanat.interfaces;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import webdziekanat.model.Lecturer;
+import webdziekanat.model.Subjects;
 
 public interface ILecturerDAO {
     public void addLecturer(Lecturer lecturer);
@@ -14,5 +17,7 @@ public interface ILecturerDAO {
     public Lecturer getLecturerById(int id);
     
     public List<Lecturer> getAll();
+
+    public void addLecturerToSubjects(Lecturer lecturer,Set<Subjects> subs);
 
 }

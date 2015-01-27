@@ -76,8 +76,8 @@ public class SubjectManagedBean implements Serializable {
         return "/pages/addSubject.xhtml";
     }
     
-    public String editSubject(Subjects src){
-        subjectDAO.updateSubject(src);
+    public String editSubject(){
+        subjectDAO.updateSubject(subject);
         isEdit = false;
         return "/pages/subjects.xhtml";
     }

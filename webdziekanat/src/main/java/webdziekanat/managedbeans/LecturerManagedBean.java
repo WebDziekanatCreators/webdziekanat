@@ -90,6 +90,13 @@ public class LecturerManagedBean implements Serializable {
     public String addLecturer() {
 
         try {
+            Set<Subjects> result = new HashSet<Subjects>();
+            for (Entry<Subjects, Boolean> entry : checkMap.entrySet()) {
+                if(entry.getValue()){
+                    result.add(entry.getKey());
+                }
+            }
+            lecturer.setSubjects(result);
             Lecturer lecturerNew = new Lecturer(lecturer);
             lecturerDAO.addLecturer(lecturerNew);
             isAdd = false;

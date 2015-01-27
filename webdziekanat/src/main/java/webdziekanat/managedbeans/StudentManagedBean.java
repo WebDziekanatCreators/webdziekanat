@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Course;
@@ -39,6 +41,9 @@ public class StudentManagedBean implements Serializable {
     
     @Autowired
     ICourseDAO courseDAO;
+
+    @Autowired
+    DatabaseFinder finder;
 
     Student student = new Student();
     
@@ -187,4 +192,11 @@ public class StudentManagedBean implements Serializable {
         this.filteredCourses = filteredCourses;
     }
 
+    public DatabaseFinder getFinder() {
+        return finder;
+    }
+
+    public void setFinder(DatabaseFinder finder) {
+        this.finder = finder;
+    }
 }
