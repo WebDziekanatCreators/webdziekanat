@@ -15,6 +15,7 @@ import org.springframework.dao.DataAccessException;
 
 import webdziekanat.interfaces.IAddressDAO;
 import webdziekanat.model.Address;
+import webdziekanat.model.Address;
 
 @ManagedBean(name="addressMB")
 @RequestScoped
@@ -31,11 +32,22 @@ public class AddressManagedBean implements Serializable{
     
     List<Address> addresses;
     
+    boolean isAdd;
+    boolean isEdit;
+    
+    public String startAdd(){
+        address = new Address();
+        isAdd = true;
+        isEdit = false;
+        return "/pages/addAddress.xhtml";
+    }
+    
     public String addAddress(){
         
         try {
             Address addressNew = new Address(address);
             addressDAO.addAddress(addressNew);
+            isAdd = false;
             return "/success.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Address: " + e.getMessage());
@@ -44,6 +56,35 @@ public class AddressManagedBean implements Serializable{
         }
     }
 
+    public boolean isAdd() {
+        return isAdd;
+    }
+
+    public void setAdd(boolean isAdd) {
+        this.isAdd = isAdd;
+    }
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean isEdit) {
+        this.isEdit = isEdit;
+    }
+
+    public String startEdit(Address src) {
+        address = src;
+        isEdit = true;
+        isAdd = false;
+        return "/pages/addAddress.xhtml";
+    }
+    
+    public String editAddress(Address src){
+        addressDAO.updateAddress(src);
+        isEdit = false;
+        return "/pages/success.xhtml";
+    }
+    
     public Address getAddress() {
         return address;
     }

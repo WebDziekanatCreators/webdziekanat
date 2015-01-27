@@ -30,12 +30,36 @@ public class SemesterManagedBean implements Serializable {
     Semester semester = new Semester();
     
     List<Semester> semesters;
+
+    boolean isAdd;
+    boolean isEdit;
     
+    public String startAdd(){
+        semester = new Semester();
+        isAdd = true;
+        isEdit = false;
+        return "/pages/addSemester.xhtml";
+    }
+    
+    public String startEdit(Semester src) {
+        semester = src;
+        isEdit = true;
+        isAdd = false;
+        return "/pages/addSemester.xhtml";
+    }
+    
+    public String editSemester(Semester src){
+        semesterDAO.updateSemester(src);
+        isEdit = false;
+        return "/pages/success.xhtml";
+    }
+
     public String addSemester(){
         
         try {
             Semester semesterNew = new Semester(semester);
             semesterDAO.addSemester(semesterNew);
+            isAdd = false;
             return "/success.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Semester: " + e.getMessage());

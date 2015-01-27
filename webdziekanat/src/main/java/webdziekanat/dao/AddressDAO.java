@@ -8,10 +8,15 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.interfaces.IAddressDAO;
 import webdziekanat.model.Address;
+import webdziekanat.model.Student;
 
+@Component
+@Transactional
 public class AddressDAO implements IAddressDAO {
 
     private static final Logger logger = LogManager.getLogger(AddressDAO.class);
@@ -53,10 +58,8 @@ public class AddressDAO implements IAddressDAO {
     public Address getAddressById(int id) {
 
         Address result = new Address();
-
-        String hql = "Select address from Address webdziekanat where address.id = :number";
-
-        result = (Address) entityManager.createQuery(hql).setParameter("number", id).getSingleResult();
+        
+        result = entityManager.find(Address.class, id);
 
         logger.info("Found [" + result.toString() + "]" + "with street: " + result.getStreet() + "and id: "
                 + result.getId());
@@ -70,7 +73,7 @@ public class AddressDAO implements IAddressDAO {
 
         try {
 
-            String hqlString = "Select address from Address webdziekanat";
+            String hqlString = "Select address from Address address";
             
             result = (List<Address>) entityManager.createQuery(hqlString).getResultList();
 

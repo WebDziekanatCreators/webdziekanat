@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 
 import webdziekanat.interfaces.IMarkDAO;
 import webdziekanat.model.Mark;
+import webdziekanat.model.Student;
 
 @ManagedBean(name="markMB")
 @RequestScoped
@@ -29,19 +30,43 @@ public class MarkManagedBean implements Serializable {
     
     Mark mark = new Mark();
     
-    List<Mark> markes;
+    List<Mark> marks;
+    
+    boolean isAdd;
+    boolean isEdit;
+    
+    public String startAdd(){
+        mark = new Mark();
+        isAdd = true;
+        isEdit = false;
+        return "/pages/addMark.xhtml";
+    }
     
     public String addMark(){
         
         try {
             Mark markNew = new Mark(mark);
             markDAO.addMark(markNew);
+            isAdd = false;
             return "/success.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Mark: " + e.getMessage());
             e.printStackTrace();
             return "/error.xhtml"; 
         }
+    }
+    
+    public String startEdit(Mark src) {
+        mark = src;
+        isEdit = true;
+        isAdd = false;
+        return "/pages/addMark.xhtml";
+    }
+    
+    public String editMark(Mark src){
+        markDAO.updateMark(src);
+        isEdit = false;
+        return "/pages/success.xhtml";
     }
 
     public Mark getMark() {
@@ -53,11 +78,11 @@ public class MarkManagedBean implements Serializable {
     }
 
     public List<Mark> getList() {
-        return markes;
+        return marks;
     }
 
     public void setList(List<Mark> list) {
-        this.markes = list;
+        this.marks = list;
     }
 
     public IMarkDAO getMarkDAO() {
@@ -66,6 +91,21 @@ public class MarkManagedBean implements Serializable {
 
     public void setMarkDAO(IMarkDAO markDAO) {
         this.markDAO = markDAO;
+    }
+    public boolean isAdd() {
+        return isAdd;
+    }
+
+    public void setAdd(boolean isAdd) {
+        this.isAdd = isAdd;
+    }
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean isEdit) {
+        this.isEdit = isEdit;
     }
 
 }

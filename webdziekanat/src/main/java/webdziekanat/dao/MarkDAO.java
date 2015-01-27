@@ -8,10 +8,15 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.interfaces.IMarkDAO;
 import webdziekanat.model.Mark;
+import webdziekanat.model.Student;
 
+@Component
+@Transactional
 public class MarkDAO implements IMarkDAO{
     
     private static final Logger logger = LogManager.getLogger(MarkDAO.class);
@@ -54,9 +59,7 @@ public class MarkDAO implements IMarkDAO{
 
         Mark result = new Mark();
 
-        String hql = "Select mark from Mark webdziekanat where mark.id = :number";
-
-        result = (Mark) entityManager.createQuery(hql).setParameter("number", id).getSingleResult();
+        result = entityManager.find(Mark.class, id);
 
         logger.info("Found [" + result.toString() + "]" + "with id: "
                 + result.getId());
@@ -70,7 +73,7 @@ public class MarkDAO implements IMarkDAO{
 
         try {
 
-            String hqlString = "Select mark from Mark webdziekanat";
+            String hqlString = "Select mark from Mark mark";
             
             result = (List<Mark>) entityManager.createQuery(hqlString).getResultList();
 

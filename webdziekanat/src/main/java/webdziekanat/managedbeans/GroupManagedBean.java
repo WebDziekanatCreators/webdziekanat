@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 
 import webdziekanat.interfaces.IGroupDAO;
 import webdziekanat.model.Group;
+import webdziekanat.model.Mark;
 
 @ManagedBean(name="groupMB")
 @RequestScoped
@@ -29,19 +30,59 @@ public class GroupManagedBean implements Serializable {
     
     Group group = new Group();
     
-    List<Group> groupes;
+    List<Group> groups;
+    
+    boolean isAdd;
+    boolean isEdit;
+    
+    public String startAdd(){
+        group = new Group();
+        isAdd = true;
+        isEdit = false;
+        return "/pages/addGroup.xhtml";
+    }
     
     public String addGroup(){
         
         try {
             Group groupNew = new Group(group);
             groupDAO.addGroup(groupNew);
+            isAdd = false;
             return "/success.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Group: " + e.getMessage());
             e.printStackTrace();
             return "/error.xhtml"; 
         }
+    }
+    
+    public String startEdit(Group src) {
+        group = src;
+        isEdit = true;
+        isAdd = false;
+        return "/pages/addGroup.xhtml";
+    }
+    
+    public String editGroup(Group src){
+        groupDAO.updateGroup(src);
+        isEdit = false;
+        return "/pages/success.xhtml";
+    }
+
+    public boolean isAdd() {
+        return isAdd;
+    }
+
+    public void setAdd(boolean isAdd) {
+        this.isAdd = isAdd;
+    }
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean isEdit) {
+        this.isEdit = isEdit;
     }
 
     public Group getGroup() {
@@ -53,11 +94,11 @@ public class GroupManagedBean implements Serializable {
     }
 
     public List<Group> getList() {
-        return groupes;
+        return groups;
     }
 
     public void setList(List<Group> list) {
-        this.groupes = list;
+        this.groups = list;
     }
 
     public IGroupDAO getGroupDAO() {

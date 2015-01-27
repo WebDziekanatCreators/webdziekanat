@@ -8,10 +8,15 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.interfaces.IGroupDAO;
 import webdziekanat.model.Group;
+import webdziekanat.model.Student;
 
+@Component
+@Transactional
 public class GroupDAO implements IGroupDAO{
     
     private static final Logger logger = LogManager.getLogger(GroupDAO.class);
@@ -54,9 +59,7 @@ public class GroupDAO implements IGroupDAO{
 
         Group result = new Group();
 
-        String hql = "Select group from Group webdziekanat where group.id = :number";
-
-        result = (Group) entityManager.createQuery(hql).setParameter("number", id).getSingleResult();
+        result = entityManager.find(Group.class, id);
 
         logger.info("Found [" + result.toString() + "]" + "with id: "
                 + result.getId());
@@ -70,7 +73,7 @@ public class GroupDAO implements IGroupDAO{
 
         try {
 
-            String hqlString = "Select group from Group webdziekanat";
+            String hqlString = "Select group from Group group";
             
             result = (List<Group>) entityManager.createQuery(hqlString).getResultList();
 

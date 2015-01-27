@@ -11,55 +11,54 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import webdziekanat.interfaces.ISemesterDAO;
-import webdziekanat.model.Semester;
-import webdziekanat.model.Student;
+import webdziekanat.interfaces.ICourseDAO;
+import webdziekanat.model.Course;
 
 @Component
 @Transactional
-public class SemesterDAO implements ISemesterDAO{
+public class CourseDAO implements ICourseDAO {
     
-    private static final Logger logger = LogManager.getLogger(SemesterDAO.class);
+    private static final Logger logger = LogManager.getLogger(CourseDAO.class);
     
     @PersistenceContext
     private EntityManager entityManager;
     
-    public SemesterDAO() {
+    public CourseDAO() {
         
     }
 
-    public void addSemester(Semester semester) {
+    public void addCourse(Course course) {
         try {
-            entityManager.persist(semester);
+            entityManager.persist(course);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }
     }
 
-    public void deleteSemester(int id) {
+    public void deleteCourse(int id) {
         try {
-            entityManager.remove(getSemesterById(id));
+            entityManager.remove(getCourseById(id));
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }
 
     }
 
-    public void updateSemester(Semester semester) {
+    public void updateCourse(Course course) {
         try {
-            Semester foundSemester = entityManager.find(Semester.class, semester.getId());
-            foundSemester = semester;
-            entityManager.merge(foundSemester);
+            Course foundCourse = entityManager.find(Course.class, course.getId());
+            foundCourse = course;
+            entityManager.merge(foundCourse);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }
     }
 
-    public Semester getSemesterById(int id) {
+    public Course getCourseById(int id) {
 
-        Semester result = new Semester();
+        Course result = new Course();
 
-        result = entityManager.find(Semester.class, id);
+        result = entityManager.find(Course.class, id);
 
         logger.info("Found [" + result.toString() + "]" + "with id: "
                 + result.getId());
@@ -68,14 +67,14 @@ public class SemesterDAO implements ISemesterDAO{
     }
 
     @SuppressWarnings("unchecked")
-    public List<Semester> getAll() {
-        List<Semester> result = new ArrayList<Semester>();
+    public List<Course> getAll() {
+        List<Course> result = new ArrayList<Course>();
 
         try {
 
-            String hqlString = "Select semester from Semester semester";
+            String hqlString = "Select course from Course course";
             
-            result = (List<Semester>) entityManager.createQuery(hqlString).getResultList();
+            result = (List<Course>) entityManager.createQuery(hqlString).getResultList();
 
         } catch (Exception e) {
             logger.error("Rollback" + e.getMessage());
@@ -83,5 +82,4 @@ public class SemesterDAO implements ISemesterDAO{
 
         return result;
     }
-
 }
