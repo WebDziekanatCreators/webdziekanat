@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,11 +55,15 @@ public class LecturerManagedBean implements Serializable {
     private boolean isEdit;
 
     @PostConstruct
-    public void inti() {
+    public void init() {
         subjects = subjectDAO.getAll();
         for (Subjects subject : subjects) {
             checkMap.put(subject, Boolean.FALSE);
         }
+    }
+    
+    public void reload(ComponentSystemEvent event){
+        init();
     }
     
     public String processCheckbox(){
