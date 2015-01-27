@@ -48,9 +48,7 @@ public class GroupDAO implements IGroupDAO{
 
     public void updateGroup(LearningGroup group) {
         try {
-            LearningGroup foundGroup = entityManager.find(LearningGroup.class, group.getId());
-            foundGroup = group;
-            entityManager.merge(foundGroup);
+            entityManager.merge(group);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

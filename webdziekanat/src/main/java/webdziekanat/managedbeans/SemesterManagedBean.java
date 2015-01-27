@@ -9,13 +9,16 @@ import javax.faces.bean.RequestScoped;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 
+import org.springframework.stereotype.Component;
 import webdziekanat.interfaces.ISemesterDAO;
 import webdziekanat.model.Semester;
 
-@ManagedBean(name="semesterMB")
-@RequestScoped
+@Component("semesterMB")
+@Scope("request")
 public class SemesterManagedBean implements Serializable {
 
     /**
@@ -24,7 +27,7 @@ public class SemesterManagedBean implements Serializable {
     private static final long serialVersionUID = -7721007864549442424L;
     private static final Logger logger = LogManager.getLogger(SemesterManagedBean.class);
     
-    @ManagedProperty(value="#{semesterDAO}")
+    @Autowired
     ISemesterDAO semesterDAO;
     
     Semester semester = new Semester();
@@ -48,8 +51,8 @@ public class SemesterManagedBean implements Serializable {
         return "/pages/addSemester.xhtml";
     }
     
-    public String editSemester(Semester src){
-        semesterDAO.updateSemester(src);
+    public String editSemester(){
+        semesterDAO.updateSemester(semester);
         isEdit = false;
         return "/pages/success.xhtml";
     }

@@ -104,8 +104,8 @@ public class CourseManagedBean implements Serializable{
         return "/pages/courseDetails.xhtml";
     }
     
-    public String editCourse(Course src){
-        courseDAO.updateCourse(src);
+    public String editCourse(){
+        courseDAO.updateCourse(course);
         isEdit = false;
         return "/pages/success.xhtml";
     }

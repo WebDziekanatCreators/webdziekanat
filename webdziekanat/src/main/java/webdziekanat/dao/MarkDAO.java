@@ -47,9 +47,7 @@ public class MarkDAO implements IMarkDAO{
 
     public void updateMark(Mark mark) {
         try {
-            Mark foundMark = entityManager.find(Mark.class, mark.getId());
-            foundMark = mark;
-            entityManager.merge(foundMark);
+            entityManager.merge(mark);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

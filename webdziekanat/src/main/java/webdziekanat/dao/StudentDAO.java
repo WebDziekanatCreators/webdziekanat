@@ -36,7 +36,7 @@ public class StudentDAO implements IStudentDAO {
 
     public void addStudent(Student student) {
         Address existingAddress = finder.findAddress(student.getStudentAddress());
-
+        logger.info("addStudent");
         if (existingAddress != null) {
             student.setStudentAddress(existingAddress);
         }

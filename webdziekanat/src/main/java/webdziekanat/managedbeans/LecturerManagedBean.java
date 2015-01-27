@@ -111,8 +111,8 @@ public class LecturerManagedBean implements Serializable {
         return "/pages/addLecturer.xhtml";
     }
 
-    public String editLecturer(Lecturer src) {
-        lecturerDAO.updateLecturer(src);
+    public String editLecturer() {
+        lecturerDAO.updateLecturer(lecturer);
         isEdit = false;
         return "/pages/success.xhtml";
     }

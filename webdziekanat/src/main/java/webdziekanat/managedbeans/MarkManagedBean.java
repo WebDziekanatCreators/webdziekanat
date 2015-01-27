@@ -9,14 +9,17 @@ import javax.faces.bean.RequestScoped;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 
+import org.springframework.stereotype.Component;
 import webdziekanat.interfaces.IMarkDAO;
 import webdziekanat.model.Mark;
 import webdziekanat.model.Student;
 
-@ManagedBean(name="markMB")
-@RequestScoped
+@Component("markMB")
+@Scope("session")
 public class MarkManagedBean implements Serializable {
 
     /**
@@ -25,7 +28,7 @@ public class MarkManagedBean implements Serializable {
     private static final long serialVersionUID = -9209614458615343840L;
     private static final Logger logger = LogManager.getLogger(MarkManagedBean.class);
     
-    @ManagedProperty(value="#{markDAO}")
+    @Autowired
     IMarkDAO markDAO;
     
     Mark mark = new Mark();
@@ -63,8 +66,8 @@ public class MarkManagedBean implements Serializable {
         return "/pages/addMark.xhtml";
     }
     
-    public String editMark(Mark src){
-        markDAO.updateMark(src);
+    public String editMark(){
+        markDAO.updateMark(mark);
         isEdit = false;
         return "/pages/success.xhtml";
     }

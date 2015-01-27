@@ -63,9 +63,7 @@ public class LecturerDAO implements ILecturerDAO{
 
     public void updateLecturer(Lecturer lecturer) {
         try {
-            Lecturer foundLecturer = entityManager.find(Lecturer.class, lecturer.getId());
-            foundLecturer = lecturer;
-            entityManager.merge(foundLecturer);
+            entityManager.merge(lecturer);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

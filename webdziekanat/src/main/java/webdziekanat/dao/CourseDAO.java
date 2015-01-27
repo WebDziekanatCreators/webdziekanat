@@ -46,9 +46,7 @@ public class CourseDAO implements ICourseDAO {
 
     public void updateCourse(Course course) {
         try {
-            Course foundCourse = entityManager.find(Course.class, course.getId());
-            foundCourse = course;
-            entityManager.merge(foundCourse);
+            entityManager.merge(course);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

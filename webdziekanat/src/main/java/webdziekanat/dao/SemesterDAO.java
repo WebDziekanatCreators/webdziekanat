@@ -47,9 +47,7 @@ public class SemesterDAO implements ISemesterDAO{
 
     public void updateSemester(Semester semester) {
         try {
-            Semester foundSemester = entityManager.find(Semester.class, semester.getId());
-            foundSemester = semester;
-            entityManager.merge(foundSemester);
+            entityManager.merge(semester);
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }

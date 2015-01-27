@@ -92,8 +92,8 @@ public class GroupManagedBean implements Serializable {
         return "/pages/addGroup.xhtml";
     }
     
-    public String editGroup(LearningGroup src){
-        groupDAO.updateGroup(src);
+    public String editGroup(){
+        groupDAO.updateGroup(group);
         isEdit = false;
         return "/pages/success.xhtml";
     }
