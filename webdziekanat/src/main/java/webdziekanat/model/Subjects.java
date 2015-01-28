@@ -27,8 +27,8 @@ public class Subjects {
     private int ects;
 
     @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    @JoinTable(name = "subjects_lecturers", joinColumns = @JoinColumn(name = "lecturer_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    @JoinTable(name = "subjects_lecturers", joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "lecturer_id"))
     private Set<Lecturer> lecturers;
 
     public Subjects() {

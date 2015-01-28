@@ -59,10 +59,12 @@ public class LecturerManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         subjects = subjectDAO.getAll();
+        checkMap = new HashMap<Subjects, Boolean>();
         for (Subjects subject : subjects) {
             checkMap.put(subject, Boolean.FALSE);
         }
         if(isEdit){
+            checkDeleteMap = new HashMap<Subjects, Boolean>();
             for(Subjects subject : lecturer.getSubjects()){
                 checkDeleteMap.put(subject, Boolean.FALSE);
             }

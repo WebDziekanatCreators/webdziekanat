@@ -108,6 +108,7 @@ public class LecturerDAO implements ILecturerDAO{
     @Override
     public void addLecturerToSubjects(Lecturer lecturer, Set<Subjects> subs) {
         Lecturer lect = finder.findLecturer(lecturer);
+        logger.info("addLecturerToSubjects() - " + lect.getId());
         for(Subjects subject : subs){
             try{
                 subject.getLecturers().add(lect);
