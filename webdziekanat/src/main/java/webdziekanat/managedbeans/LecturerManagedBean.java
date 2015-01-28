@@ -109,7 +109,7 @@ public class LecturerManagedBean implements Serializable {
             Lecturer lecturerNew = new Lecturer(lecturer);
             lecturerDAO.addLecturer(lecturerNew);
             isAdd = false;
-            return "/success.xhtml";
+            return "/addLecturer.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Lecturer: " + e.getMessage());
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class LecturerManagedBean implements Serializable {
     public String deleteLecturer(Lecturer src) {
         logger.info(src.toString());
         if (lecturerDAO.deleteLecturer(src.getId())) {
-            return "/pages/success.xhtml";
+            return "/pages/lecturers.xhtml";
         }
         return "";
     }
@@ -154,7 +154,7 @@ public class LecturerManagedBean implements Serializable {
 
         lecturerDAO.updateLecturer(lecturer);
         isEdit = false;
-        return "/pages/success.xhtml";
+        return "/pages/addLecturer.xhtml";
     }
 
     public String addSubjects(Lecturer src) {

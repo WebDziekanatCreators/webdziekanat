@@ -16,7 +16,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import webdziekanat.interfaces.ICourseDAO;
+import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Course;
+import webdziekanat.model.Student;
+import webdziekanat.model.Subjects;
 
 @Component("courseMB")
 @Scope("application")
@@ -32,6 +35,9 @@ public class CourseManagedBean implements Serializable{
     @Autowired
     ICourseDAO courseDAO;
     
+    @Autowired
+    IStudentDAO studentDAO;
+    
     Course course = new Course();
     
     List<Course> courses;
@@ -43,6 +49,7 @@ public class CourseManagedBean implements Serializable{
     Map<String, String> startTerms;
     String startTerm;
     
+    private List<Student> filteredStudents;
     
     public String startAdd(){
         course = new Course();
@@ -59,7 +66,7 @@ public class CourseManagedBean implements Serializable{
             Course courseNew = new Course(course);
             courseDAO.addCourse(courseNew);
             isAdd = false;
-            return "/courses.xhtml";
+            return "/pages/courses.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Course: " + e.getMessage());
             e.printStackTrace();
@@ -101,13 +108,14 @@ public class CourseManagedBean implements Serializable{
 
     public String showDetails(Course src){
         course = src;
+        //course.getStudents().addAll(studentDAO.getAllForCourse(src));
         return "/pages/courseDetails.xhtml";
     }
     
     public String editCourse(){
         courseDAO.updateCourse(course);
         isEdit = false;
-        return "/pages/success.xhtml";
+        return "/pages/courses.xhtml";
     }
     
     public Course getCourse() {
@@ -154,6 +162,22 @@ public class CourseManagedBean implements Serializable{
     public void reload(ComponentSystemEvent event){
         courses = new ArrayList<Course>();
         courses.addAll(courseDAO.getAll());
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public List<Student> getFilteredStudents() {
+        return filteredStudents;
+    }
+
+    public void setFilteredStudents(List<Student> filteredStudents) {
+        this.filteredStudents = filteredStudents;
     }
     
 }

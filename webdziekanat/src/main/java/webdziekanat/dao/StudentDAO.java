@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +45,7 @@ public class StudentDAO implements IStudentDAO {
         }
 
         try {
-            if(student.getCourses().isEmpty()){
+            if(student.getCourses() == null || student.getCourses().isEmpty()){
                 entityManager.persist(student);
             } else {
                 Set<Course> temp = student.getCourses();
@@ -105,6 +106,18 @@ public class StudentDAO implements IStudentDAO {
     public List<Student> getAll() {
         List<Student> result = new ArrayList<Student>();
         String hqlString = "Select student from Student student";
+        result = (List<Student>) entityManager.createQuery(hqlString).getResultList();
+        return result;
+    }
+    
+    public List<Student> getAllForCourse(Course course){
+        List<Student> result = new ArrayList<Student>();
+        
+        
+      /*  result = entityManager.createQuery( "select a from Student a inner join course_students cs on a.id=cs.student_id "
+                + "where cs.course_id=" + course.getId(), Student.class ).getResultList();
+*/
+        String hqlString = "select a.students from Course a where a.id=" + course.getId();
         result = (List<Student>) entityManager.createQuery(hqlString).getResultList();
         return result;
     }

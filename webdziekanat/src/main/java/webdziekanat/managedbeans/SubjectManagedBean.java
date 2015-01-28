@@ -53,7 +53,7 @@ public class SubjectManagedBean implements Serializable {
             Subjects subjectNew = new Subjects(subject);
             subjectDAO.addSubject(subjectNew);
             isAdd = false;
-            return "/pages/success.xhtml";
+            return "/pages/subjects.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Subject: " + e.getMessage());
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class SubjectManagedBean implements Serializable {
     public String deleteSubject(Subjects src) {
         logger.info(src.toString());
         if (subjectDAO.deleteSubject(src.getId())) {
-            return "/pages/success.xhtml";
+            return "/pages/subjects.xhtml";
         }
         return "";
     }

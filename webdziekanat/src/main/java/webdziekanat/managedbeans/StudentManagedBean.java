@@ -78,25 +78,15 @@ public class StudentManagedBean implements Serializable {
     }
     
     public String addStudent() {
-        List<Course> test = new ArrayList<Course>();
-        for (Entry<Course, Boolean> entry : checkMap.entrySet()) {
-            test.add(entry.getKey());
-        }
-        for(Course cr : test){
-            Course k = cr;
-        }
         try {
-            Set<Course> result = new HashSet<Course>();
-            Student studentNew = new Student(student);
             for (Entry<Course, Boolean> entry : checkMap.entrySet()) {
                 if(entry.getValue()){
-                    result.add(entry.getKey());
                     student.addCourse(entry.getKey());
                 }
             }
             studentDAO.addStudent(student);
             isAdd = false;
-            return "/pages/success.xhtml";
+            return "/pages/students.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Student: " + e.getMessage());
             e.printStackTrace();
@@ -107,7 +97,7 @@ public class StudentManagedBean implements Serializable {
     public String deleteStudent(Student src) {
         logger.info(src.toString());
         if (studentDAO.deleteStudent(src.getId())) {
-            return "/pages/success.xhtml";
+            return "/pages/addStudent.xhtml";
         }
         return "";
     }
@@ -122,7 +112,7 @@ public class StudentManagedBean implements Serializable {
     public String editStudent(){
         studentDAO.updateStudent(student);
         isEdit = false;
-        return "/pages/success.xhtml";
+        return "/pages/addStudent.xhtml";
     }
     
     public List<Student> getList() {

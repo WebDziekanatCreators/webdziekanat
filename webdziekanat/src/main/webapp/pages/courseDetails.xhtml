@@ -42,6 +42,34 @@
                         </h:form>
                     </div>
                 </div>
+                <div class="row">
+                <p:dataTable var="student" value="#{courseMB.course.students}" widgetVar="studentsTable"
+                        emptyMessage="No students found with given criteria"
+                        filteredValue="#{courseMB.filteredStudents}">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()"
+                                    style="width:150px" placeholder="Enter keyword" />
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column filterBy="#{student.id}" headerText="Id" footerText="contains"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{student.id}" />
+                        </p:column>
+
+                        <p:column filterBy="#{student.name}" headerText="Name" footerText="contains"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{student.name}" />
+                        </p:column>
+                        <p:column filterBy="#{student.lastName}" headerText="Last Name" footerText="contains"
+                            filterMatchMode="contains">
+                            <h:outputText value="#{student.lastName}" />
+                        </p:column>
+                    </p:dataTable>
+                    </div>
             </ui:define>
   
         </ui:composition>

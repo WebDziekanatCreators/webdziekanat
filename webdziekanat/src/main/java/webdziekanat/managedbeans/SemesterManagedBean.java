@@ -54,7 +54,7 @@ public class SemesterManagedBean implements Serializable {
     public String editSemester(){
         semesterDAO.updateSemester(semester);
         isEdit = false;
-        return "/pages/success.xhtml";
+        return "/pages/semesters.xhtml";
     }
 
     public String addSemester(){
@@ -63,7 +63,7 @@ public class SemesterManagedBean implements Serializable {
             Semester semesterNew = new Semester(semester);
             semesterDAO.addSemester(semesterNew);
             isAdd = false;
-            return "/success.xhtml";
+            return "/addSemester.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Semester: " + e.getMessage());
             e.printStackTrace();

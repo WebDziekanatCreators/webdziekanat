@@ -10,7 +10,7 @@
             <div class="col-lg-12">
                 <p:outputLabel value="Personal data" />
                 <h:form>
-                    <h:outputText value="USERS : "></h:outputText>
+                    <h:outputText value="STUDENTS : "></h:outputText>
                     <p:dataTable id="students" var="student" value="#{studentMB.list}">
                         <p:column>
                             <f:facet name="header">
@@ -29,6 +29,12 @@
                                 <h:outputText value="Index" />
                             </f:facet>
                             <h:outputText value="#{student.studentNumber}" />
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Courses" />
+                            </f:facet>
+                            <h:outputText value="#{student.courses.size()}" />
                         </p:column>
                         <p:column>
                             <h:commandButton value="Delete" action="#{studentMB.deleteStudent(student)}"></h:commandButton>
