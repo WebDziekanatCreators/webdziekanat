@@ -34,7 +34,6 @@ public class LecturerManagedBean implements Serializable {
     private static final long serialVersionUID = -4741255386760250882L;
     private static final Logger logger = LogManager.getLogger(LecturerManagedBean.class);
 
-    // @ManagedProperty(value="#{lecturerDAO}")
     @Autowired
     private ILecturerDAO lecturerDAO;
 
