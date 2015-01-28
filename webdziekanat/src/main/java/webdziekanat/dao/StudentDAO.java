@@ -1,14 +1,15 @@
 package webdziekanat.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Address;
+import webdziekanat.model.Course;
 import webdziekanat.model.Student;
 
 @Component
@@ -42,10 +44,30 @@ public class StudentDAO implements IStudentDAO {
         }
 
         try {
-            entityManager.persist(student);
+            if(student.getCourses().isEmpty()){
+                entityManager.persist(student);
+            } else {
+                Set<Course> temp = student.getCourses();
+                student.setCourse(new HashSet<Course>());
+                entityManager.persist(student);
+                addStudentToCourses(student, temp);
+            }
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }
+    }
+
+    private void addStudentToCourses(Student student, Set<Course> crs) {
+        Student stud = finder.findStudent(student);
+        for(Course course : crs){
+            try{
+                course.getStudents().add(stud);
+                entityManager.merge(course);
+            } catch (Exception e){
+                logger.error("Rollback addStudentToCourses() - " + e.getMessage());
+            }
+        }
+        
     }
 
     public boolean deleteStudent(int id) {

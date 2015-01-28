@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.model.Course;
+import webdziekanat.model.Subjects;
 
 @Component
 @Transactional
@@ -67,8 +68,9 @@ public class CourseDAO implements ICourseDAO {
     @SuppressWarnings("unchecked")
     public List<Course> getAll() {
         List<Course> result = new ArrayList<Course>();
-
-        try {
+        String hqlString = "Select course from Course course";
+        result = (List<Course>) entityManager.createQuery(hqlString).getResultList();
+        /*try {
 
             String hqlString = "Select course from Course course";
             
@@ -76,7 +78,7 @@ public class CourseDAO implements ICourseDAO {
 
         } catch (Exception e) {
             logger.error("Rollback" + e.getMessage());
-        }
+        }*/
 
         return result;
     }

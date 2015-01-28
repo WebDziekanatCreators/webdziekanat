@@ -28,9 +28,9 @@ public class Course {
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<LearningGroup> groups;
     
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students;
 
     public Course(){

@@ -43,6 +43,7 @@ public class Student {
     }
     
     public Student(Student student) {
+        this.id = student.getId();
         this.name = student.getName();
         this.lastName = student.getLastName();
         this.studentNumber = student.getStudentNumber();
@@ -106,6 +107,13 @@ public class Student {
 
     public void setCourse(Set<Course> courses) {
         this.courses = courses;
+    }
+    
+    public void addCourse(Course course){
+        if(courses == null){
+            courses = new HashSet<Course>();
+        }
+        courses.add(course);
     }
 
     

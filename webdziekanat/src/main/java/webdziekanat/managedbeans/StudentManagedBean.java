@@ -27,7 +27,7 @@ import webdziekanat.model.Course;
 import webdziekanat.model.Student;
 
 @Component("studentMB")
-@Scope("session")
+@Scope("application")
 public class StudentManagedBean implements Serializable {
 
     /**
@@ -61,6 +61,7 @@ public class StudentManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         courses = courseDAO.getAll();
+        checkMap = new HashMap<Course, Boolean>();
         for (Course course : courses) {
             checkMap.put(course, Boolean.FALSE);
         }
@@ -77,17 +78,23 @@ public class StudentManagedBean implements Serializable {
     }
     
     public String addStudent() {
-
+        List<Course> test = new ArrayList<Course>();
+        for (Entry<Course, Boolean> entry : checkMap.entrySet()) {
+            test.add(entry.getKey());
+        }
+        for(Course cr : test){
+            Course k = cr;
+        }
         try {
             Set<Course> result = new HashSet<Course>();
+            Student studentNew = new Student(student);
             for (Entry<Course, Boolean> entry : checkMap.entrySet()) {
                 if(entry.getValue()){
                     result.add(entry.getKey());
+                    student.addCourse(entry.getKey());
                 }
             }
-            student.setCourse(result);
-            Student studentNew = new Student(student);
-            studentDAO.addStudent(studentNew);
+            studentDAO.addStudent(student);
             isAdd = false;
             return "/pages/success.xhtml";
         } catch (DataAccessException e) {
