@@ -30,9 +30,16 @@ public class Subjects {
     @JoinTable(name = "subjects_lecturers", joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "lecturer_id"))
     private Set<Lecturer> lecturers;
+    
+
+    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(name = "subjects_terms", joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "term_id"))
+    private Set<Term> terms;
 
     public Subjects() {
         this.lecturers = new HashSet<Lecturer>();
+        this.terms = new HashSet<Term>();
     }
 
     public Subjects(Subjects subject) {
@@ -40,6 +47,7 @@ public class Subjects {
         this.ects = subject.ects;
         this.name = subject.name;
         this.lecturers = subject.lecturers;
+        this.terms = subject.getTerms();
     }
 
     public int getId() {
@@ -72,6 +80,14 @@ public class Subjects {
 
     public void setLecturers(Set<Lecturer> lecturers) {
         this.lecturers = lecturers;
+    }
+
+    public Set<Term> getTerms() {
+        return terms;
+    }
+
+    public void setTerms(Set<Term> terms) {
+        this.terms = terms;
     }
 
 }

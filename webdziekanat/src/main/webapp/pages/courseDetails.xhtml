@@ -15,68 +15,89 @@
                 <div class="row">
                      <h:outputText value="#{courseMB.course.name}" />
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p:outputLabel value="Groups" />
-                        <h:form>
-                            <p:dataTable id="groups" var="group" value="#{courseMB.course.groups}">
-                                <p:column>
+                    <p:accordionPanel multiple="true">
+                        <p:tab title="Groups">
+                            <p:outputLabel value="Groups" />
+                            <h:form>
+                                <p:dataTable id="groups" var="group" value="#{courseMB.course.groups}">
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Group Number" />
+                                        </f:facet>
+                                        <h:outputText value="#{group.groupNumber}" />
+                                    </p:column>        
+                                    <p:column>
+                                        <h:commandButton value="Delete" action="#{groupMB.deleteGroup(group)}"></h:commandButton>
+                                    </p:column>
+                                    <p:column>
+                                        <h:commandButton value="Edit" action="#{groupMB.startEdit(group)}"></h:commandButton>
+                                    </p:column>
+                                    <p:column>
+                                        <h:commandButton value="Show students" action="#{groupMB.showDetails(group)}"></h:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                            <h:form>
+                                <p>Create groups:</p> 
+                                <h:outputLabel for="studentsInGroup" value="Number of students in group: " />
+                                <h:inputText id="studentsInGroup" value="#{courseMB.studentsInGroup}">
+                                    <f:validateLength minimum="1" maximum="2" />
+                                </h:inputText>
+                                <h:commandButton value="Create Groups" action="#{courseMB.createGroups}"></h:commandButton>
+                            </h:form>
+                    </p:tab>
+                        <p:tab title="Students">
+                            <h:form>
+                            <p:dataTable var="student" value="#{courseMB.course.students}" widgetVar="studentsTable"
+                                    emptyMessage="No students found with given criteria"
+                                    filteredValue="#{courseMB.filteredStudents}">
+            
                                     <f:facet name="header">
-                                        <h:outputText value="Group Number" />
+                                        <p:outputPanel>
+                                            <h:outputText value="Search all fields:" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()"
+                                                style="width:150px" placeholder="Enter keyword" />
+                                        </p:outputPanel>
                                     </f:facet>
-                                    <h:outputText value="#{group.groupNumber}" />
-                                </p:column>        
-                                <p:column>
-                                    <h:commandButton value="Delete" action="#{groupMB.deleteGroup(group)}"></h:commandButton>
-                                </p:column>
-                                <p:column>
-                                    <h:commandButton value="Edit" action="#{groupMB.startEdit(group)}"></h:commandButton>
-                                </p:column>
-                                <p:column>
-                                    <h:commandButton value="Show students" action="#{groupMB.showDetails(group)}"></h:commandButton>
-                                </p:column>
-                            </p:dataTable>
-                        </h:form>
-                        <h:form>
-                            <p>Create groups:</p> 
-                            <h:outputLabel for="studentsInGroup" value="Number of students in group: " />
-                            <h:inputText id="studentsInGroup" value="#{courseMB.studentsInGroup}">
-                                <f:validateLength minimum="1" maximum="2" />
-                            </h:inputText>
-                            <h:commandButton value="Create Groups" action="#{courseMB.createGroups}"></h:commandButton>
-                        </h:form>
-                    </div>
-                </div>
-                <div class="row">
-                <h:form>
-                <p:dataTable var="student" value="#{courseMB.course.students}" widgetVar="studentsTable"
-                        emptyMessage="No students found with given criteria"
-                        filteredValue="#{courseMB.filteredStudents}">
-
-                        <f:facet name="header">
-                            <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()"
-                                    style="width:150px" placeholder="Enter keyword" />
-                            </p:outputPanel>
-                        </f:facet>
-
-                        <p:column filterBy="#{student.id}" headerText="Id" footerText="contains"
-                            filterMatchMode="contains" onkeyup="PF('studentsTable').filter()">
-                            <h:outputText value="#{student.id}" />
-                        </p:column>
-
-                        <p:column filterBy="#{student.name}" headerText="Name" footerText="contains"
-                            filterMatchMode="contains">
-                            <h:outputText value="#{student.name}" />
-                        </p:column>
-                        <p:column filterBy="#{student.lastName}" headerText="Last Name" footerText="contains"
-                            filterMatchMode="contains">
-                            <h:outputText value="#{student.lastName}" />
-                        </p:column>
-                    </p:dataTable>
-                    </h:form>
-                    </div>
+            
+                                    <p:column filterBy="#{student.id}" headerText="Id" footerText="contains"
+                                        filterMatchMode="contains" onkeyup="PF('studentsTable').filter()">
+                                        <h:outputText value="#{student.id}" />
+                                    </p:column>
+            
+                                    <p:column filterBy="#{student.name}" headerText="Name" footerText="contains"
+                                        filterMatchMode="contains">
+                                        <h:outputText value="#{student.name}" />
+                                    </p:column>
+                                    <p:column filterBy="#{student.lastName}" headerText="Last Name" footerText="contains"
+                                        filterMatchMode="contains">
+                                        <h:outputText value="#{student.lastName}" />
+                                    </p:column>
+                                </p:dataTable>
+                                </h:form>
+                        	</p:tab>
+                        <p:tab title="Terms">
+                            <h:form>
+                                <p:dataTable id="terms" var="term" value="#{courseMB.course.terms}">
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Term Number" />
+                                        </f:facet>
+                                        <h:outputText value="#{term.number}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Subjects count" />
+                                        </f:facet>
+                                        <h:outputText value="#{term.subjects.size()}" />
+                                    </p:column>
+                                    <p:column>
+                                        <h:commandButton value="Details" action="#{termMB.showDetails(term)}" ></h:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </p:tab>
+                     </p:accordionPanel>
             </ui:define>
   
         </ui:composition>

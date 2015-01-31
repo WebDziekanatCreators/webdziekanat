@@ -33,18 +33,29 @@ public class Course {
     @JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students;
+    
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_id")
+    private Set<Term> terms;
+    
+    private boolean isActive;
 
     public Course(){
         this.groups = new HashSet<LearningGroup>();
         this.students = new HashSet<Student>();
+        this.terms = new HashSet<Term>();
+        isActive = true;
     }
     
     public Course(Course course) {
         this.id = course.id;
-        this.startSemester = course.startSemester;
-        this.name = course.name;
-        this.groups = course.groups;
-        this.students = course.students;
+        this.startSemester = course.getStartSemester();
+        this.name = course.getName();
+        this.groups = course.getGroups();
+        this.students = course.getStudents();
+        this.terms = course.getTerms();
+        this.isActive = course.isActive();
     }
     
     public int getId() {
@@ -85,6 +96,22 @@ public class Course {
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    public Set<Term> getTerms() {
+        return terms;
+    }
+
+    public void setTerms(Set<Term> terms) {
+        this.terms = terms;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
 }
