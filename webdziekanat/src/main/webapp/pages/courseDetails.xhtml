@@ -10,9 +10,8 @@
     <h:body>
  
         <ui:composition template="commonLayout.xhtml">
-            <f:event listener="#{courseMB.detailsReload}" type="preRenderView" />
- 
             <ui:define name="content">
+            <f:event listener="#{courseMB.detailsReload}" type="preRenderView" />
                 <div class="row">
                      <h:outputText value="#{courseMB.course.name}" />
                 </div>
@@ -39,7 +38,12 @@
                             </p:dataTable>
                         </h:form>
                         <h:form>
-                            <h:commandButton value="Add New Group" action="#{groupMB.addNewGroup(courseMB.course)}"></h:commandButton>
+                            <p>Create groups:</p> 
+                            <h:outputLabel for="studentsInGroup" value="Number of students in group: " />
+                            <h:inputText id="studentsInGroup" value="#{courseMB.studentsInGroup}">
+                                <f:validateLength minimum="1" maximum="2" />
+                            </h:inputText>
+                            <h:commandButton value="Create Groups" action="#{courseMB.createGroups}"></h:commandButton>
                         </h:form>
                     </div>
                 </div>

@@ -25,7 +25,8 @@ public class Course {
     
     private String name;
 
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_id")
     private Set<LearningGroup> groups;
     
     @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)

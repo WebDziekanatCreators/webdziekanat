@@ -3,8 +3,10 @@ package webdziekanat.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -18,10 +20,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import com.mchange.v2.c3p0.stmt.GooGooStatementCache;
+
 import webdziekanat.Resources.Messages;
 import webdziekanat.interfaces.ICourseDAO;
+import webdziekanat.interfaces.IGroupDAO;
 import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Course;
+import webdziekanat.model.LearningGroup;
 import webdziekanat.model.Student;
 
 @Component("courseMB")
@@ -41,6 +47,9 @@ public class CourseManagedBean implements Serializable{
     @Autowired
     IStudentDAO studentDAO;
     
+    @Autowired
+    IGroupDAO groupDAO;
+    
     Course course = new Course();
     
     List<Course> courses;
@@ -54,6 +63,8 @@ public class CourseManagedBean implements Serializable{
     
     private List<Student> filteredStudents = new ArrayList<Student>();
     
+    int studentsInGroup = 0;
+    
     @PostConstruct
     public void init() {
         courses = new ArrayList<Course>();
@@ -63,6 +74,10 @@ public class CourseManagedBean implements Serializable{
     
     public void reload(ComponentSystemEvent event){
         init();
+    }
+    
+    public void detailsReload(ComponentSystemEvent event){
+        showDetails(course);
     }
         
     public String startAdd(){
@@ -135,6 +150,41 @@ public class CourseManagedBean implements Serializable{
         return "/pages/courses.xhtml";
     }
     
+    public String createGroups(){
+        int groupNumber = course.getGroups().size() + 1;
+        Set<Student> studentsForGroupSet = new HashSet<Student>();
+        for (Student student : course.getStudents()) {
+            if(student.getGroup() != null)
+                continue;
+            studentsForGroupSet.add(student);
+            if(studentsForGroupSet.size() < studentsInGroup)
+                continue;
+            else{
+                addGroupForCourse(groupNumber, studentsForGroupSet);
+                groupNumber++;
+                studentsForGroupSet = new HashSet<Student>();
+            }
+        }
+        if(studentsForGroupSet.size() > 0){
+            addGroupForCourse(groupNumber, studentsForGroupSet);
+        }
+        courseDAO.updateCourse(course);
+        return "/pages/courseDetails.xhtml";
+    }
+    
+    private void addGroupForCourse(int groupNumber, Set<Student> studentsForGroup){
+        LearningGroup group = new LearningGroup();
+        group.setGroupNumber(groupNumber);
+        group.setStudents(studentsForGroup);
+        group.setCourse(course);
+        groupDAO.addGroup(group);
+        for(Student student : studentsForGroup){
+            student.setGroup(group);
+            studentDAO.updateStudent(student);
+        }
+        course.getGroups().add(group);
+    }
+    
     public Course getCourse() {
         return course;
     }
@@ -190,6 +240,14 @@ public class CourseManagedBean implements Serializable{
 
     public void setFilteredStudents(List<Student> filteredStudents) {
         this.filteredStudents = filteredStudents;
+    }
+
+    public int getStudentsInGroup() {
+        return studentsInGroup;
+    }
+
+    public void setStudentsInGroup(int studentsInGroup) {
+        this.studentsInGroup = studentsInGroup;
     }
     
 }

@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -30,6 +31,10 @@ public class Student {
 
     @ManyToOne(cascade=CascadeType.PERSIST)
     private Address studentAddress;
+    
+    @ManyToOne
+    @JoinColumn(name="group_id")
+    private LearningGroup group;
     
     @OneToMany(cascade=CascadeType.PERSIST)
     private Set<Semester> semesters;
@@ -114,6 +119,18 @@ public class Student {
             courses = new HashSet<Course>();
         }
         courses.add(course);
+    }
+
+    public LearningGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(LearningGroup group) {
+        this.group = group;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     

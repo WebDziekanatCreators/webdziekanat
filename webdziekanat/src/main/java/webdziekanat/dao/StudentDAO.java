@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +18,7 @@ import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Address;
 import webdziekanat.model.Course;
+import webdziekanat.model.LearningGroup;
 import webdziekanat.model.Student;
 
 @Component
@@ -70,7 +70,7 @@ public class StudentDAO implements IStudentDAO {
         }
         
     }
-
+    
     public boolean deleteStudent(int id) {
         try {
             entityManager.remove(getStudentById(id));
