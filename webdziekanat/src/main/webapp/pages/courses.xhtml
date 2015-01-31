@@ -36,12 +36,12 @@
                                     <h:commandButton value="Edit" action="#{courseMB.startEdit(course)}"></h:commandButton>
                                 </p:column>
                                 <p:column>
-                                    <h:commandButton value="Details" action="#{courseMB.showDetails(course)}"></h:commandButton>
+                                    <h:commandButton value="Details" action="#{courseMB.showDetails(course)}" ></h:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </h:form>
                         <h:form>
-                            <h:commandButton value="Add New Course" action="#{courseMB.startAdd()}"></h:commandButton>
+                            <h:commandButton value="Add New Course" type="submit" action="#{courseMB.startAdd()}"></h:commandButton>
                         </h:form>
                     </div>
                 </div>

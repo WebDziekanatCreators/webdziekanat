@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,11 +18,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import webdziekanat.Resources.Messages;
 import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.model.Course;
 import webdziekanat.model.Student;
-import webdziekanat.model.Subjects;
 
 @Component("courseMB")
 @Scope("application")
@@ -49,8 +52,19 @@ public class CourseManagedBean implements Serializable{
     Map<String, String> startTerms;
     String startTerm;
     
-    private List<Student> filteredStudents;
+    private List<Student> filteredStudents = new ArrayList<Student>();
     
+    @PostConstruct
+    public void init() {
+        courses = new ArrayList<Course>();
+        courses.addAll(courseDAO.getAll());
+        
+    }
+    
+    public void reload(ComponentSystemEvent event){
+        init();
+    }
+        
     public String startAdd(){
         course = new Course();
         isAdd = true;
@@ -66,11 +80,13 @@ public class CourseManagedBean implements Serializable{
             Course courseNew = new Course(course);
             courseDAO.addCourse(courseNew);
             isAdd = false;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addCourseSuccess) );
             return "/pages/courses.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Course: " + e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", Messages.addCourseFailure));
             e.printStackTrace();
-            return "/error.xhtml"; 
+            return "/pages/courses.xhtml"; 
         }
     }
     
@@ -107,8 +123,9 @@ public class CourseManagedBean implements Serializable{
     }
 
     public String showDetails(Course src){
+        List<Student> tempStudents = new ArrayList<Student>();
+        tempStudents.addAll(src.getStudents());
         course = src;
-        //course.getStudents().addAll(studentDAO.getAllForCourse(src));
         return "/pages/courseDetails.xhtml";
     }
     
@@ -157,11 +174,6 @@ public class CourseManagedBean implements Serializable{
 
     public void setStartTerm(String startTerm) {
         this.startTerm = startTerm;
-    }
-
-    public void reload(ComponentSystemEvent event){
-        courses = new ArrayList<Course>();
-        courses.addAll(courseDAO.getAll());
     }
 
     public List<Course> getCourses() {

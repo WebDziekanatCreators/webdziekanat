@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
       >
     <h:head>
     <h:outputStylesheet name="common-style.css" library="css" />
@@ -33,6 +34,7 @@
         
         <div id="wrap">
             <div id="main" class="container clear-top">
+                <p:growl id="growl" showDetail="true" sticky="true" style="z-index: 2000000000000" />
                 <ui:insert name="content" >
                   <ui:include src="template/content.xhtml" />
                 </ui:insert>

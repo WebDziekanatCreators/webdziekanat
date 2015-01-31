@@ -84,37 +84,37 @@
                                 </p:inputText> <p:message id="countryMsg" for="country" display="icon" /></td>
                         </tr>
                     </table>
-                    
-                    <p:dataTable var="course" value="#{studentMB.courses}" widgetVar="coursesTable"
-                        emptyMessage="No courses found with given criteria"
-                        filteredValue="#{studentMB.filteredCourses}">
 
-                        <f:facet name="header">
-                            <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()"
-                                    style="width:150px" placeholder="Enter keyword" />
-                            </p:outputPanel>
-                        </f:facet>
-
-                        <p:column filterBy="#{course.id}" headerText="Id" footerText="contains"
-                            filterMatchMode="contains">
-                            <h:outputText value="#{course.id}" />
-                        </p:column>
-
-                        <p:column filterBy="#{course.name}" headerText="Name" footerText="contains"
-                            filterMatchMode="contains">
-                            <h:outputText value="#{course.name}" />
-                        </p:column>
-
-                        <p:column filterBy="#{course.startSemester}" headerText="Start semester" footerText="contains"
-                            filterMatchMode="contains">
-                            <h:outputText value="#{course.startSemester}" />
-                        </p:column>
-                        <p:column headerText="Add?" footerText="marked">
-                            <h:selectBooleanCheckbox value="#{studentMB.checkMap[course]}" />
-                        </p:column>
-                    </p:dataTable>
+                        <p:dataTable var="course" value="#{studentMB.courses}" widgetVar="coursesTable"
+                            emptyMessage="No courses found with given criteria"
+                            filteredValue="#{studentMB.filteredCourses}">
+    
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search all fields:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()"
+                                        style="width:150px" placeholder="Enter keyword" />
+                                </p:outputPanel>
+                            </f:facet>
+    
+                            <p:column filterBy="#{course.id}" headerText="Id" footerText="contains"
+                                filterMatchMode="contains">
+                                <h:outputText value="#{course.id}" />
+                            </p:column>
+    
+                            <p:column filterBy="#{course.name}" headerText="Name" footerText="contains"
+                                filterMatchMode="contains">
+                                <h:outputText value="#{course.name}" />
+                            </p:column>
+    
+                            <p:column filterBy="#{course.startSemester}" headerText="Start semester" footerText="contains"
+                                filterMatchMode="contains">
+                                <h:outputText value="#{course.startSemester}" />
+                            </p:column>
+                            <p:column headerText="Add?" footerText="marked">
+                                <h:selectBooleanCheckbox value="#{studentMB.checkMap[course]}" />
+                            </p:column>
+                        </p:dataTable>
 
                     <p:commandButton id="editUser" value="Edit"
                                     action="#{studentMB.editStudent()}" ajax="false" rendered="#{studentMB.edit}" />

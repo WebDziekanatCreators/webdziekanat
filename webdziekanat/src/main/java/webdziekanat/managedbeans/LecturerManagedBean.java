@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import webdziekanat.Resources.Messages;
 import webdziekanat.interfaces.ILecturerDAO;
 import webdziekanat.interfaces.ISubjectDAO;
 import webdziekanat.model.Lecturer;
@@ -108,11 +111,13 @@ public class LecturerManagedBean implements Serializable {
             Lecturer lecturerNew = new Lecturer(lecturer);
             lecturerDAO.addLecturer(lecturerNew);
             isAdd = false;
-            return "/addLecturer.xhtml";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addLecturerSuccess) );
+            return "/pages/lecturers.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Lecturer: " + e.getMessage());
             e.printStackTrace();
-            return "/error.xhtml";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", Messages.addLecturerFailure));
+            return "/pages/lecturers.xhtml";
         }
     }
 

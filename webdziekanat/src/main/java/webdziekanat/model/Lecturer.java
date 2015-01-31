@@ -35,7 +35,7 @@ public class Lecturer {
     
     private String mail;
     
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="lecturers", fetch=FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="lecturers", fetch = FetchType.EAGER)
     private Set<Subjects> subjects;
 
     public int getId() {

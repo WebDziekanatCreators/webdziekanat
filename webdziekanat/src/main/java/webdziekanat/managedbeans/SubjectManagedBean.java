@@ -4,15 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
+import webdziekanat.Resources.Messages;
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ISubjectDAO;
 import webdziekanat.model.Subjects;
@@ -53,11 +56,13 @@ public class SubjectManagedBean implements Serializable {
             Subjects subjectNew = new Subjects(subject);
             subjectDAO.addSubject(subjectNew);
             isAdd = false;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addSubjectsSuccess) );
             return "/pages/subjects.xhtml";
         } catch (DataAccessException e) {
             logger.error("Error while adding new Subject: " + e.getMessage());
             e.printStackTrace();
-            return "/pages/error.xhtml";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", Messages.addSubjectsFailure));
+            return "/pages/subjects.xhtml";
         }
     }
     
