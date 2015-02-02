@@ -132,7 +132,7 @@
                     <p:outputLabel value="Assign lecturer" />
                     <h:form>
                         <h3 style="margin-top: 0">Basic PickList</h3>
-                        <p:pickList id="pickList" value="#{termMB.lecturers}" var="lecturer" itemLabel="#{lecturer.lastName}" itemValue="#{lecturer}" />
+                        <p:pickList id="pickList" value="#{termMB.lecturers}" var="lecturer" itemLabel="#{lecturer.lastName}" itemValue="#{lecturer}" converter="PickListConverter"/>
                      
                         <p:commandButton id="assignLecturers" value="Assign selected Lecturers" action="#{termMB.assignLecturers()}"
                             ajax="false" />

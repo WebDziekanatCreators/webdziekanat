@@ -145,11 +145,9 @@ public class TermManagedBean implements Serializable {
     
     public void assignLecturers(){
         List<Lecturer> result = new ArrayList<Lecturer>();
-        // Tutaj chcia³bym do result przypisaæ lecturers.getTarget() tak, ¿eby w result rzeczywiœcie by³y lecturery a nie stringi.
-        // Oczywiœcie przypisanie takie : result.addAll(lecturers.getTarget()); sprawia, ¿e sts nie krzyczy, ale potem siê wykrzacza na interowaniu i mówi, ¿e nie mo¿e zrobiæ casta ze stringa na Lecturera
-        // Tutaj poruszaj¹ ten problem: http://stackoverflow.com/questions/12069526/picklist-primefaces-how-to-get-data-from-target-list
-        // Teoretycznie podanie info jaki to konwerter powinno byæ w courseDetails.xhtml; tam linie 130-140 to jest ten pickList
-        // Dokumentacja picklist z primefaces: http://www.primefaces.org/showcase/ui/data/pickList.xhtml
+
+        result = lecturers.getTarget();
+
         for(Lecturer lecturer : result){
             term.getLecturers().add(lecturer);
             lecturer.getTerms().add(term);
