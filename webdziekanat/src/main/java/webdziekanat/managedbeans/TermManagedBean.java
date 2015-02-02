@@ -2,16 +2,32 @@ package webdziekanat.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import webdziekanat.Resources.Messages;
+import webdziekanat.interfaces.ILecturerDAO;
+import webdziekanat.interfaces.ISubjectDAO;
 import webdziekanat.interfaces.ITermDAO;
+import webdziekanat.model.Lecturer;
 import webdziekanat.model.Subjects;
 import webdziekanat.model.Term;
 
@@ -31,11 +47,38 @@ public class TermManagedBean implements Serializable {
     ITermDAO termDAO;
     
     Term term = new Term();
+
+    @Autowired
+    private ISubjectDAO subjectDAO;
+    
+    @Autowired
+    private ILecturerDAO lecturerDAO;
+    
+    private List<Subjects> subjects;
+
+    private List<Subjects> filteredSubjects;
+
+    private Map<Subjects, Boolean> checkMap = new HashMap<Subjects, Boolean>();
+    
+    private DualListModel<Lecturer> lecturers = new DualListModel<Lecturer>();
+    
+    private Subjects subject;
     
     List<Term> terms;
     
     boolean isAdd;
     boolean isEdit;
+    
+    @PostConstruct
+    public void init() {
+        subjects = subjectDAO.getAll();
+        checkMap = new HashMap<Subjects, Boolean>();
+        for (Subjects subject : subjects) {
+            if(term.getSubjects().contains(subject))
+                continue;
+            checkMap.put(subject, Boolean.FALSE);
+        }
+    }
     
     public String startAdd(){
         term = new Term();
@@ -56,6 +99,66 @@ public class TermManagedBean implements Serializable {
             e.printStackTrace();
             return "/error.xhtml"; 
         }
+    }
+    
+    public void addSubjectForm(Term src){
+        term = src;
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('addSubject').show();");
+    }
+    
+    public void assignLecturersForm(Term src, Subjects sbj){
+        term = src;
+        subject = sbj;
+        List<Lecturer> selectedLecturers = new ArrayList<Lecturer>();
+        List<Lecturer> srcLecturers = new ArrayList<Lecturer>();
+        for(Lecturer lecturer : sbj.getLecturers()){
+            if(term.getLecturers().contains(lecturer))
+                continue;
+            srcLecturers.add(lecturer);
+        }
+        lecturers = new DualListModel<Lecturer>(srcLecturers, selectedLecturers);
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('assignLecturersForm').show();");
+    }
+    
+    public void addSubjects(){
+        Set<Subjects> result = new HashSet<Subjects>();
+        for (Entry<Subjects, Boolean> entry : checkMap.entrySet()) {
+            if(entry.getValue()){
+                result.add(entry.getKey());
+            }
+        }
+        
+        for(Subjects subject : result){
+            subject.getTerms().add(term);
+            subjectDAO.updateSubject(subject);
+        }
+        
+        term.setSubjects(result);
+        termDAO.updateTerm(term);
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('addSubject').hide();");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addSubjectsToTermSuccess));
+        
+    }
+    
+    public void assignLecturers(){
+        List<Lecturer> result = new ArrayList<Lecturer>();
+        // Tutaj chcia³bym do result przypisaæ lecturers.getTarget() tak, ¿eby w result rzeczywiœcie by³y lecturery a nie stringi.
+        // Oczywiœcie przypisanie takie : result.addAll(lecturers.getTarget()); sprawia, ¿e sts nie krzyczy, ale potem siê wykrzacza na interowaniu i mówi, ¿e nie mo¿e zrobiæ casta ze stringa na Lecturera
+        // Tutaj poruszaj¹ ten problem: http://stackoverflow.com/questions/12069526/picklist-primefaces-how-to-get-data-from-target-list
+        // Teoretycznie podanie info jaki to konwerter powinno byæ w courseDetails.xhtml; tam linie 130-140 to jest ten pickList
+        // Dokumentacja picklist z primefaces: http://www.primefaces.org/showcase/ui/data/pickList.xhtml
+        for(Lecturer lecturer : result){
+            term.getLecturers().add(lecturer);
+            lecturer.getTerms().add(term);
+            lecturerDAO.updateLecturer(lecturer);
+        }
+        termDAO.updateTerm(term);
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('assignLecturersForm').hide();");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.assignLecturersToTermSuccess));
     }
     
     public String startEdit(Term src) {
@@ -126,4 +229,43 @@ public class TermManagedBean implements Serializable {
         this.terms = terms;
     }
 
+    public List<Subjects> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subjects> subjects) {
+        this.subjects = subjects;
+    }
+
+    public List<Subjects> getFilteredSubjects() {
+        return filteredSubjects;
+    }
+
+    public void setFilteredSubjects(List<Subjects> filteredSubjects) {
+        this.filteredSubjects = filteredSubjects;
+    }
+
+    public Map<Subjects, Boolean> getCheckMap() {
+        return checkMap;
+    }
+
+    public void setCheckMap(Map<Subjects, Boolean> checkMap) {
+        this.checkMap = checkMap;
+    }
+
+    public DualListModel<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public void setLecturers(DualListModel<Lecturer> lecturers) {
+        this.lecturers = lecturers;
+    }
+
+    public Subjects getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subjects subject) {
+        this.subject = subject;
+    }
 }

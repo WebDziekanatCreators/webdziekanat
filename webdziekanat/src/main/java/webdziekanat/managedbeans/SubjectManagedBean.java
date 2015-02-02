@@ -12,12 +12,14 @@ import javax.faces.context.FacesContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.primefaces.model.DualListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import webdziekanat.Resources.Messages;
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ISubjectDAO;
+import webdziekanat.model.Lecturer;
 import webdziekanat.model.Subjects;
 
 @ManagedBean(name = "subjectMB")
@@ -39,6 +41,8 @@ public class SubjectManagedBean implements Serializable {
     Subjects subject = new Subjects();
 
     List<Subjects> list = new ArrayList<Subjects>();
+    
+    private DualListModel<Lecturer> lecturers;
 
     boolean isAdd;
     boolean isEdit;

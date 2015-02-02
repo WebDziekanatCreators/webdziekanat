@@ -26,11 +26,16 @@ public class Term {
     @JoinColumn(name="course_id")
     private Course course;
     
-    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="lecturers", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="terms", fetch = FetchType.EAGER)
     private Set<Subjects> subjects;
     
+
+    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="terms", fetch = FetchType.EAGER)
+    private Set<Lecturer> lecturers;
+    
     public Term(){
-        subjects = new HashSet<Subjects>(); 
+        subjects = new HashSet<Subjects>();
+        lecturers = new HashSet<Lecturer>();
     }
     
     public Term(Term term){
@@ -38,6 +43,7 @@ public class Term {
         this.number = term.getNumber();
         this.course = term.getCourse();
         this.subjects = term.getSubjects();
+        this.lecturers = term.getLecturers();
     }
 
     public int getId() {
@@ -70,6 +76,14 @@ public class Term {
 
     public void setSubjects(Set<Subjects> subjects) {
         this.subjects = subjects;
+    }
+
+    public Set<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public void setLecturers(Set<Lecturer> lecturers) {
+        this.lecturers = lecturers;
     }
 
 }

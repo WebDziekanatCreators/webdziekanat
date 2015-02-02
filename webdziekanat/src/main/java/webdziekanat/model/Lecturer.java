@@ -1,5 +1,6 @@
 package webdziekanat.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -19,10 +22,11 @@ public class Lecturer {
         this.lastName = lecturer.lastName;
         this.mail = lecturer.mail;
         this.subjects = lecturer.subjects;
+        this.terms = lecturer.terms;
     }
     
     public Lecturer(){
-        
+        this.terms = new HashSet<Term>();
     }
 
     @Id
@@ -37,6 +41,11 @@ public class Lecturer {
     
     @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="lecturers", fetch = FetchType.EAGER)
     private Set<Subjects> subjects;
+    
+    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(name = "lecturers_terms", joinColumns = @JoinColumn(name = "lecturer_id"),
+            inverseJoinColumns = @JoinColumn(name = "term_id"))
+    private Set<Term> terms;
 
     public int getId() {
         return id;
@@ -76,6 +85,14 @@ public class Lecturer {
 
     public void setSubjects(Set<Subjects> subjects) {
         this.subjects = subjects;
+    }
+
+    public Set<Term> getTerms() {
+        return terms;
+    }
+
+    public void setTerms(Set<Term> terms) {
+        this.terms = terms;
     }
     
 }

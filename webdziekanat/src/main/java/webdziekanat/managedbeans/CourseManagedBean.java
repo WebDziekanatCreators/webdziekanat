@@ -138,9 +138,7 @@ public class CourseManagedBean implements Serializable{
     }
 
     public String showDetails(Course src){
-        List<Student> tempStudents = new ArrayList<Student>();
-        tempStudents.addAll(src.getStudents());
-        course = src;
+        course = src;        
         return "/pages/courseDetails.xhtml";
     }
     

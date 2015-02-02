@@ -15,4 +15,10 @@ public class Messages {
     
     public final static String createGroupSuccess = "Creating group succeeded.";
     public final static String createGroupFailure = "Creating group failed.";
+    
+    public final static String addSubjectsToTermSuccess = "Adding subjects to term succeeded.";
+    public final static String addSubjectsToTermFailure = "Adding subjects to term failed.";
+    
+    public final static String assignLecturersToTermSuccess = "Assigning lecturers succeeded.";
+    public final static String assignLecturersToTermFailure = "Assigning lecturers failed.";
 }
