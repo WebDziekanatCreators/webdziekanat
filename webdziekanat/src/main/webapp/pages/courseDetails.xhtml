@@ -13,6 +13,7 @@
         <ui:composition template="commonLayout.xhtml">
             <ui:define name="content">
             <f:event listener="#{courseMB.detailsReload}" type="preRenderView" />
+            <f:event type="postAddToView" listener="#{termMB.load}" />
                 <div class="row">
                      <h:outputText value="#{courseMB.course.name}" />
                 </div>
@@ -83,7 +84,10 @@
                                     <c:forEach items="#{courseMB.course.terms}" var="term">
                                         <p:tab title="#{term.number}">
                                                 <h:outputText value="#{term.number}"></h:outputText>
-                                                <p:dataTable var="subject" value="#{term.subjects}" sortMode="multiple">
+                                                <h:form>
+                                                    <h:commandButton value="Add subjects" action="#{termMB.addSubjectForm(term)}" ></h:commandButton>
+                                                </h:form>
+                                                <p:dataTable var="subject" value="#{term.subjectsList}" sortMode="multiple">
                                                     <f:facet name="header">
                                                         Subjects for term
                                                     </f:facet>
@@ -96,17 +100,16 @@
                                                     </p:column>
                                              
                                                     <p:column headerText="Lecturers">
-                                                        <p:commandButton value="Assign Lecturers" action="#{termMB.assignLecturersForm(term, subject)}" />
+                                                        <h:commandButton value="Assign Lecturers" action="#{termMB.assignLecturersForm(term, subject)}" />
                                                     </p:column>
                                                     <p:column headerText="Average Mark">
                                                         <h:outputText value="0.0" />
                                                     </p:column>
                                                 </p:dataTable>
+                                                <h:outputText value="Lecturers" > </h:outputText>
+                                                <h:outputText value="#{term.subjects.size()}"></h:outputText>
                                                 <h:form>
-                                                    <h:commandButton value="Add subjects" action="#{termMB.addSubjectForm(term)}" ></h:commandButton>
-                                                </h:form>
-                                                <h:outputText value="Lecturers">
-                                                    <p:dataTable var="lec" value="#{term.lecturers}" sortMode="multiple">
+                                                    <p:dataTable var="lec" value="#{term.lecturersList}" sortMode="multiple">
                                                         <f:facet name="header">
                                                             Lecturers for term
                                                         </f:facet>
@@ -116,11 +119,11 @@
                                                         <p:column headerText="Last Name" sortBy="#{lec.lastName}">
                                                             <h:outputText value="#{lec.lastName}" />
                                                         </p:column>
-                                                        <p:column headerText="e-mail" sortBy="#{lec.email}">
-                                                            <h:outputText value="#{lec.email}" />
+                                                        <p:column headerText="e-mail" sortBy="#{lec.mail}">
+                                                            <h:outputText value="#{lec.mail}" />
                                                         </p:column>
                                                     </p:dataTable>
-                                                </h:outputText>
+                                                </h:form>
                                         </p:tab>
                                     </c:forEach>
                                 </p:accordionPanel>                                

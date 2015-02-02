@@ -64,8 +64,11 @@ public class TermManagedBean implements Serializable {
     
     private Subjects subject;
     
-    List<Term> terms;
+    private List<Term> terms;
     
+    private List<Subjects> termSubjectsList = new ArrayList<Subjects>();
+    private List<Lecturer> termLecturersList = new ArrayList<Lecturer>();
+   
     boolean isAdd;
     boolean isEdit;
     
@@ -78,6 +81,8 @@ public class TermManagedBean implements Serializable {
                 continue;
             checkMap.put(subject, Boolean.FALSE);
         }
+        termSubjectsList = term.getSubjectsList();
+        termLecturersList = term.getLecturersList();
     }
     
     public String startAdd(){
@@ -101,10 +106,19 @@ public class TermManagedBean implements Serializable {
         }
     }
     
+    public void load(){
+        
+    }
+    
     public void addSubjectForm(Term src){
         term = src;
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addSubject').show();");
+    }
+    
+    public void displayAddLecturerForm(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('assignLecturersForm').show();");
     }
     
     public void assignLecturersForm(Term src, Subjects sbj){
@@ -118,8 +132,7 @@ public class TermManagedBean implements Serializable {
             srcLecturers.add(lecturer);
         }
         lecturers = new DualListModel<Lecturer>(srcLecturers, selectedLecturers);
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('assignLecturersForm').show();");
+        displayAddLecturerForm();
     }
     
     public void addSubjects(){
@@ -134,8 +147,8 @@ public class TermManagedBean implements Serializable {
             subject.getTerms().add(term);
             subjectDAO.updateSubject(subject);
         }
-        
         term.setSubjects(result);
+        termSubjectsList = term.getSubjectsList();
         termDAO.updateTerm(term);
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addSubject').hide();");
@@ -265,5 +278,21 @@ public class TermManagedBean implements Serializable {
 
     public void setSubject(Subjects subject) {
         this.subject = subject;
+    }
+
+    public List<Subjects> getTermSubjectsList() {
+        return termSubjectsList;
+    }
+
+    public void setTermSubjectsList(List<Subjects> termSubjectsList) {
+        this.termSubjectsList = termSubjectsList;
+    }
+
+    public List<Lecturer> getTermLecturersList() {
+        return termLecturersList;
+    }
+
+    public void setTermLecturersList(List<Lecturer> termLecturersList) {
+        this.termLecturersList = termLecturersList;
     }
 }

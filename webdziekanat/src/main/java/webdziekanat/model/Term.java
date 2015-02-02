@@ -1,6 +1,8 @@
 package webdziekanat.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Term {
@@ -32,6 +35,12 @@ public class Term {
 
     @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="terms", fetch = FetchType.EAGER)
     private Set<Lecturer> lecturers;
+    
+    @Transient
+    private List<Subjects> subjectsList;
+    
+    @Transient
+    private List<Lecturer> lecturersList;
     
     public Term(){
         subjects = new HashSet<Subjects>();
@@ -84,6 +93,30 @@ public class Term {
 
     public void setLecturers(Set<Lecturer> lecturers) {
         this.lecturers = lecturers;
+    }
+
+    public void setSubjectsList(List<Subjects> subjectsList) {
+        this.subjectsList = subjectsList;
+    }
+
+    public void setLecturersList(List<Lecturer> lecturersList) {
+        this.lecturersList = lecturersList;
+    }
+    
+    public List<Subjects> getSubjectsList(){
+        if(subjectsList == null){
+            subjectsList = new ArrayList<Subjects>();
+            subjectsList.addAll(subjects);
+        }
+        return subjectsList;
+    }
+
+    public List<Lecturer> getLecturersList(){
+        if(lecturersList == null){
+            lecturersList = new ArrayList<Lecturer>();
+            lecturersList.addAll(lecturers);
+        }
+        return lecturersList;
     }
 
 }
