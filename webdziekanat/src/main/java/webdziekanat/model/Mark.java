@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -15,10 +16,14 @@ public class Mark {
         this.subject = mark.subject;
         this.mark = mark.mark;
         this.isActive = mark.isActive;
+        this.term = mark.term;
+        this.student = mark.student;
     }
     
     public Mark(){
-        
+        this.subject = new Subjects();
+        this.term = new Term();
+        this.student = new Student();
     }
 
     @Id
@@ -27,6 +32,12 @@ public class Mark {
     
     @OneToOne(cascade=CascadeType.PERSIST)
     private Subjects subject;
+    
+    @OneToOne
+    private Term term;
+    
+    @ManyToOne
+    private Student student;
     
     private double mark;
     
@@ -62,6 +73,22 @@ public class Mark {
 
     public void setActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public Term getTerm() {
+        return term;
+    }
+
+    public void setTerm(Term term) {
+        this.term = term;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
     
 }

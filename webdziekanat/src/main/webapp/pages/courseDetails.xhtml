@@ -13,6 +13,7 @@
         <ui:composition template="commonLayout.xhtml">
             <ui:define name="content">
             <f:event listener="#{courseMB.detailsReload}" type="preRenderView" />
+            <f:event listener="#{termMB.detailsReload}" type="preRenderView" />
             <f:event type="postAddToView" listener="#{termMB.load}" />
                 <div class="row">
                      <h:outputText value="#{courseMB.course.name}" />

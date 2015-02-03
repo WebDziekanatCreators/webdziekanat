@@ -36,15 +36,16 @@ public class Student {
     @JoinColumn(name="group_id")
     private LearningGroup group;
     
-    @OneToMany(cascade=CascadeType.PERSIST)
-    private Set<Semester> semesters;
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_id")
+    private Set<Mark> marks;
     
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="students", fetch=FetchType.EAGER)
     private Set<Course> courses;
     
     public Student() {
         this.studentAddress = new Address();
-        this.semesters = new HashSet<Semester>();
+        this.marks = new HashSet<Mark>();
     }
     
     public Student(Student student) {
@@ -53,7 +54,7 @@ public class Student {
         this.lastName = student.getLastName();
         this.studentNumber = student.getStudentNumber();
         this.studentAddress = student.getStudentAddress();
-        this.semesters = student.getSemesters();
+        this.marks = student.getMarks();
         this.courses = student.getCourses();
     }
     
@@ -98,14 +99,6 @@ public class Student {
         this.studentAddress = studentAddress;
     }
 
-    public Set<Semester> getSemesters() {
-        return semesters;
-    }
-
-    public void setSemesters(Set<Semester> semesters) {
-        this.semesters = semesters;
-    }
-
     public Set<Course> getCourses() {
         return courses;
     }
@@ -131,6 +124,14 @@ public class Student {
 
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
+    }
+
+    public Set<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(Set<Mark> marks) {
+        this.marks = marks;
     }
 
     

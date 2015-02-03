@@ -2,7 +2,6 @@ package webdziekanat.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,10 +24,15 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import webdziekanat.Resources.Messages;
+import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.interfaces.ILecturerDAO;
+import webdziekanat.interfaces.IMarkDAO;
+import webdziekanat.interfaces.IStudentDAO;
 import webdziekanat.interfaces.ISubjectDAO;
 import webdziekanat.interfaces.ITermDAO;
 import webdziekanat.model.Lecturer;
+import webdziekanat.model.Mark;
+import webdziekanat.model.Student;
 import webdziekanat.model.Subjects;
 import webdziekanat.model.Term;
 
@@ -53,6 +58,15 @@ public class TermManagedBean implements Serializable {
     
     @Autowired
     private ILecturerDAO lecturerDAO;
+    
+    @Autowired
+    private IStudentDAO studentDAO;
+    
+    @Autowired
+    private IMarkDAO markDAO;
+    
+    @Autowired
+    private ICourseDAO courseDAO;
     
     private List<Subjects> subjects;
 
@@ -83,6 +97,10 @@ public class TermManagedBean implements Serializable {
         }
         termSubjectsList = term.getSubjectsList();
         termLecturersList = term.getLecturersList();
+    }
+    
+    public void detailsReload(ComponentSystemEvent event){
+        init();
     }
     
     public String startAdd(){
@@ -146,7 +164,19 @@ public class TermManagedBean implements Serializable {
         for(Subjects subject : result){
             subject.getTerms().add(term);
             subjectDAO.updateSubject(subject);
+            
+            Mark mark = new Mark();
+            mark.setActive(true);
+            mark.setSubject(subject);
+            mark.setTerm(term);
+            mark.setMark(0.0);
+            for(Student student : term.getCourse().getStudents()){
+                mark.setStudent(student);
+                student.getMarks().add(mark);
+                studentDAO.updateStudent(student);
+            }
         }
+
         term.setSubjects(result);
         termSubjectsList = term.getSubjectsList();
         termDAO.updateTerm(term);
