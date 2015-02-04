@@ -12,9 +12,11 @@
  
         <ui:composition template="commonLayout.xhtml">
             <ui:define name="content">
+            <h:outputText value="#{markMB.student.name}"></h:outputText>
+            <h:outputText value="#{markMB.student.lastName}"></h:outputText>
             <p:dataTable var="mark" value="#{markMB.student.marks}" sortMode="multiple">
                 <f:facet name="header">
-                    Subjects for term
+                    Marks
                 </f:facet>
                 <p:column headerText="Subject name" sortBy="#{mark.subject.name}">
                     <h:outputText value="#{mark.subject.name}" />

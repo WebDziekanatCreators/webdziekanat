@@ -1,6 +1,8 @@
 package webdziekanat.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Course {
@@ -34,6 +37,8 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students;
     
+    @Transient
+    private List<Student> studentsList;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
@@ -112,6 +117,19 @@ public class Course {
 
     public void setActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public List<Student> getStudentsList() {
+        if(studentsList == null){
+            studentsList = new ArrayList<Student>();
+            studentsList.addAll(students);
+        }
+        
+        return studentsList;
+    }
+
+    public void setStudentsList(List<Student> studentsList) {
+        this.studentsList = studentsList;
     }
 
 }

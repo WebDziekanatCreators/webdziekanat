@@ -31,9 +31,9 @@ public class MarkManagedBean implements Serializable {
     @Autowired
     IMarkDAO markDAO;
     
-    Mark mark = new Mark();
+    private Mark mark = new Mark();
     
-    Student student = new Student();
+    private Student student = new Student();
     
     List<Mark> marks;
     

@@ -2,6 +2,7 @@ package webdziekanat.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +37,7 @@ public class Mark {
     @OneToOne
     private Term term;
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     private Student student;
     
     private double mark;

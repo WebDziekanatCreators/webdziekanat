@@ -68,9 +68,7 @@
                                         <h:outputText value="#{student.lastName}" />
                                     </p:column>
                                     <p:column headerText="Marks">
-                                        <h:form>
-                                        <p:commandButton value="Show marks" action="#{markMB.marksForStudent(student)}" ></p:commandButton>
-                                        </h:form>
+                                        <h:commandButton value="Show marks" action="#{markMB.marksForStudent(student)}" ></h:commandButton>
                                     </p:column>
                                 </p:dataTable>
                             </h:form>
