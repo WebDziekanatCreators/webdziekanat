@@ -19,7 +19,7 @@ import webdziekanat.model.Mark;
 import webdziekanat.model.Student;
 
 @Component("markMB")
-@Scope("session")
+@Scope("application")
 public class MarkManagedBean implements Serializable {
 
     /**
@@ -33,10 +33,17 @@ public class MarkManagedBean implements Serializable {
     
     Mark mark = new Mark();
     
+    Student student = new Student();
+    
     List<Mark> marks;
     
     boolean isAdd;
     boolean isEdit;
+    
+    public String marksForStudent(Student src){
+        this.student = src;
+        return "/pages/studentMarks.xhtml";
+    }
     
     public String startAdd(){
         mark = new Mark();
@@ -109,6 +116,22 @@ public class MarkManagedBean implements Serializable {
 
     public void setEdit(boolean isEdit) {
         this.isEdit = isEdit;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(List<Mark> marks) {
+        this.marks = marks;
     }
 
 }

@@ -52,8 +52,7 @@
                         <p:tab title="Students">
                             <h:form>
                                 <p:dataTable var="student" value="#{courseMB.course.students}" widgetVar="studentsTable"
-                                    emptyMessage="No students found with given criteria"
-                                    filteredValue="#{courseMB.filteredStudents}">
+                                    emptyMessage="No students found with given criteria">
             
                                     <f:facet name="header">
                                         <p:outputPanel>
@@ -76,9 +75,14 @@
                                         filterMatchMode="contains">
                                         <h:outputText value="#{student.lastName}" />
                                     </p:column>
+                                    <p:column headerText="Marks" footerText="Marks">
+                                        <h:form>
+                                        <p:commandButton value="Show marks" action="#{markMB.marksForStudent(student)}" ></p:commandButton>
+                                        </h:form>
+                                    </p:column>
                                 </p:dataTable>
                             </h:form>
-                        	</p:tab>
+                    	</p:tab>
                         <p:tab title="Terms">
                             <h:form>
                                 <p:accordionPanel effect="bounceslide">

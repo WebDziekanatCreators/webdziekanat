@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      >
+    <h:body>
+ 
+        <ui:composition template="commonLayout.xhtml">
+            <ui:define name="content">
+            <p:dataTable var="mark" value="#{markMB.student.marks}" sortMode="multiple">
+                <f:facet name="header">
+                    Subjects for term
+                </f:facet>
+                <p:column headerText="Subject name" sortBy="#{mark.subject.name}">
+                    <h:outputText value="#{mark.subject.name}" />
+                </p:column>
+                <p:column headerText="ECTS" sortBy="#{mark.subject.ects}">
+                    <h:outputText value="#{mark.subject.ects}" />
+                </p:column>
+                <p:column headerText="Mark" sortBy="#{mark.mark}">
+                    <h:outputText value="#{mark.mark}" />
+                </p:column>
+            </p:dataTable>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
