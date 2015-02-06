@@ -94,7 +94,6 @@ public class LecturerManagedBean implements Serializable {
                 result.add(entry.getKey());
             }
         }
-        
         lecturer.setSubjects(result);
         
         return "/pages/addLecturer.xhtml";
