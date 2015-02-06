@@ -44,8 +44,6 @@ public class LecturerDAO implements ILecturerDAO{
             else{
 
                 Set<Subjects> temp = lecturer.getSubjects();
-                List<Subjects> tempList = new ArrayList<Subjects>();
-                tempList.addAll(temp);
                 lecturer.setSubjects(new HashSet<Subjects>());
                 entityManager.persist(lecturer);
                 addLecturerToSubjects(lecturer,temp);

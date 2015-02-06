@@ -1,18 +1,14 @@
 package webdziekanat.finders;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.springframework.stereotype.Component;
-
 import webdziekanat.model.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 @Component
 @Transactional
@@ -82,5 +78,17 @@ public class DatabaseFinder {
         Lecturer foundLecturer = (Lecturer) criteria.uniqueResult();
 
         return foundLecturer;
+    }
+
+    public User findUser(User user){
+        Session session = (Session) entityManager.getDelegate();
+
+        Example userExample = Example.create(user);
+
+        Criteria criteria = session.createCriteria(User.class).add(userExample);
+
+        User foundUser = (User) criteria.uniqueResult();
+
+        return foundUser;
     }
 }

@@ -22,11 +22,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import webdziekanat.Resources.Messages;
+import webdziekanat.enums.Role;
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.interfaces.IStudentDAO;
+import webdziekanat.interfaces.IUserDAO;
 import webdziekanat.model.Course;
 import webdziekanat.model.Student;
+import webdziekanat.model.User;
 
 @Component("studentMB")
 @Scope("application")
@@ -43,6 +46,9 @@ public class StudentManagedBean implements Serializable {
     
     @Autowired
     ICourseDAO courseDAO;
+
+    @Autowired
+    IUserDAO userDAO;
 
     @Autowired
     DatabaseFinder finder;
@@ -87,6 +93,12 @@ public class StudentManagedBean implements Serializable {
                 }
             }
             studentDAO.addStudent(student);
+
+            User user = new User();
+            user.setStudent(student);
+            user.getRoles().add(Role.STUDENT);
+            userDAO.addUser(user);
+
             isAdd = false;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addStudentSuccess));
             return "/pages/students.xhtml";
@@ -100,8 +112,19 @@ public class StudentManagedBean implements Serializable {
 
     public String deleteStudent(Student src) {
         logger.info(src.toString());
-        if (studentDAO.deleteStudent(src.getId())) {
-            return "/pages/addStudent.xhtml";
+
+        User example = new User();
+        example.setStudent(src);
+        example.setUsername(String.valueOf(src.getStudentNumber()));
+
+        User foundUser = finder.findUser(example);
+
+        if(foundUser != null){
+            userDAO.deleteUser(foundUser.getId());
+        }
+
+        if (studentDAO.deleteStudent(src.getStudentNumber())) {
+            return "/pages/students.xhtml";
         }
         return "";
     }
@@ -114,6 +137,11 @@ public class StudentManagedBean implements Serializable {
     }
     
     public String editStudent(){
+        for (Entry<Course, Boolean> entry : checkMap.entrySet()) {
+            if(entry.getValue()){
+                student.addCourse(entry.getKey());
+            }
+        }
         studentDAO.updateStudent(student);
         isEdit = false;
         return "/pages/addStudent.xhtml";

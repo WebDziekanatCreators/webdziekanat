@@ -9,11 +9,11 @@ public interface IStudentDAO {
     
     public void addStudent(Student student);
     
-    public boolean deleteStudent(int id);
+    public boolean deleteStudent(int studentNumber);
     
     public void updateStudent(Student student);
     
-    public Student getStudentById(int id);
+    public Student getStudentByStudentNumber(int studentNumber);
     
     public List<Student> getAll();
     

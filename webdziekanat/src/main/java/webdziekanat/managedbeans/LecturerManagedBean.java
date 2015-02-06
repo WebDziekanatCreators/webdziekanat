@@ -22,10 +22,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import webdziekanat.Resources.Messages;
+import webdziekanat.enums.Role;
+import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ILecturerDAO;
 import webdziekanat.interfaces.ISubjectDAO;
+import webdziekanat.interfaces.IUserDAO;
 import webdziekanat.model.Lecturer;
 import webdziekanat.model.Subjects;
+import webdziekanat.model.User;
 
 @Component("lecturerMB")
 @Scope("application")
@@ -42,6 +46,12 @@ public class LecturerManagedBean implements Serializable {
 
     @Autowired
     private ISubjectDAO subjectDAO;
+
+    @Autowired
+    IUserDAO userDAO;
+
+    @Autowired
+    DatabaseFinder finder;
     
     private Lecturer lecturer = new Lecturer();
 
@@ -110,6 +120,12 @@ public class LecturerManagedBean implements Serializable {
             lecturer.setSubjects(result);
             Lecturer lecturerNew = new Lecturer(lecturer);
             lecturerDAO.addLecturer(lecturerNew);
+
+            User user = new User();
+            user.setLecturer(lecturer);
+            user.getRoles().add(Role.LECTURER);
+            userDAO.addUser(user);
+
             isAdd = false;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addLecturerSuccess) );
             return "/pages/lecturers.xhtml";
@@ -123,6 +139,17 @@ public class LecturerManagedBean implements Serializable {
 
     public String deleteLecturer(Lecturer src) {
         logger.info(src.toString());
+
+        User example = new User();
+        example.setLecturer(src);
+        example.setUsername(String.valueOf(src.getMail()));
+
+        User foundUser = finder.findUser(example);
+
+        if(foundUser != null){
+            userDAO.deleteUser(foundUser.getId());
+        }
+
         if (lecturerDAO.deleteLecturer(src.getId())) {
             return "/pages/lecturers.xhtml";
         }

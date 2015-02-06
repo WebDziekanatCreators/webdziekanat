@@ -28,13 +28,6 @@
                                 </p:inputText> <p:message id="lastNameMsg" for="lastName" display="icon" /></td>
                         </tr>
                         <tr>
-                            <td><h:outputLabel for="studentNumber" value="Student number : " /></td>
-                            <td><p:inputText id="studentNumber" value="#{studentMB.student.studentNumber}">
-                                    <f:validateLength minimum="5" />
-                                    <p:ajax event="blur" update="studentNumberMsg" />
-                                </p:inputText> <p:message id="studentNumberMsg" for="studentNumber" display="icon" /></td>
-                        </tr>
-                        <tr>
                             <td><p:outputLabel value="Address" style="padding-top:10px;" /></td>
                         </tr>
                         <tr>

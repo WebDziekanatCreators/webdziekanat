@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.IStudentDAO;
-import webdziekanat.model.Address;
-import webdziekanat.model.Course;
-import webdziekanat.model.LearningGroup;
-import webdziekanat.model.Student;
+import webdziekanat.model.*;
 
 @Component
 @Transactional
@@ -43,13 +40,13 @@ public class StudentDAO implements IStudentDAO {
         if (existingAddress != null) {
             student.setStudentAddress(existingAddress);
         }
-
         try {
             if(student.getCourses() == null || student.getCourses().isEmpty()){
                 entityManager.persist(student);
+
             } else {
                 Set<Course> temp = student.getCourses();
-                student.setCourse(new HashSet<Course>());
+                student.setCourses(new HashSet<Course>());
                 entityManager.persist(student);
                 addStudentToCourses(student, temp);
             }
@@ -68,37 +65,56 @@ public class StudentDAO implements IStudentDAO {
                 logger.error("Rollback addStudentToCourses() - " + e.getMessage());
             }
         }
-        
     }
-    
-    public boolean deleteStudent(int id) {
+
+    private void deleteStudentFromCourses(Student student, Set<Course> crs) {
+        for(Course course : crs){
+            try{
+                course.getStudents().remove(student);
+                entityManager.merge(course);
+            } catch (Exception e){
+                logger.error("Rollback addStudentToCourses() - " + e.getMessage());
+            }
+        }
+    }
+
+    public boolean deleteStudent(int studentNumber) {
         try {
-            entityManager.remove(getStudentById(id));
+            Student student = getStudentByStudentNumber(studentNumber);
+            deleteStudentFromCourses(student,student.getCourses());
+            student.setCourses(null);
+            entityManager.remove(getStudentByStudentNumber(studentNumber));
             return true;
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
             return false;
         }
-
     }
 
     public void updateStudent(Student student) {
         try {
-            entityManager.merge(student);
-            
+            if(student.getCourses() == null || student.getCourses().isEmpty()){
+                entityManager.merge(student);
+            }
+            else {
+                Set<Course> temp = student.getCourses();
+                student.setCourses(new HashSet<Course>());
+                addStudentToCourses(student, temp);
+                entityManager.merge(student);
+            }
         } catch (Exception e) {
             logger.error("Rollback - " + e.getMessage());
         }
     }
 
-    public Student getStudentById(int id) {
+    public Student getStudentByStudentNumber(int studentNumber) {
 
-        Student result = new Student();
-        
-        result = entityManager.find(Student.class, id);
+        Student result;
 
-        logger.info("Found [" + result.toString() + "]" + "with name: " + result.getName() + "and id: "
-                + result.getId());
+        result = entityManager.find(Student.class, studentNumber);
+
+        logger.info("Found [" + result.toString() + "]" + "with name: " + result.getName() + " and id: "
+                + result.getStudentNumber());
 
         return result;
     }
@@ -112,11 +128,7 @@ public class StudentDAO implements IStudentDAO {
     
     public List<Student> getAllForCourse(Course course){
         List<Student> result = new ArrayList<Student>();
-        
-        
-      /*  result = entityManager.createQuery( "select a from Student a inner join course_students cs on a.id=cs.student_id "
-                + "where cs.course_id=" + course.getId(), Student.class ).getResultList();
-*/
+
         String hqlString = "select a.students from Course a where a.id=" + course.getId();
         result = (List<Student>) entityManager.createQuery(hqlString).getResultList();
         return result;
