@@ -105,6 +105,20 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
+    public User getByUsernameAndPassword(String username, String password) {
+        User result = null;
+        try{
+            String hqlString = "select user from User user where user.username  = " + username +  "and user.password = " + password;
+            result = (User) entityManager.createQuery(hqlString).getSingleResult();
+        } catch(Exception e) {
+            logger.error("Rollback - " + e.getMessage());
+        }
+
+        return result;
+    }
+
+
+    @Override
     public List<User> getAll() {
         List<User> result = new ArrayList<User>();
 

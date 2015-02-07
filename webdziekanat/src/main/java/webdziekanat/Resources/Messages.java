@@ -21,4 +21,6 @@ public class Messages {
     
     public final static String assignLecturersToTermSuccess = "Assigning lecturers succeeded.";
     public final static String assignLecturersToTermFailure = "Assigning lecturers failed.";
+
+    public final static String wrongCredentials = "Wrong username or password";
 }

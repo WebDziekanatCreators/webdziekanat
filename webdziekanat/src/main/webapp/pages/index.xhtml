@@ -12,41 +12,43 @@
                     <div class="modal-body">
                         <div class="well">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+                                <h:panelGroup rendered="#{not userMB.loggedIn}">
+                                    <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+                                </h:panelGroup>
                             </ul>
                             <div id="myTabContent" class="tab-content">
                                 <div class="tab-pane active in" id="login">
-                                    <form class="form-horizontal" action='' method="POST">
-                                        <fieldset>
-                                            <div id="legend">
-                                                <legend class="">Login</legend>
-                                            </div>
-                                            <div class="control-group">
-                                                <!-- Username -->
-                                                <label class="control-label" for="username">Username</label>
-                                                <div class="controls">
-                                                    <input type="text" id="username" name="username" placeholder=""
-                                                        class="input-xlarge" />
+                                    <h:form class="form-horizontal" action='' method="POST">
+                                        <h:panelGroup rendered="#{not userMB.loggedIn}">
+                                            <fieldset>
+                                                <div id="legend">
+                                                    <legend class="">Login</legend>
                                                 </div>
-                                            </div>
-    
-                                            <div class="control-group">
-                                                <!-- Password-->
-                                                <label class="control-label" for="password">Password</label>
-                                                <div class="controls">
-                                                    <input type="password" id="password" name="password" placeholder=""
-                                                        class="input-xlarge" />
+                                                <div class="control-group">
+                                                    <!-- Username -->
+                                                    <label class="control-label" for="username">Username</label>
+                                                    <div class="controls">
+                                                        <p:inputText styleClass="input-xlarge" id="username" placeholder="User" value="#{userMB.user.username}"/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <hr/>
-                                            <div class="control-group">
-                                                <!-- Button -->
-                                                <div class="controls">
-                                                    <button class="btn btn-success">Login</button>
+
+                                                <div class="control-group">
+                                                    <!-- Password-->
+                                                    <label class="control-label" for="pass">Password</label>
+                                                    <div class="controls">
+                                                        <p:inputText type="password" styleClass="input-xlarge" id="pass" placeholder="Password" value="#{userMB.user.password}"/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </fieldset>
-                                    </form>
+                                                <hr/>
+                                                <div class="control-group">
+                                                    <!-- Button -->
+                                                    <div class="controls">
+                                                        <p:commandButton type="submit" styleClass="btn btn-success" value="Login" action="#{userMB.login()}"/>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </h:panelGroup>
+                                    </h:form>
                                 </div>
                             </div>
                         </div>

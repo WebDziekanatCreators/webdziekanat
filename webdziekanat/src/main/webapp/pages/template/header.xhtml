@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
         <ui:composition>
@@ -31,22 +32,33 @@
                     <ul class="nav navbar-nav navbar-right">
     
                         <li>
-    
+                            <h:panelGroup rendered="#{not userMB.loggedIn}">
                             <div class="dropdown">
                                 <button type="button" class="btn btn-default navbar-btn" onclick="toggle('loginForm');">Login</button>
     
                                 <div id="loginForm" class="dropdown-menu" style="padding: 10px; background: #ddd">
-                                    <form action="" role="form">
+                                    <h:form action="" role="form">
                                         <div class="form-group">
-                                            <label for="user">User</label> <input type="text" class="form-control" id="user"
-                                                placeholder="User" /> <label for="password">Password</label> <input
-                                                type="password" class="form-control" id="password" placeholder="Password" />
+                                            <p:outputLabel>User</p:outputLabel>
+                                            <p:inputText styleClass="form-control" id="user" placeholder="User" value="#{userMB.user.username}"/>
+
+                                            <p:outputLabel>Password</p:outputLabel>
+                                            <p:inputText type="password" styleClass="form-control" id="password" placeholder="Password" value="#{userMB.user.password}"/>
                                         </div>
-                                        <button type="submit" class="btn btn-default">Sign in</button>
-                                    </form>
+                                        <p:commandButton type="submit" styleClass="btn btn-default" value="Sign In" action="#{userMB.login()}"/>
+                                    </h:form>
                                 </div>
                             </div>
-    
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{userMB.loggedIn}">
+                                <div class="form-group">
+                                    <h:form>
+                                        <p:outputLabel styleClass="navbar-text">Welcome: </p:outputLabel>
+                                        <p:outputLabel value="#{userMB.user.username}" styleClass="navbar-text"/>
+                                        <p:commandButton type="submit" styleClass="btn btn-default navbar-btn" value="Logout" action="#{userMB.logout()}"/>
+                                    </h:form>
+                                </div>
+                            </h:panelGroup>
                         </li>
                     </ul>
                 </div>

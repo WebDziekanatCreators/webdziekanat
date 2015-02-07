@@ -16,5 +16,7 @@ public interface IUserDAO {
 
     public User getUserById(int id);
 
+    public User getByUsernameAndPassword(String username, String password);
+
     public List<User> getAll();
 }
