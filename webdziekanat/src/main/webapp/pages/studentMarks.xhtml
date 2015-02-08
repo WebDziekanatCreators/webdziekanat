@@ -18,26 +18,26 @@
                     <c:forEach items="#{markMB.marksPerTerm}" var="term">
                         <p:tab title="#{term.key.number}">
                             <h:form>
-                                <p:dataTable var="mark" value="#{term.value}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" paginator="true" rows="10">
+                                <p:dataTable id="id#{term.key.number}" var="mark" value="#{term.value}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" paginator="true" rows="10">
                                     <f:facet name="{Exporters}">
                                         <h:commandLink>
                                             <p:graphicImage name="/img/excel.png" width="24"/>
-                                            <p:dataExporter type="xls" target="tbl" fileName="marks" />
+                                            <p:dataExporter type="xls" target="id#{term.key.number}" fileName="marks" />
                                         </h:commandLink>
                                 
                                         <h:commandLink>
                                             <p:graphicImage name="/img/pdf.png" width="24"/>
-                                            <p:dataExporter type="pdf" target="tbl" fileName="marks"/>
+                                            <p:dataExporter type="pdf" target="id#{term.key.number}" fileName="marks"/>
                                         </h:commandLink>
                                 
                                         <h:commandLink>
                                             <p:graphicImage name="/img/csv.png" width="24"/>
-                                            <p:dataExporter type="csv" target="tbl" fileName="marks" />
+                                            <p:dataExporter type="csv" target="id#{term.key.number}" fileName="marks" />
                                         </h:commandLink>
                                 
                                         <h:commandLink>
                                             <p:graphicImage name="/img/xml.png" width="24"/>
-                                            <p:dataExporter type="xml" target="tbl" fileName="marks" />
+                                            <p:dataExporter type="xml" target="id#{term.key.number}" fileName="marks" />
                                         </h:commandLink>
                                     </f:facet>
                                     <p:column headerText="Subject">
