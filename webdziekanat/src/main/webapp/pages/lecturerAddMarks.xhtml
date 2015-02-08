@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      >
-    <h:body>
- 
-        <ui:composition template="commonLayout.xhtml">
-            <ui:define name="content">
+        >
+
+<h:body>
+
+    <ui:composition template="commonLayout.xhtml">
+        <ui:define name="content">
+            <f:event type="preRenderView" listener="#{markMB.prepareForLecturer(userMB.user)}"/>
             <h:outputText value="#{markMB.lecturer.lastName}"></h:outputText>
+            &nbsp;
             <p:outputLabel value="#{markMB.lecturer.name}"></p:outputLabel>
             <p:outputPanel widgetVar="marksList">
                 <p:accordionPanel effect="bounceslide">
@@ -39,7 +42,8 @@
                                                     <h:inputText value="#{mark.mark}"></h:inputText>
                                                 </p:column>
                                             </p:dataTable>
-                                            <h:commandButton value="Save marks" action="#{markMB.saveMarks(subject.value)}"></h:commandButton>
+                                            <h:commandButton value="Save marks"
+                                                             action="#{markMB.saveMarks(subject.value)}"></h:commandButton>
                                         </h:form>
                                     </p:tab>
                                 </c:forEach>
@@ -48,7 +52,7 @@
                     </c:forEach>
                 </p:accordionPanel>
             </p:outputPanel>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

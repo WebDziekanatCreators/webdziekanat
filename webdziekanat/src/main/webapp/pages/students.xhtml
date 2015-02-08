@@ -1,55 +1,58 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:body>
-<ui:composition template="commonLayout.xhtml">
- 
-    <ui:define name="content">
-       <!-- Page Content -->
-        <div class="row">
-            <div class="col-lg-12">
-                <p:outputLabel value="Personal data" />
-                <h:form>
-                    <h:outputText value="STUDENTS : "></h:outputText>
-                    <p:dataTable id="students" var="student" value="#{studentMB.list}">
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Name" />
-                            </f:facet>
-                            <h:outputText value="#{student.name}" />
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Surname" />
-                            </f:facet>
-                            <h:outputText value="#{student.lastName}" />
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Index" />
-                            </f:facet>
-                            <h:outputText value="#{student.studentNumber}" />
-                        </p:column>                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Courses" />
-                            </f:facet>
-                            <h:outputText value="#{student.courses.size()}" />
-                        </p:column>
-                        <p:column>
-                            <h:commandButton value="Delete" action="#{studentMB.deleteStudent(student)}"></h:commandButton>
-                        </p:column>
-                        <p:column>
-                            <h:commandButton value="Edit" action="#{studentMB.startEdit(student)}"></h:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-                <h:form>
-                    <h:commandButton value="Add New Student" action="#{studentMB.startAdd()}"></h:commandButton>
-                </h:form>
-            </div>
-        </div>
-    </ui:define>
-</ui:composition>
+    <ui:composition template="commonLayout.xhtml">
+        <h:panelGroup rendered="#{userMB.user.hasRole(ADMIN)}">
+            <ui:define name="content">
+                <!-- Page Content -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p:outputLabel value="Personal data"/>
+                        <h:form>
+                            <h:outputText value="STUDENTS : "></h:outputText>
+                            <p:dataTable id="students" var="student" value="#{studentMB.list}">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{student.name}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Surname"/>
+                                    </f:facet>
+                                    <h:outputText value="#{student.lastName}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Index"/>
+                                    </f:facet>
+                                    <h:outputText value="#{student.studentNumber}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Courses"/>
+                                    </f:facet>
+                                    <h:outputText value="#{student.courses.size()}"/>
+                                </p:column>
+                                <p:column>
+                                    <h:commandButton value="Delete"
+                                                     action="#{studentMB.deleteStudent(student)}"></h:commandButton>
+                                </p:column>
+                                <p:column>
+                                    <h:commandButton value="Edit"
+                                                     action="#{studentMB.startEdit(student)}"></h:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                        <h:form>
+                            <h:commandButton value="Add New Student" action="#{studentMB.startAdd()}"></h:commandButton>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+        </h:panelGroup>
+    </ui:composition>
 </h:body>
 </html>

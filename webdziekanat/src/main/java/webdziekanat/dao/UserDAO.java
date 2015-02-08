@@ -109,7 +109,7 @@ public class UserDAO implements IUserDAO {
         User result = null;
         try{
             String replaced = username.replace("@", "\\@");
-            String hqlString = "select user from User user where user.username  = '" + replaced +  "' and user.password = '" + password + "'";
+            String hqlString = "select user from User user where user.username  = '" + replaced +  "' and user.password = " + password;
             result = (User) entityManager.createQuery(hqlString).getSingleResult();
         } catch(Exception e) {
             logger.error("Rollback - " + e.getMessage());

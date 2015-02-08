@@ -1,64 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      >
-    <h:body>
-        <ui:composition template="commonLayout.xhtml">
-            <ui:define name="content">
+        >
+<h:body>
+    <ui:composition template="commonLayout.xhtml">
+        <ui:define name="content">
+            <f:event type="preRenderView" listener="#{markMB.prepareForStudent(userMB.user)}"/>
             <h:outputText value="#{markMB.student.name}"></h:outputText>
+            &nbsp;
             <h:outputText value="#{markMB.student.lastName}"></h:outputText>
-            
+
             <p:accordionPanel effect="bounceslide">
-                    <c:forEach items="#{markMB.marksPerTerm}" var="term">
-                        <p:tab title="#{term.key.number}">
-                            <h:form>
-                                <p:outputLabel value="Average of marks for semester:  "></p:outputLabel>
-                                <p:outputLabel value="#{term.key.average}">
-                                    <f:convertNumber pattern="#0.00" />
-                                </p:outputLabel>
-                                <p:dataTable id="id#{term.key.number}" var="mark" value="#{term.value}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" paginator="true" rows="10">
-                                    <f:facet name="{Exporters}">
-                                        <h:commandLink>
-                                            <p:graphicImage name="/img/excel.png" width="24"/>
-                                            <p:dataExporter type="xls" target="id#{term.key.number}" fileName="marks" />
-                                        </h:commandLink>
-                                
-                                        <h:commandLink>
-                                            <p:graphicImage name="/img/pdf.png" width="24"/>
-                                            <p:dataExporter type="pdf" target="id#{term.key.number}" fileName="marks"/>
-                                        </h:commandLink>
-                                
-                                        <h:commandLink>
-                                            <p:graphicImage name="/img/csv.png" width="24"/>
-                                            <p:dataExporter type="csv" target="id#{term.key.number}" fileName="marks" />
-                                        </h:commandLink>
-                                
-                                        <h:commandLink>
-                                            <p:graphicImage name="/img/xml.png" width="24"/>
-                                            <p:dataExporter type="xml" target="id#{term.key.number}" fileName="marks" />
-                                        </h:commandLink>
-                                    </f:facet>
-                                    <p:column headerText="Subject">
-                                        <h:outputText value="#{mark.subject.name}"></h:outputText>
-                                    </p:column>
-                                    <p:column headerText="ECTS points">
-                                        <h:outputText value="#{mark.subject.ects}"></h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Mark">
-                                        <h:outputText value="#{mark.mark}"></h:outputText>
-                                    </p:column>
-                                </p:dataTable>
-                            </h:form>
-                        </p:tab>
-                    </c:forEach>
-                </p:accordionPanel>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+                <c:forEach items="#{markMB.marksPerTerm}" var="term">
+                    <p:tab title="#{term.key.number}">
+                        <h:form>
+                            <p:outputLabel value="Average of marks for semester:  "></p:outputLabel>
+                            <p:outputLabel value="#{term.key.average}">
+                                <f:convertNumber pattern="#0.00"/>
+                            </p:outputLabel>
+                            <p:dataTable id="id#{term.key.number}" var="mark" value="#{term.value}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                         paginator="true" rows="10">
+                                <f:facet name="{Exporters}">
+                                    <h:commandLink>
+                                        <p:graphicImage name="/img/excel.png" width="24"/>
+                                        <p:dataExporter type="xls" target="id#{term.key.number}" fileName="marks"/>
+                                    </h:commandLink>
+
+                                    <h:commandLink>
+                                        <p:graphicImage name="/img/pdf.png" width="24"/>
+                                        <p:dataExporter type="pdf" target="id#{term.key.number}" fileName="marks"/>
+                                    </h:commandLink>
+
+                                    <h:commandLink>
+                                        <p:graphicImage name="/img/csv.png" width="24"/>
+                                        <p:dataExporter type="csv" target="id#{term.key.number}" fileName="marks"/>
+                                    </h:commandLink>
+
+                                    <h:commandLink>
+                                        <p:graphicImage name="/img/xml.png" width="24"/>
+                                        <p:dataExporter type="xml" target="id#{term.key.number}" fileName="marks"/>
+                                    </h:commandLink>
+                                </f:facet>
+                                <p:column headerText="Subject">
+                                    <h:outputText value="#{mark.subject.name}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="ECTS points">
+                                    <h:outputText value="#{mark.subject.ects}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="Mark">
+                                    <h:outputText value="#{mark.mark}"></h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+                </c:forEach>
+            </p:accordionPanel>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

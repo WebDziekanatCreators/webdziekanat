@@ -48,9 +48,15 @@ public class UserManagedBean implements Serializable{
         else {
             user = foundUser;
             isLoggedIn = true;
-        }
 
+        }
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+        if(foundUser.getStudent() != null && viewId.contains("index.xhtml")){
+            return "/pages/studentMarks.xhtml";
+        }
+        else if(foundUser.getLecturer() != null && viewId.contains("index.xhtml")){
+            return "/pages/lecturerAddMarks.xhtml";
+        }
         return viewId + "?faces-redirect=true";
     }
 

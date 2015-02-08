@@ -70,6 +70,7 @@ public class User {
     }
 
     public boolean hasRole(Role role){
+        if(roles == null) return false;
         return roles.contains(role);
     }
 

@@ -81,12 +81,10 @@ public class MarkManagedBean implements Serializable {
             term.setAverage(average);
         }
         
-        return "/pages/studentMarks.xhtml";
+        return "";
     }
     
     public String prepareForLecturer(User user){
-        if(user.getLecturer() == null)
-            return "/pages/index.xhtml";
 
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('marksList').hide();");
@@ -112,7 +110,7 @@ public class MarkManagedBean implements Serializable {
                 subjectsPerTerm.put(mark.getTerm().getId(), subjects);
             }
         }
-        return "/pages/lecturerAddMarks.xhtml";
+        return "";
 
     }
     
