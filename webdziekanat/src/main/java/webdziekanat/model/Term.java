@@ -48,6 +48,9 @@ public class Term {
     @Transient
     private boolean subjectAdded = false;
     
+    @Transient
+    private double average = 0.0;
+    
     public Term(){
         subjects = new HashSet<Subjects>();
         lecturers = new HashSet<Lecturer>();
@@ -141,6 +144,14 @@ public class Term {
 
     public void setSubjectAdded(boolean subjectAdded) {
         this.subjectAdded = subjectAdded;
+    }
+
+    public double getAverage() {
+        return average;
+    }
+
+    public void setAverage(double average) {
+        this.average = average;
     }
 
 }

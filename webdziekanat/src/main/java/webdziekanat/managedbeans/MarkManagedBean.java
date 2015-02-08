@@ -67,6 +67,19 @@ public class MarkManagedBean implements Serializable {
                 marksPerTerm.put(mark.getTerm(), marks);
             }
         }
+        List<Term> terms = new ArrayList<Term>();
+        terms.addAll(marksPerTerm.keySet());
+        for(Term term : terms){
+            double marksSum = 0.0;
+            int ectsSum = 0;
+            
+            for(Mark mark : marksPerTerm.get(term)){
+                marksSum += mark.getMark() * mark.getSubject().getEcts();
+                ectsSum += mark.getSubject().getEcts();
+            }
+            double average = marksSum/ectsSum;
+            term.setAverage(average);
+        }
         
         return "/pages/studentMarks.xhtml";
     }

@@ -37,13 +37,13 @@ public class Mark {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
-    @OneToOne(cascade=CascadeType.PERSIST)
+    @OneToOne
     private Subjects subject;
     
     @OneToOne
     private Term term;
     
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name="studentNumber")
     private Student student;
     

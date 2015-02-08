@@ -18,6 +18,10 @@
                     <c:forEach items="#{markMB.marksPerTerm}" var="term">
                         <p:tab title="#{term.key.number}">
                             <h:form>
+                                <p:outputLabel value="Average of marks for semester:  "></p:outputLabel>
+                                <p:outputLabel value="#{term.key.average}">
+                                    <f:convertNumber pattern="#0.00" />
+                                </p:outputLabel>
                                 <p:dataTable id="id#{term.key.number}" var="mark" value="#{term.value}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}" paginator="true" rows="10">
                                     <f:facet name="{Exporters}">
                                         <h:commandLink>

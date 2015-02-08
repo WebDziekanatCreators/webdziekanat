@@ -215,6 +215,7 @@ public class TermManagedBean implements Serializable {
                 mark.setStudent(student);
                 student.getMarks().add(mark);
                 lecturer.getMarks().add(mark);
+                markDAO.addMark(mark);
             }
             
         }

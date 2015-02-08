@@ -23,7 +23,7 @@ public class Student {
     @JoinColumn(name="group_id")
     private LearningGroup group;
     
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "studentNumber")
     private Set<Mark> marks;
     
