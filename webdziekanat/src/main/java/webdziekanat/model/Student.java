@@ -24,7 +24,7 @@ public class Student {
     private LearningGroup group;
     
     @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_number")
+    @JoinColumn(name = "studentNumber")
     private Set<Mark> marks;
     
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="students", fetch=FetchType.EAGER)

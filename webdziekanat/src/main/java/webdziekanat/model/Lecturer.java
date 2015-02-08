@@ -15,10 +15,12 @@ public class Lecturer {
         this.mail = lecturer.mail;
         this.subjects = lecturer.subjects;
         this.terms = lecturer.terms;
+        this.marks = lecturer.marks;
     }
     
     public Lecturer(){
         this.terms = new HashSet<Term>();
+        this.marks = new HashSet<Mark>();
     }
 
     @Id
@@ -34,10 +36,15 @@ public class Lecturer {
     @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="lecturers", fetch = FetchType.EAGER)
     private Set<Subjects> subjects;
     
-    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "lecturers_terms", joinColumns = @JoinColumn(name = "lecturer_id"),
             inverseJoinColumns = @JoinColumn(name = "term_id"))
     private Set<Term> terms;
+    
+    @ManyToMany(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
+    @JoinTable(name = "lecturers_marks", joinColumns = @JoinColumn(name = "lecturer_id"),
+            inverseJoinColumns = @JoinColumn(name = "mark_id"))
+    private Set<Mark> marks;
 
     public int getId() {
         return id;
@@ -85,6 +92,14 @@ public class Lecturer {
 
     public void setTerms(Set<Term> terms) {
         this.terms = terms;
+    }
+
+    public Set<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(Set<Mark> marks) {
+        this.marks = marks;
     }
 
 }

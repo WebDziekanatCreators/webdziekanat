@@ -80,23 +80,30 @@ public class TermManagedBean implements Serializable {
     
     private List<Term> terms;
     
-    private List<Subjects> termSubjectsList = new ArrayList<Subjects>();
-    private List<Lecturer> termLecturersList = new ArrayList<Lecturer>();
    
     boolean isAdd;
     boolean isEdit;
     
     @PostConstruct
     public void init() {
-        subjects = subjectDAO.getAll();
+        List<Subjects> allSubjects = subjectDAO.getAll();
+        subjects = new ArrayList<Subjects>();
         checkMap = new HashMap<Subjects, Boolean>();
-        for (Subjects subject : subjects) {
-            if(term.getSubjects().contains(subject))
+        boolean subjectExists = false;
+        for (Subjects subject : allSubjects) {
+            for(Subjects subjectInTerm : term.getSubjectsList()){
+                if(subjectInTerm.getId() == subject.getId()){
+                    subjectExists = true;
+                    break;
+                }
+            }
+            if(subjectExists){
+                subjectExists = false;
                 continue;
+            }
+            subjects.add(subject);
             checkMap.put(subject, Boolean.FALSE);
         }
-        termSubjectsList = term.getSubjectsList();
-        termLecturersList = term.getLecturersList();
     }
     
     public void detailsReload(ComponentSystemEvent event){
@@ -128,8 +135,9 @@ public class TermManagedBean implements Serializable {
         
     }
     
-    public void addSubjectForm(Term src){
-        term = src;
+    public void addSubjectForm(int src){
+        term = termDAO.getTermById(src);
+        init();
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addSubject').show();");
     }
@@ -144,9 +152,18 @@ public class TermManagedBean implements Serializable {
         subject = sbj;
         List<Lecturer> selectedLecturers = new ArrayList<Lecturer>();
         List<Lecturer> srcLecturers = new ArrayList<Lecturer>();
+        boolean lecturerAlreadyAdded = false;
         for(Lecturer lecturer : sbj.getLecturers()){
-            if(term.getLecturers().contains(lecturer))
+            for(Mark mark : lecturer.getMarks()){
+                if(mark.getTerm().getId() == term.getId() && mark.getSubject().getId() == sbj.getId()){
+                    lecturerAlreadyAdded = true;
+                    break;
+                }
+            }
+            if(lecturerAlreadyAdded){
+                lecturerAlreadyAdded = false;
                 continue;
+            }
             srcLecturers.add(lecturer);
         }
         lecturers = new DualListModel<Lecturer>(srcLecturers, selectedLecturers);
@@ -163,25 +180,16 @@ public class TermManagedBean implements Serializable {
         
         for(Subjects subject : result){
             subject.getTerms().add(term);
-            subjectDAO.updateSubject(subject);
-            
-            Mark mark = new Mark();
-            mark.setActive(true);
-            mark.setSubject(subject);
-            mark.setTerm(term);
-            mark.setMark(0.0);
-            for(Student student : term.getCourse().getStudents()){
-                mark.setStudent(student);
-                student.getMarks().add(mark);
-                studentDAO.updateStudent(student);
-            }
+            subjectDAO.updateSubject(subject);            
+
         }
 
-        term.setSubjects(result);
-        termSubjectsList = term.getSubjectsList();
+        term.getSubjects().addAll(result);
         termDAO.updateTerm(term);
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addSubject').hide();");
+        term.setSubjectAdded(true);
+        init();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addSubjectsToTermSuccess));
         
     }
@@ -190,15 +198,40 @@ public class TermManagedBean implements Serializable {
         List<Lecturer> result = new ArrayList<Lecturer>();
 
         result = lecturers.getTarget();
+        
+        Set<Student> studentsForTerm = new HashSet<Student>();
+        studentsForTerm.addAll(term.getCourse().getStudents());
 
         for(Lecturer lecturer : result){
             term.getLecturers().add(lecturer);
+            
+            for(Student student : studentsForTerm){
+                Mark mark = new Mark();
+                mark.setActive(true);
+                mark.setSubject(subject);
+                mark.setTerm(term);
+                mark.getLecturers().add(lecturer);
+                mark.setMark(0.0);
+                mark.setStudent(student);
+                student.getMarks().add(mark);
+                lecturer.getMarks().add(mark);
+            }
+            
+        }
+
+        termDAO.updateTerm(term);
+        for(Student student : studentsForTerm){
+            studentDAO.updateStudent(student);
+        }
+        
+        for(Lecturer lecturer : result){
             lecturer.getTerms().add(term);
             lecturerDAO.updateLecturer(lecturer);
         }
-        termDAO.updateTerm(term);
+        
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('assignLecturersForm').hide();");
+        term.setLecturerAdded(true);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.assignLecturersToTermSuccess));
     }
     
@@ -308,21 +341,5 @@ public class TermManagedBean implements Serializable {
 
     public void setSubject(Subjects subject) {
         this.subject = subject;
-    }
-
-    public List<Subjects> getTermSubjectsList() {
-        return termSubjectsList;
-    }
-
-    public void setTermSubjectsList(List<Subjects> termSubjectsList) {
-        this.termSubjectsList = termSubjectsList;
-    }
-
-    public List<Lecturer> getTermLecturersList() {
-        return termLecturersList;
-    }
-
-    public void setTermLecturersList(List<Lecturer> termLecturersList) {
-        this.termLecturersList = termLecturersList;
     }
 }

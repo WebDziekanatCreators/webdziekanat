@@ -1,6 +1,8 @@
 package webdziekanat.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +21,6 @@ import javax.persistence.Transient;
 
 @Entity
 public class Course {
-
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
@@ -39,6 +40,9 @@ public class Course {
     
     @Transient
     private List<Student> studentsList;
+    
+    @Transient
+    private List<Term> termsList;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
@@ -130,6 +134,25 @@ public class Course {
 
     public void setStudentsList(List<Student> studentsList) {
         this.studentsList = studentsList;
+    }
+
+    public List<Term> getTermsList() {
+        if(termsList == null){
+            termsList = new ArrayList<Term>();
+            termsList.addAll(terms);
+            Collections.sort(termsList, new Comparator<Term>() {
+                @Override public int compare(Term t1, Term t2) {
+                    return t2.getNumber() - t1.getNumber(); // Ascending
+                }
+
+            });
+        }
+        
+        return termsList;
+    }
+
+    public void setTermsList(List<Term> termsList) {
+        this.termsList = termsList;
     }
 
 }

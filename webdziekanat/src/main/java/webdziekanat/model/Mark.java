@@ -1,11 +1,16 @@
 package webdziekanat.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -25,6 +30,7 @@ public class Mark {
         this.subject = new Subjects();
         this.term = new Term();
         this.student = new Student();
+        this.lecturers = new HashSet<Lecturer>();
     }
 
     @Id
@@ -38,11 +44,15 @@ public class Mark {
     private Term term;
     
     @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="studentNumber")
     private Student student;
     
     private double mark;
     
     boolean isActive;
+    
+    @ManyToMany(mappedBy="marks")
+    private Set<Lecturer> lecturers;
 
     public int getId() {
         return id;
@@ -90,6 +100,14 @@ public class Mark {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Set<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public void setLecturers(Set<Lecturer> lecturers) {
+        this.lecturers = lecturers;
     }
     
 }

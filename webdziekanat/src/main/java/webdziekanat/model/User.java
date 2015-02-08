@@ -22,10 +22,10 @@ public class User {
 
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Student student;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Lecturer lecturer;
 
     @ElementCollection(targetClass=Role.class, fetch=FetchType.EAGER)

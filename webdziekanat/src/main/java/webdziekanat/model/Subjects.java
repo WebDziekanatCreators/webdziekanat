@@ -32,7 +32,7 @@ public class Subjects {
     private Set<Lecturer> lecturers;
     
 
-    @ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "subjects_terms", joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "term_id"))
     private Set<Term> terms;

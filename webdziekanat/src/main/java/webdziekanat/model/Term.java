@@ -42,6 +42,12 @@ public class Term {
     @Transient
     private List<Lecturer> lecturersList;
     
+    @Transient
+    private boolean lecturerAdded = false;
+    
+    @Transient
+    private boolean subjectAdded = false;
+    
     public Term(){
         subjects = new HashSet<Subjects>();
         lecturers = new HashSet<Lecturer>();
@@ -104,19 +110,37 @@ public class Term {
     }
     
     public List<Subjects> getSubjectsList(){
-        if(subjectsList == null){
+        if(subjectsList == null || subjectAdded){
             subjectsList = new ArrayList<Subjects>();
             subjectsList.addAll(subjects);
+            subjectAdded = false;
         }
         return subjectsList;
     }
 
     public List<Lecturer> getLecturersList(){
-        if(lecturersList == null){
+        if(lecturersList == null || lecturerAdded){
             lecturersList = new ArrayList<Lecturer>();
             lecturersList.addAll(lecturers);
+            lecturerAdded = false;
         }
         return lecturersList;
+    }
+
+    public boolean isLecturerAdded() {
+        return lecturerAdded;
+    }
+
+    public void setLecturerAdded(boolean lecturerAdded) {
+        this.lecturerAdded = lecturerAdded;
+    }
+
+    public boolean isSubjectAdded() {
+        return subjectAdded;
+    }
+
+    public void setSubjectAdded(boolean subjectAdded) {
+        this.subjectAdded = subjectAdded;
     }
 
 }
