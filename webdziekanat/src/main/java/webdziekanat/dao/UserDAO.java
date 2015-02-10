@@ -65,9 +65,12 @@ public class UserDAO implements IUserDAO {
             } catch (Exception e) {
                 logger.error("Rollback - " + e.getMessage());
             }
-        }
-        else{
-            logger.error("No such student or lecturer found");
+        }else{
+            try {
+                entityManager.persist(user);
+            } catch (Exception e) {
+                logger.error("Rollback - " + e.getMessage());
+            }
         }
     }
 

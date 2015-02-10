@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import webdziekanat.Resources.Messages;
+import webdziekanat.enums.Role;
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.IUserDAO;
 import webdziekanat.model.User;
@@ -36,7 +37,18 @@ public class UserManagedBean implements Serializable{
 
     @PostConstruct
     public void init() {
+        User admin = new User();
+        admin.setUsername("admin");
+        admin.getRoles().add(Role.ADMIN);
+
+        User tmp = finder.findUser(admin);
+
+        if(tmp == null){
+            userDAO.addUser(admin);
+        }
+
         isLoggedIn = false;
+
     }
 
     public String login(){
