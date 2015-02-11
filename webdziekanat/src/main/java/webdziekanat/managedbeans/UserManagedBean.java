@@ -94,8 +94,7 @@ public class UserManagedBean implements Serializable{
     public String logout(){
         user = new User();
         isLoggedIn = false;
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        return viewId + "?faces-redirect=true";
+        return "/pages/index.xhtml?faces-redirect=true";
     }
 
     public User getUser() {
