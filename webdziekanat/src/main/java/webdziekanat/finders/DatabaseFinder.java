@@ -91,4 +91,16 @@ public class DatabaseFinder {
 
         return foundUser;
     }
+    
+    public Mark findMark(Mark mark){
+        Session session = (Session) entityManager.getDelegate();
+
+        Example markExample = Example.create(mark);
+
+        Criteria criteria = session.createCriteria(Mark.class).add(markExample);
+
+        Mark foundMark = (Mark) criteria.uniqueResult();
+
+        return foundMark;
+    }
 }

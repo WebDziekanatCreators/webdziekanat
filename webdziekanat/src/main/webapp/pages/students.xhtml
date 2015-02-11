@@ -3,7 +3,6 @@
 
 <h:body>
     <ui:composition template="commonLayout.xhtml">
-        <h:panelGroup rendered="#{userMB.user.hasRole(ADMIN)}">
             <ui:define name="content">
                 <!-- Page Content -->
                 <div class="row">
@@ -52,7 +51,6 @@
                     </div>
                 </div>
             </ui:define>
-        </h:panelGroup>
     </ui:composition>
 </h:body>
 </html>

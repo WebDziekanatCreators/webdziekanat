@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import webdziekanat.interfaces.IMarkDAO;
 import webdziekanat.model.Mark;
 import webdziekanat.model.Student;
+import webdziekanat.model.Subjects;
+import webdziekanat.model.Term;
 
 @Component
 @Transactional
@@ -65,6 +67,17 @@ public class MarkDAO implements IMarkDAO{
         return result;
     }
 
+    public Mark getMarkForSubject(Subjects subject, Term term, Student student){
+        Mark resultMark = null;
+        List<Mark> allMarks = new ArrayList<Mark>();
+        for(Mark mark : allMarks){
+            if(mark.getSubject() == subject && mark.getTerm() == term && mark.getStudent() == student){
+                resultMark = mark;
+                break;
+            }
+        }
+        return resultMark;
+    }
     @SuppressWarnings("unchecked")
     public List<Mark> getAll() {
         List<Mark> result = new ArrayList<Mark>();

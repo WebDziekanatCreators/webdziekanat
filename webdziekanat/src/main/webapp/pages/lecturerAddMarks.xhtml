@@ -20,7 +20,7 @@
             <p:outputPanel widgetVar="marksList">
                 <p:accordionPanel effect="bounceslide">
                     <c:forEach items="#{markMB.subjectsPerTerm}" var="term">
-                        <p:tab title="#{term.key}">
+                        <p:tab title="#{term.key.year} #{term.key.winterOrSummer}">
                             <p:accordionPanel>
                                 <c:forEach items="#{term.value}" var="subject">
                                     <p:tab title="#{subject.key}">
@@ -39,10 +39,7 @@
                                                     <h:outputText value="#{mark.student.name}"></h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Mark">
-                                                    <p:inputText id="id#{mark.id}" value="#{mark.mark}">
-                                                     <f:validateLongRange minimum="1999" maximum="2020" />
-                                                     <p:ajax event="blur" update="id#{mark.id}Msg" />
-                                                    </p:inputText> <p:message id="id#{mark.id}Msg" for="id#{mark.id}" display="icon" /></td>
+                                                    <p:inputText value="#{mark.mark}"></p:inputText>
                                                 </p:column>
                                             </p:dataTable>
                                             <h:commandButton value="Save marks"

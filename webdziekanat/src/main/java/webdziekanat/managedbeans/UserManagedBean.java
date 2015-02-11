@@ -78,10 +78,10 @@ public class UserManagedBean implements Serializable{
         }
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         if(foundUser.getStudent() != null && viewId.contains("index.xhtml")){
-            return "/pages/studentMarks.xhtml";
+            return "/pages/studentMarks.xhtml?faces-redirect=true";
         }
         else if(foundUser.getLecturer() != null && viewId.contains("index.xhtml")){
-            return "/pages/lecturerAddMarks.xhtml";
+            return "/pages/lecturerAddMarks.xhtml?faces-redirect=true";
         } else if(foundUser.hasRole(Role.ADMIN)){
             if(semesterDAO.getAll().size() == 0){
                 return "/pages/setup.xhtml";

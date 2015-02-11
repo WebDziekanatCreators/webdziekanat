@@ -4,7 +4,6 @@
 
 <h:body>
     <ui:composition template="commonLayout.xhtml">
-        <h:panelGroup rendered="#{userMB.user.hasRole(ADMIN)}">
             <ui:define name="content">
                 <f:event listener="#{studentMB.reload}" type="preRenderView"/>
                 <!-- Page Content -->
@@ -123,7 +122,6 @@
                     </div>
                 </div>
             </ui:define>
-        </h:panelGroup>
     </ui:composition>
 </h:body>
 </html>

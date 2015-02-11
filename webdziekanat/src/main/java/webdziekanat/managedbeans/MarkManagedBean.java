@@ -18,6 +18,7 @@ import webdziekanat.enums.Role;
 import webdziekanat.interfaces.IMarkDAO;
 import webdziekanat.model.Lecturer;
 import webdziekanat.model.Mark;
+import webdziekanat.model.Semester;
 import webdziekanat.model.Student;
 import webdziekanat.model.Term;
 import webdziekanat.model.User;
@@ -46,12 +47,12 @@ public class MarkManagedBean implements Serializable {
     boolean isAdd;
     boolean isEdit;
     
-    private Map<Integer, Map<String, List<Mark>>> subjectsPerTerm;
+    private Map<Semester, Map<String, List<Mark>>> subjectsPerTerm;
     private Map<Term, List<Mark>> marksPerTerm;
     
     public String marksForStudent(Student src){
         this.student = src;
-        return "/pages/studentMarks.xhtml";
+        return "/pages/studentMarks.xhtml?faces-redirect=true";
     }
     
     public String prepareForStudent(User user){
@@ -92,11 +93,11 @@ public class MarkManagedBean implements Serializable {
         context.execute("PF('marksList').hide();");
         lecturer = user.getLecturer();
         
-        subjectsPerTerm = new HashMap<Integer, Map<String,List<Mark>>>();
+        subjectsPerTerm = new HashMap<Semester, Map<String,List<Mark>>>();
         
         for(Mark mark : lecturer.getMarks()){
-            if(subjectsPerTerm.containsKey(mark.getTerm().getId())){
-                Map<String, List<Mark>> subjects = subjectsPerTerm.get(mark.getTerm().getId());
+            if(subjectsPerTerm.containsKey(mark.getTerm().getSemester())){
+                Map<String, List<Mark>> subjects = subjectsPerTerm.get(mark.getTerm().getSemester());
                 if(subjects.containsKey(mark.getSubject().getName())){
                     subjects.get(mark.getSubject().getName()).add(mark);
                 } else {
@@ -109,7 +110,7 @@ public class MarkManagedBean implements Serializable {
                 List<Mark> marks = new ArrayList<Mark>();
                 marks.add(mark);
                 subjects.put(mark.getSubject().getName(), marks);
-                subjectsPerTerm.put(mark.getTerm().getId(), subjects);
+                subjectsPerTerm.put(mark.getTerm().getSemester(), subjects);
             }
         }
         return "";
@@ -219,11 +220,11 @@ public class MarkManagedBean implements Serializable {
         this.lecturer = lecturer;
     }
 
-    public Map<Integer, Map<String, List<Mark>>> getSubjectsPerTerm() {
+    public Map<Semester, Map<String, List<Mark>>> getSubjectsPerTerm() {
         return subjectsPerTerm;
     }
 
-    public void setSubjectsPerTerm(Map<Integer, Map<String, List<Mark>>> subjectsPerTerm) {
+    public void setSubjectsPerTerm(Map<Semester, Map<String, List<Mark>>> subjectsPerTerm) {
         this.subjectsPerTerm = subjectsPerTerm;
     }
 

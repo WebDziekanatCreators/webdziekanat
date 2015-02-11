@@ -77,7 +77,7 @@
                                 <p:accordionPanel value="#{courseMB.course.termsList}" var="term" effect="bounceslide">
                                         <p:tab title="#{term.number}">
                                                 <h:form>
-                                                    <h:commandButton value="Add subjects to term #{term.number}" action="#{termMB.addSubjectForm(term.number)}" ></h:commandButton>
+                                                    <h:commandButton value="Add subjects to term #{term.number}" action="#{termMB.addSubjectForm(term)}" ></h:commandButton>
                                                 </h:form>
                                                 <h:form>
                                                     <p:dataTable var="subject" value="#{term.subjectsList}" sortMode="multiple">

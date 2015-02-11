@@ -43,7 +43,7 @@ public class Mark {
     @OneToOne
     private Term term;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="studentNumber")
     private Student student;
     

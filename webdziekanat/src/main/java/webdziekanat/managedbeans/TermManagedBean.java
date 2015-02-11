@@ -24,6 +24,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import webdziekanat.Resources.Messages;
+import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.interfaces.ILecturerDAO;
 import webdziekanat.interfaces.IMarkDAO;
@@ -67,6 +68,9 @@ public class TermManagedBean implements Serializable {
     
     @Autowired
     private ICourseDAO courseDAO;
+    
+    @Autowired
+    private DatabaseFinder finder;
     
     private List<Subjects> subjects;
 
@@ -135,9 +139,8 @@ public class TermManagedBean implements Serializable {
         
     }
     
-    public void addSubjectForm(int src){
-        term = termDAO.getTermById(src);
-        init();
+    public void addSubjectForm(Term src){
+        term = src;
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addSubject').show();");
     }
@@ -199,7 +202,8 @@ public class TermManagedBean implements Serializable {
 
         result = lecturers.getTarget();
         
-        Set<Student> studentsForTerm = new HashSet<Student>();
+        Set<Student> studentsForTerm = null;
+        studentsForTerm = new HashSet<Student>();
         studentsForTerm.addAll(term.getCourse().getStudents());
 
         for(Lecturer lecturer : result){
@@ -210,12 +214,20 @@ public class TermManagedBean implements Serializable {
                 mark.setActive(true);
                 mark.setSubject(subject);
                 mark.setTerm(term);
-                mark.getLecturers().add(lecturer);
                 mark.setMark(0.0);
                 mark.setStudent(student);
-                student.getMarks().add(mark);
-                lecturer.getMarks().add(mark);
+                Mark tempMark = mark;
+                mark.getLecturers().add(lecturer);
+//                if(finder.findMark(mark) == null){
                 markDAO.addMark(mark);
+                student.getMarks().add(mark);
+  /*              } else {
+                    markDAO.updateMark(mark);
+                    student.getMarks().remove(tempMark);
+                    student.getMarks().add(mark);
+                }*/
+                
+                lecturer.getMarks().add(mark);                
             }
             
         }

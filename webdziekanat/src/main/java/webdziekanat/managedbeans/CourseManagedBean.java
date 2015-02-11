@@ -82,6 +82,7 @@ public class CourseManagedBean implements Serializable{
     
     public void reload(ComponentSystemEvent event){
         init();
+        filteredStudents = new ArrayList<Student>();
     }
     
     public void detailsReload(ComponentSystemEvent event){
