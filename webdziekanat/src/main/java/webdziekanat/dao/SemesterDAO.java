@@ -1,6 +1,8 @@
 package webdziekanat.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webdziekanat.interfaces.ISemesterDAO;
 import webdziekanat.model.Semester;
 import webdziekanat.model.Student;
+import webdziekanat.model.Term;
 
 @Component
 @Transactional
@@ -63,6 +66,19 @@ public class SemesterDAO implements ISemesterDAO{
                 + result.getId());
 
         return result;
+    }
+    
+    public Semester getLastSemester(){
+        
+        List<Semester> semesters = getAll();
+        Collections.sort(semesters, new Comparator<Semester>() {
+            @Override public int compare(Semester s1, Semester s2) {
+                return s1.getId() - s2.getId();
+            }
+
+        });
+        
+        return semesters.get(semesters.size() - 1);
     }
 
     @SuppressWarnings("unchecked")

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import webdziekanat.enums.Role;
 import webdziekanat.interfaces.IMarkDAO;
 import webdziekanat.model.Lecturer;
 import webdziekanat.model.Mark;
@@ -54,7 +55,8 @@ public class MarkManagedBean implements Serializable {
     }
     
     public String prepareForStudent(User user){
-        student = user.getStudent();
+        if(user.hasRole(Role.STUDENT))
+            student = user.getStudent();
         marksPerTerm = new HashMap<Term, List<Mark>>();
         
         for(Mark mark : student.getMarks()){

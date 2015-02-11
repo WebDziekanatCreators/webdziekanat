@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -35,6 +36,9 @@ public class Term {
 
     @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy="terms", fetch = FetchType.EAGER)
     private Set<Lecturer> lecturers;
+    
+    @OneToOne
+    private Semester semester;
     
     @Transient
     private List<Subjects> subjectsList;
@@ -62,6 +66,7 @@ public class Term {
         this.course = term.getCourse();
         this.subjects = term.getSubjects();
         this.lecturers = term.getLecturers();
+        this.semester = term.getSemester();
     }
 
     public int getId() {
@@ -152,6 +157,14 @@ public class Term {
 
     public void setAverage(double average) {
         this.average = average;
+    }
+
+    public Semester getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Semester semester) {
+        this.semester = semester;
     }
 
 }

@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import webdziekanat.enums.Role;
 import webdziekanat.finders.DatabaseFinder;
 import webdziekanat.interfaces.IUserDAO;
 import webdziekanat.model.Lecturer;
@@ -13,6 +15,7 @@ import webdziekanat.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +40,10 @@ public class UserDAO implements IUserDAO {
     @Override
     public void addUser(User user) {
         logger.info("addUser");
-
-        user.generatePassword();
+        if(user.hasRole(Role.ADMIN))
+            user.setPassword("admin");
+        else
+            user.generatePassword();
 
         Student foundStudent = null;
         Lecturer foundLecturer = null;
@@ -112,7 +117,7 @@ public class UserDAO implements IUserDAO {
         User result = null;
         try{
             String replaced = username.replace("@", "\\@");
-            String hqlString = "select user from User user where user.username  = '" + replaced +  "' and user.password = " + password;
+            String hqlString = "select user from User user where user.username  = '" + replaced +  "' and user.password = '" + password + "'";
             result = (User) entityManager.createQuery(hqlString).getSingleResult();
         } catch(Exception e) {
             logger.error("Rollback - " + e.getMessage());

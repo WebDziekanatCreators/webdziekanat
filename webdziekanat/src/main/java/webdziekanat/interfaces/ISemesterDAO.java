@@ -14,5 +14,7 @@ public interface ISemesterDAO {
     public Semester getSemesterById(int id);
     
     public List<Semester> getAll();
+    
+    public Semester getLastSemester();
 
 }

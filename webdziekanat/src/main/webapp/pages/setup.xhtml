@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+        >
+
+<h:body>
+
+    <ui:composition template="commonLayout.xhtml">
+        <ui:define name="content">
+            <h:outputLabel>Setup the system</h:outputLabel>
+            <h:outputText>This is the first time the system is running. Take a while to setup all necessary information.</h:outputText>
+            <h:form>
+                <table>
+                     <tr>
+                        <td><h:outputLabel for="startYear" value="Start year : " /></td>
+                        <td><p:inputText id="startYear" value="#{adminMB.semester.year}">
+                                <f:validateLongRange minimum="1999" maximum="2020" />
+                                <p:ajax event="blur" update="startYearMsg" />
+                            </p:inputText> <p:message id="startYearMsg" for="startYear" display="icon" /></td>
+                    </tr>
+                    <tr>
+                        <td><h:outputLabel for="term" value="Term : " /></td>
+                        <td><p:selectOneMenu id="term" value="#{adminMB.semester.winterOrSummer}"
+                                style="width:150px">
+                                <f:selectItem itemLabel="Select Term" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{courseMB.startTerms}" />
+                            </p:selectOneMenu></td>
+                    </tr>
+                     <tr>
+                        <td><h:outputLabel for="universityName" value="University name : " /></td>
+                        <td><p:inputText id="universityName" value="#{adminMB.semester.universityName}"></p:inputText>
+                        <p:message id="universityNameMsg" for="universityName" display="icon" /></td>
+                    </tr>
+                    
+                </table>
+                <p:commandButton id="addSemester" value="Add" action="#{adminMB.setup()}" ajax="false" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

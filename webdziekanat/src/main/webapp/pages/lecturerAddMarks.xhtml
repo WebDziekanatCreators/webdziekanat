@@ -39,7 +39,10 @@
                                                     <h:outputText value="#{mark.student.name}"></h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Mark">
-                                                    <h:inputText value="#{mark.mark}"></h:inputText>
+                                                    <p:inputText id="id#{mark.id}" value="#{mark.mark}">
+                                                     <f:validateLongRange minimum="1999" maximum="2020" />
+                                                     <p:ajax event="blur" update="id#{mark.id}Msg" />
+                                                    </p:inputText> <p:message id="id#{mark.id}Msg" for="id#{mark.id}" display="icon" /></td>
                                                 </p:column>
                                             </p:dataTable>
                                             <h:commandButton value="Save marks"

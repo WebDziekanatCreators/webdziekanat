@@ -23,4 +23,8 @@ public class Messages {
     public final static String assignLecturersToTermFailure = "Assigning lecturers failed.";
 
     public final static String wrongCredentials = "Wrong username or password";
+    
+    public final static String systemConfigurationSucceeded = "System configuration succeeded.";
+    
+    public final static String startingNewSemesterSucceeded = "New semester started.";
 }

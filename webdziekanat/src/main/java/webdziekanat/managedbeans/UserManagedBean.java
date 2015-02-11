@@ -1,20 +1,24 @@
 package webdziekanat.managedbeans;
 
+import java.io.Serializable;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
 import webdziekanat.Resources.Messages;
 import webdziekanat.enums.Role;
 import webdziekanat.finders.DatabaseFinder;
+import webdziekanat.interfaces.ISemesterDAO;
+import webdziekanat.interfaces.ITermDAO;
 import webdziekanat.interfaces.IUserDAO;
 import webdziekanat.model.User;
-
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import java.io.Serializable;
 
 /**
  * Created by Jakub on 06.02.2015.
@@ -23,10 +27,21 @@ import java.io.Serializable;
 @Scope("session")
 public class UserManagedBean implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5801062910987080922L;
+
     private static final Logger logger = LogManager.getLogger(UserManagedBean.class);
 
     @Autowired
     private IUserDAO userDAO;
+    
+    @Autowired
+    private ITermDAO termDAO;
+    
+    @Autowired
+    private ISemesterDAO semesterDAO;
 
     @Autowired
     DatabaseFinder finder;
@@ -60,7 +75,6 @@ public class UserManagedBean implements Serializable{
         else {
             user = foundUser;
             isLoggedIn = true;
-
         }
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         if(foundUser.getStudent() != null && viewId.contains("index.xhtml")){
@@ -68,6 +82,11 @@ public class UserManagedBean implements Serializable{
         }
         else if(foundUser.getLecturer() != null && viewId.contains("index.xhtml")){
             return "/pages/lecturerAddMarks.xhtml";
+        } else if(foundUser.hasRole(Role.ADMIN)){
+            if(semesterDAO.getAll().size() == 0){
+                return "/pages/setup.xhtml";
+            }
+            return "/pages/admin.xhtml";
         }
         return viewId + "?faces-redirect=true";
     }

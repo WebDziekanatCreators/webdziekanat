@@ -23,11 +23,11 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><h:link value="Home" outcome="index.xhtml" /></li>
-                        <li><h:link value="Students" outcome="students.xhtml" rendered="#{userMB.user.hasRole(ADMIN)}"/></li>
-                        <li><h:link value="Subjects" outcome="subjects.xhtml" rendered="#{userMB.user.hasRole(ADMIN)}"/></li>
-                        <li><h:link value="Lecturers" outcome="lecturers.xhtml" rendered="#{userMB.user.hasRole(ADMIN)}"/></li>
-                        <li><h:link value="Courses" outcome="courses.xhtml" rendered="#{userMB.user.hasRole(ADMIN)}"/></li>
+                        <li><h:link value="Students" outcome="students.xhtml" rendered="#{userMB.user.hasRole('ADMIN')}"/></li>
+                        <li><h:link value="Subjects" outcome="subjects.xhtml" rendered="#{userMB.user.hasRole('ADMIN')}"/></li>
+                        <li><h:link value="Lecturers" outcome="lecturers.xhtml" rendered="#{userMB.user.hasRole('ADMIN')}"/></li>
+                        <li><h:link value="Courses" outcome="courses.xhtml" rendered="#{userMB.user.hasRole('ADMIN')}"/></li>
+                        <li><h:link value="Admin Panel" outcome="admin.xhtml" rendered="#{userMB.user.hasRole('ADMIN')}"/></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
     

@@ -20,15 +20,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import com.mchange.v2.c3p0.stmt.GooGooStatementCache;
-
 import webdziekanat.Resources.Messages;
 import webdziekanat.interfaces.ICourseDAO;
 import webdziekanat.interfaces.IGroupDAO;
+import webdziekanat.interfaces.ISemesterDAO;
 import webdziekanat.interfaces.IStudentDAO;
+import webdziekanat.interfaces.ITermDAO;
 import webdziekanat.model.Course;
 import webdziekanat.model.LearningGroup;
+import webdziekanat.model.Semester;
 import webdziekanat.model.Student;
+import webdziekanat.model.Term;
 
 @Component("courseMB")
 @Scope("application")
@@ -49,6 +51,12 @@ public class CourseManagedBean implements Serializable{
     
     @Autowired
     IGroupDAO groupDAO;
+    
+    @Autowired
+    ISemesterDAO semesterDAO;
+    
+    @Autowired
+    ITermDAO termDAO;
     
     Course course = new Course();
     
@@ -90,10 +98,23 @@ public class CourseManagedBean implements Serializable{
     public String addCourse(){
         
         try {
-            String startSemester = startYear + " - " + startTerm;
+            Semester currentSemester = semesterDAO.getLastSemester();
+            String startSemester = currentSemester.getYear() + " - " + currentSemester.getWinterOrSummer();
             course.setStartSemester(startSemester);
             Course courseNew = new Course(course);
+
             courseDAO.addCourse(courseNew);
+            
+            Term term = new Term();
+            term.setAverage(0.0);
+            term.setCourse(courseNew);
+            term.setNumber(1);
+            term.setSemester(semesterDAO.getLastSemester());
+            termDAO.addTerm(term);
+            
+            courseNew.getTerms().add(term);
+            courseDAO.updateCourse(courseNew);
+            
             isAdd = false;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successful",  Messages.addCourseSuccess) );
             return "/pages/courses.xhtml";

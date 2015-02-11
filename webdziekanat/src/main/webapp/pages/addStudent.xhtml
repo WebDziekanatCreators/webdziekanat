@@ -16,14 +16,14 @@
                                 <tr>
                                     <td><h:outputLabel for="name" value="Name : "/></td>
                                     <td><p:inputText id="name" value="#{studentMB.student.name}">
-                                        <f:validateLength minimum="5"/>
+                                        <f:validateLength minimum="3"/>
                                         <p:ajax event="blur" update="nameMsg"/>
                                     </p:inputText> <p:message id="nameMsg" for="name" display="icon"/></td>
                                 </tr>
                                 <tr>
                                     <td><h:outputLabel for="lastName" value="Last name : "/></td>
                                     <td><p:inputText id="lastName" value="#{studentMB.student.lastName}">
-                                        <f:validateLength minimum="5"/>
+                                        <f:validateLength minimum="3"/>
                                         <p:ajax event="blur" update="lastNameMsg"/>
                                     </p:inputText> <p:message id="lastNameMsg" for="lastName" display="icon"/></td>
                                 </tr>
